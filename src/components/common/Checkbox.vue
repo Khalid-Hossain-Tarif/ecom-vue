@@ -26,7 +26,7 @@ defineProps({
 
 <style scoped>
 .c-checkbox-item {
-  @apply flex items-center gap-2
+  @apply flex items-center
 }
 
 .c-checkbox-item-input {
@@ -38,6 +38,6 @@ defineProps({
 }
 
 .c-checkbox-item-input-label {
-  @apply text-sm cursor-pointer
+  @apply pl-2 text-sm cursor-pointer
 }
 </style>
