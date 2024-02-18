@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+}
+
+@layer base {
+  body {
+    @apply font-primary text-sm text-body;
+  }
+
+  a,
+  button,
+  input[type="radio"],
+  input[type="checkbox"],
+  input[type="submit"] {
+    @apply cursor-pointer;
+  }
+
+  a,
+  button,
+  input {
+    @apply transition-all duration-300;
+  }
+
+  a:hover {
+    @apply text-primary;
+  }
+
+  input::-ms-reveal,
+  input::-ms-clear {
+    display: none;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="password"],
+  select {
+    @apply relative block w-full px-3 py-2.5 bg-white outline-none border border-borderLight rounded focus:border-borderDark appearance-none;
+  }
+
+  select {
+    @apply bg-[url('@/assets/images/icons/down-arrow.svg')] bg-no-repeat bg-[right_10px_center];
+  }
+
+  li {
+    @apply list-none;
+  }
+}
+
+@layer components {
+  .active-menu * {
+    @apply text-primary;
+  }
+  .custom-container {
+    @apply max-w-[1320px] h-full px-4 m-auto;
+  }
+
+  .page-spacing {
+    @apply py-8 lg:py-14;
+  }
+
+  .section-padding {
+    @apply py-10 lg:py-12;
+  }
+
+  .section-margin {
+    @apply my-10 lg:my-12;
+  }
+
+  .ellipsis-text {
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    overflow: hidden;
+  }
+
+  .primary-heading {
+    @apply text-xl lg:text-2xl font-bold text-heading;
+  }
+
+  .small-heading {
+    @apply text-base lg:text-lg font-bold text-heading;
+  }
+
+  .count-number {
+    @apply text-[10px] leading-4 bg-primary text-white text-center w-4 h-4 rounded-full absolute -top-2 -right-3;
+  }
+
+  .btn {
+    @apply border rounded px-5 xl:px-7 py-3 text-center uppercase font-semibold tracking-widest text-xs;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white border-primary hover:bg-secondary hover:text-white hover:border-secondary;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-white border-secondary hover:bg-primary hover:text-white hover:border-primary;
+  }
+
+  .btn-bordered {
+    @apply bg-transparent text-secondary border-secondary hover:bg-secondary hover:text-white;
+  }
+
+  .btn-icon {
+    @apply flex items-center gap-2;
+  }
+
+  /*Custom scrollbar*/
+  ::-webkit-scrollbar-track {
+    @apply bg-grayLight;
+  }
+
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px #ced4da;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2 bg-grayLight;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary rounded;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    @apply w-1;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-textGray;
+  }
+
+  /*Swiper slider*/
+  .custom-swiper-navs {
+    @apply overflow-hidden;
+  }
+  .custom-swiper-navs swiper-container::part(container) {
+    @apply overflow-visible;
+  }
+
+  .custom-swiper-navs swiper-container::part(button-prev) svg,
+  .custom-swiper-navs swiper-container::part(button-next) svg {
+    @apply hidden;
+  }
+
+  .custom-swiper-navs swiper-container::part(button-prev),
+  .custom-swiper-navs swiper-container::part(button-next) {
+    @apply -top-9 text-textGray hover:text-primary;
+  }
+  .custom-swiper-navs swiper-container::part(button-prev) {
+    @apply left-auto right-8 sm:right-24;
+  }
+  .custom-swiper-navs swiper-container::part(button-next) {
+    @apply right-0 sm:right-5;
+  }
+
+  .custom-swiper-navs swiper-container::part(button-prev):after,
+  .custom-swiper-navs swiper-container::part(button-next):before {
+    @apply text-base sm:text-xs font-semibold uppercase;
+  }
+
+  .custom-swiper-navs swiper-container::part(button-prev):before,
+  .custom-swiper-navs swiper-container::part(button-next):after {
+    @apply content-['\279C'];
+  }
+
+  .custom-swiper-navs swiper-container::part(button-prev):before {
+    @apply rotate-180;
+  }
+
+  .custom-swiper-navs swiper-container::part(button-prev):after {
+    @apply content-[''] sm:content-['prev'] ml-1;
+  }
+  .custom-swiper-navs swiper-container::part(button-next):before {
+    @apply content-[''] sm:content-['next'] mr-1;
+  }
+}
