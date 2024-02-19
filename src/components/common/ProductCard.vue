@@ -23,13 +23,21 @@ const productModalToggler = () => {
 onUnmounted(() => {
     getBody.style.overflow = 'auto';
 })
+
+defineProps({
+    product: {
+        type: Object,
+        default: 'product'
+    }
+})
 </script>
 
 <template>
     <div class="relative border border-grayLight rounded group transition duration-300">
         <div class="product-card-img">
             <router-link to="/single-product">
-                <img src="@/assets/images/home/top-sales/demo-product-img.png" alt="">
+                <!-- <img src="@/assets/images/home/top-sales/demo-product-img.png" alt=""> -->
+                <img :src="product?.thumbnail" alt="">
             </router-link>
 
             <div class="action-buttons">
@@ -46,19 +54,24 @@ onUnmounted(() => {
                     </button>
                 </div>
             </div>
-            <ProductLabel />
+            <ProductLabel 
+                :label="product?.trendy"
+            />
         </div>
 
         <div class="p-4">
             <h4 class="font-medium ellipsis-text">
                 <router-link to="/single-product">
-                    Sony VAIO E Series 14-Inch Laptop
+                    {{ product?.name }}
                 </router-link>
             </h4>
             <div class="mt-2 mb-3">
                 <StarRating />
             </div>
-            <ProductPrice />
+            <ProductPrice 
+                :regularPrice="product?.selling_price" 
+                :discountPrice="product?.discount_price"
+            />
         </div>
     </div>
 

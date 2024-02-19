@@ -6,10 +6,7 @@ import Pagination from "@/components/common/Pagination.vue";
 import PopupSidebar from "@/views/shop/PopupSidebar.vue";
 import { ref } from "vue";
 import axios from 'axios'
-
-import { VITE_APP_BASE_URL } from '@/views/composables/baseApiUrl'
-
-// const VITE_APP_BASE_URL = import.meta.env.VITE_API_BASE_URL
+import { apiBaseUrl } from '@/views/composables/baseApiUrl'
 
 const products = ref([
   { name: 'Sort by popularity', code: 'popularity' },
@@ -22,8 +19,7 @@ const products = ref([
 const selectedOption = ref(null);
 
 const apiProducts = ref([]);
-// axios.get('http://127.0.0.1:8000/api/products')
-axios.get(VITE_APP_BASE_URL+'/products')
+axios.get(apiBaseUrl+'/products')
   .then(function (response) {
     apiProducts.value = response?.data
   })
@@ -46,14 +42,18 @@ axios.get(VITE_APP_BASE_URL+'/products')
   </div>
 
   <div class="pt-5 md:pt-7">
-    <div v-for="product in apiProducts" :key="product?.id" class="my-10 bg-black/20">
+    <!-- <div v-for="product in apiProducts" :key="product?.id" class="my-10 bg-black/20">
       <img :src="product?.thumbnail" alt="">
       <h1>{{ product?.name }}</h1>
       <div v-html="product?.description"></div>
-    </div>
+    </div> -->
 
     <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
-      <ProductCard v-for="(n, index) in 12" :key="index" />
+      <ProductCard 
+        v-for="product in apiProducts" 
+        :key="product?.id" 
+        :product="product"
+      />
     </div>
     <Pagination />
   </div>
