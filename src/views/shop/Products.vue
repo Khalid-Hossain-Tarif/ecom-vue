@@ -7,6 +7,10 @@ import PopupSidebar from "@/views/shop/PopupSidebar.vue";
 import { ref } from "vue";
 import axios from 'axios'
 
+import { VITE_APP_BASE_URL } from '@/views/composables/baseApiUrl'
+
+// const VITE_APP_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 const products = ref([
   { name: 'Sort by popularity', code: 'popularity' },
   { name: 'Sort by rating', code: 'rating' },
@@ -18,9 +22,9 @@ const products = ref([
 const selectedOption = ref(null);
 
 const apiProducts = ref([]);
-axios.get('http://127.0.0.1:8000/api/products')
+// axios.get('http://127.0.0.1:8000/api/products')
+axios.get(VITE_APP_BASE_URL+'/products')
   .then(function (response) {
-    console.log(response.data);
     apiProducts.value = response?.data
   })
   .catch(function (error) {
