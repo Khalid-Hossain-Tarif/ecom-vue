@@ -1,12 +1,11 @@
 <script setup>
+import { ref } from "vue";
+import { products } from "@/composables/getAllProducts"
 import Checkbox from "@/components/common/Checkbox.vue";
 import Dropdown from "@/components/common/Dropdown.vue";
 import ProductCard from "@/components/common/ProductCard.vue";
 import Pagination from "@/components/common/Pagination.vue";
 import PopupSidebar from "@/views/shop/PopupSidebar.vue";
-import { ref } from "vue";
-import axios from 'axios'
-import { apiBaseUrl } from '@/composables/baseApiUrl'
 
 const sortProducts = ref([
   { name: 'Sort by popularity', code: 'popularity' },
@@ -17,17 +16,6 @@ const sortProducts = ref([
 ]);
 
 const selectedOption = ref(null);
-
-const products = ref([]);
-axios.get(apiBaseUrl+'/products')
-  .then(function (response) {
-    products.value = response?.data
-  })
-  .catch(function (error) {
-    console.log(error);
-  })
-  .finally(function () {
-  });
 </script>
 
 <template>
@@ -43,11 +31,7 @@ axios.get(apiBaseUrl+'/products')
 
   <div class="pt-5 md:pt-7">
     <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
-      <ProductCard 
-        v-for="product in products" 
-        :key="product?.id" 
-        :product="product"
-      />
+      <ProductCard v-for="product in products" :key="product?.id" :product="product" />
     </div>
     <Pagination />
   </div>
