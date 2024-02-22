@@ -1,11 +1,13 @@
-import { ref } from "vue";
+import { ref, inject } from "vue";
 import axios from "axios";
 import { apiBaseUrl } from "@/composables/baseApiUrl";
 
 export function manageProducts() {
+  const loading = inject("loading");
   const products = ref([]);
 
   const getAllProducts = async () => {
+    loading(true);
     await axios
       .get(apiBaseUrl + "/products")
       .then((res) => {
@@ -14,13 +16,15 @@ export function manageProducts() {
       .catch((err) => {
         console.log(err);
       })
-      .finally(() => {});
+      .finally(() => {
+        loading(false);
+      });
   };
 
-  const loadLists = () => {
+  const loadProducts = () => {
     Promise.all([getAllProducts()]);
   };
-  loadLists();
+  loadProducts();
 
   return {
     products,

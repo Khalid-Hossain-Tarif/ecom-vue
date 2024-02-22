@@ -4,7 +4,7 @@ import Loader from '@/components/common/loader/Index.vue';
 import Header from '@/components/app/header/Header.vue';
 import Footer from '@/components/app/footer/Footer.vue';
 import MobileHeader from '@/components/app/header/MobileHeader.vue';
-
+import { useLoading } from "@/components/common/loader/setLoader.js";
 
 const isMobile = ref(window.innerWidth <= 768);
 const handleResize = () => {
@@ -17,8 +17,9 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize);
 });
 
-const loading = ref(false);
+const { loading, isLoading } = useLoading()
 provide('loading', loading);
+provide('isLoading', isLoading);
 </script>
 
 <template>
