@@ -18,12 +18,12 @@ export function manageProducts() {
   };
 
   const loadLists = () => {
-    Promise.all([getAllProducts()])
+    Promise.all([getAllProducts()]);
   };
   loadLists();
 
   return {
     products,
-    getAllProducts
+    getAllProducts,
   };
 }
