@@ -1,9 +1,11 @@
 <script setup>
-import Header from './components/app/header/Header.vue';
-import Footer from './components/app/footer/Footer.vue';
-import MobileHeader from './components/app/header/MobileHeader.vue';
+import { ref, onMounted, onBeforeUnmount, provide } from "vue";
+import Loader from '@/components/common/loader/Index.vue';
+import Header from '@/components/app/header/Header.vue';
+import Footer from '@/components/app/footer/Footer.vue';
+import MobileHeader from '@/components/app/header/MobileHeader.vue';
 
-import { ref, onMounted, onBeforeUnmount } from "vue";
+
 const isMobile = ref(window.innerWidth <= 768);
 const handleResize = () => {
   isMobile.value = window.innerWidth <= 768;
@@ -14,6 +16,9 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize);
 });
+
+const loading = ref(false);
+provide('loading', loading);
 </script>
 
 <template>
@@ -22,7 +27,10 @@ onBeforeUnmount(() => {
 
   <main>
     <slot></slot>
+
+    <Loader />
     <router-view></router-view>
+    <!-- <router-view :key="$route.fullPath"></router-view> -->
   </main>
 
   <Footer />

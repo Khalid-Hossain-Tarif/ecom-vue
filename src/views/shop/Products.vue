@@ -1,11 +1,12 @@
 <script setup>
 import { ref } from "vue";
-import { products } from "@/composables/getAllProducts"
+import { manageProducts } from "@/composables/getAllProducts"
 import Checkbox from "@/components/common/Checkbox.vue";
 import Dropdown from "@/components/common/Dropdown.vue";
 import ProductCard from "@/components/common/ProductCard.vue";
 import Pagination from "@/components/common/Pagination.vue";
 import PopupSidebar from "@/views/shop/PopupSidebar.vue";
+import DataNotFound from "@/components/common/not-found/dataNotFound.vue";
 
 const sortProducts = ref([
   { name: 'Sort by popularity', code: 'popularity' },
@@ -16,6 +17,7 @@ const sortProducts = ref([
 ]);
 
 const selectedOption = ref(null);
+const { products } = manageProducts();
 </script>
 
 <template>
@@ -30,9 +32,16 @@ const selectedOption = ref(null);
   </div>
 
   <div class="pt-5 md:pt-7">
-    <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
-      <ProductCard v-for="product in products" :key="product?.id" :product="product" />
+    <div v-if="products">
+      <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
+        <ProductCard 
+          v-for="product in products" 
+          :key="product?.id" 
+          :product="product" 
+        />
+      </div>
+      <Pagination />
     </div>
-    <Pagination />
+    <DataNotFound v-else />
   </div>
 </template>
