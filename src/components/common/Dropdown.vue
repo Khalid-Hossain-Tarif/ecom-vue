@@ -154,7 +154,7 @@ const filteredOptions = computed(() => {
 
 <style scoped>
 .c-dropdown {
-  @apply relative z-[999];
+  @apply relative z-[99];
 }
 
 .c-dropdown-text-overflow {
