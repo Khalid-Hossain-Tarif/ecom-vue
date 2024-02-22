@@ -26,7 +26,7 @@ provide('isLoading', isLoading);
   <MobileHeader v-if="isMobile" />
   <Header v-else />
 
-  <main>
+  <main class="min-h-screen">
     <slot></slot>
 
     <Loader />
