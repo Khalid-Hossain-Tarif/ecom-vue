@@ -15,6 +15,7 @@ export function manageProducts() {
         allProducts.value = res?.data;
 
         productCardData.value = allProducts.value.map((product) => ({
+          id: product?.id,
           thumbnail: product?.thumbnail,
           trendy: product?.trendy,
           name: product?.name,
@@ -38,7 +39,7 @@ export function manageProducts() {
 
   return {
     allProducts,
-    getAllProducts,
-    productCardData
+    productCardData,
+    getAllProducts
   };
 }
