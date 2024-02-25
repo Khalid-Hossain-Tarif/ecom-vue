@@ -1,10 +1,10 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, provide } from "vue";
-import Loader from '@/components/common/loader/Index.vue';
 import Header from '@/components/app/header/Header.vue';
 import Footer from '@/components/app/footer/Footer.vue';
 import MobileHeader from '@/components/app/header/MobileHeader.vue';
-import { useLoading } from "@/components/common/loader/useLoading.js";
+import Loader from '@/components/ui/loader/Index.vue';
+import { useLoading } from "@/components/ui/loader/useLoading.js";
 
 const isMobile = ref(window.innerWidth <= 768);
 const handleResize = () => {

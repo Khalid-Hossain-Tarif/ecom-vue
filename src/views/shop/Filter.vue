@@ -1,6 +1,6 @@
 <script setup>
-import Checkbox from "@/components/common/Checkbox.vue";
-import StarRating from "@/components/common/StarRating.vue";
+import Checkbox from "@/components/ui/checkbox/Index.vue";
+import StarRating from "@/components/common/products/rating/StarRating.vue";
 </script>
 
 <template>

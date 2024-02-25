@@ -1,12 +1,12 @@
 <script setup>
 import { ref } from "vue";
 import { manageProducts } from "@/composables/getAllProducts"
-import Checkbox from "@/components/common/Checkbox.vue";
-import Dropdown from "@/components/common/Dropdown.vue";
-import ProductCard from "@/components/common/ProductCard.vue";
-import Pagination from "@/components/common/Pagination.vue";
-import PopupSidebar from "@/views/shop/PopupSidebar.vue";
+import Checkbox from "@/components/ui/checkbox/Index.vue";
+import Dropdown from "@/components/ui/dropdown/Index.vue";
+import ProductCard from "@/components/common/products/product-card/Index.vue";
+import Pagination from "@/components/ui/pagination/Index.vue";
 import DataNotFound from "@/components/common/not-found/dataNotFound.vue";
+import PopupSidebar from "@/views/shop/PopupSidebar.vue";
 
 const sortProducts = ref([
   { name: 'Sort by popularity', code: 'popularity' },

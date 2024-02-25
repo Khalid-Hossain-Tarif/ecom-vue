@@ -6,7 +6,7 @@ import CategorySlider from './CategorySlider.vue';
 import ProductsTabsOne from './ProductsTabsOne.vue';
 import DiscountBanner from './DiscountBanner.vue';
 import ProductsTabsTwo from './ProductsTabsTwo.vue'
-import BrandsLogos from '@/components/common/BrandsLogos.vue';
+import BrandsLogos from '@/components/common/logos/BrandsLogos.vue';
 </script>
 
 <template>

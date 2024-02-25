@@ -1,5 +1,5 @@
 <script setup>
-import ProductLabel from './ProductLabel.vue';
+import ProductLabel from '@/components/common/products/ProductLabel.vue';
 </script>
 
 <template>

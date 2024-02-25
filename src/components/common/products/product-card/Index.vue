@@ -1,9 +1,9 @@
 <script setup>
-import Modal from './Modal.vue';
-import ProductLabel from './ProductLabel.vue';
-import ProductPrice from './ProductPrice.vue';
-import StarRating from './StarRating.vue';
-import CartDetails from '@/views/product/single-product/CartDetails.vue';
+import Modal from '@/components/ui/modal/Index.vue';
+import ProductLabel from '@/components/common/products/ProductLabel.vue';
+import ProductPrice from '@/components/common/products/ProductPrice.vue';
+import StarRating from '@/components/common/products/rating/StarRating.vue';
+import ProductSummary from '@/components/common/products/product-summary/Index.vue';
 
 import { ref, onUnmounted } from 'vue';
 
@@ -76,7 +76,7 @@ defineProps({
     </div>
 
     <Modal :isModalOpen="isProductModal" :toggleModal="productModalToggler" modalPadding="p-4 md:p-7">
-        <CartDetails />
+        <ProductSummary />
     </Modal>
 </template>
 

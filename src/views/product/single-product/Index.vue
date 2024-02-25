@@ -1,8 +1,8 @@
 <script setup>
-import Breadcrumbs from '@/components/common/Breadcrumbs.vue';
-import CartDetails from './CartDetails.vue';
+import Breadcrumbs from '@/components/ui/breadcrumbs/Index.vue';
+import ProductSummary from '@/components/common/products/product-summary/Index.vue';
 import ProductTabs from './ProductTabs.vue';
-import RelatedProducts from '@/components/common/RelatedProducts.vue';
+import RelatedProducts from '@/components/common/products/related-products/Index.vue';
 </script>
 
 <template>
@@ -11,7 +11,7 @@ import RelatedProducts from '@/components/common/RelatedProducts.vue';
 
         <section class="page-spacing">
             <div class="custom-container">
-                <CartDetails />
+                <ProductSummary />
                 <ProductTabs />
                 <RelatedProducts />
             </div>

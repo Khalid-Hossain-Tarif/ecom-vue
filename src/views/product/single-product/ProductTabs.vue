@@ -1,5 +1,5 @@
 <script setup>
-import Tabs from '@/components/common/Tabs.vue';
+import Tabs from '@/components/ui/tabs/Index.vue';
 
 const myTabs = [
     { id: 'tab1', label: 'Description' },

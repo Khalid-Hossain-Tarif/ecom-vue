@@ -20,7 +20,7 @@ defineProps({
             :class="largeFontSize" 
             class="text-primary font-semibold text-base"
         >
-            ${{ regularPrice }}
+            $ {{ regularPrice }}
         </span>
     </div>
 </template>

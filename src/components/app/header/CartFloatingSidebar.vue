@@ -1,5 +1,5 @@
 <script setup>
-import CartInputButton from '@/components/common/CartInputButton.vue';
+import CartInputButton from '@/components/common/products/CartInputButton.vue';
 import SideNav from "@/components/common/SideNav.vue";
 import { ref } from 'vue';
 

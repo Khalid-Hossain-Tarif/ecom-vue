@@ -1,6 +1,5 @@
 <script setup>
-import CartInputButton from '@/components/common/CartInputButton.vue';
-import Button from '@/components/common/Button.vue';
+import CartInputButton from '@/components/common/products/CartInputButton.vue';
 </script>
 
 <template>

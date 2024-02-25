@@ -1,9 +1,8 @@
 <script setup>
-import Button from '@/components/common/Button.vue';
-import CartInputButton from '@/components/common/CartInputButton.vue';
-import ProductGallery from '@/components/common/ProductGallery.vue';
-import ProductPrice from '@/components/common/ProductPrice.vue';
-import StarRating from '@/components/common/StarRating.vue';
+import CartInputButton from '@/components/common/products/CartInputButton.vue';
+import ProductGallery from '@/components/common/products/product-gallery/Index.vue';
+import ProductPrice from '@/components/common/products/ProductPrice.vue';
+import StarRating from '@/components/common/products/rating/StarRating.vue';
 </script>
 
 <template>

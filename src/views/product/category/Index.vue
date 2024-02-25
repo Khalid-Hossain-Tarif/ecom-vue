@@ -1,5 +1,5 @@
 <script setup>
-import Breadcrumbs from '@/components/common/Breadcrumbs.vue';
+import Breadcrumbs from '@/components/ui/breadcrumbs/Index.vue';
 import Products from "@/views/shop/Products.vue";
 import Filter from "@/views/shop/Filter.vue";
 </script>

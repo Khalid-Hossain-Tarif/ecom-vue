@@ -1,6 +1,6 @@
 <script setup>
-import Tabs from '@/components/common/Tabs.vue';
-import Breadcrumbs from "@/components/common/Breadcrumbs.vue";
+import Tabs from '@/components/ui/tabs/Index.vue';
+import Breadcrumbs from "@/components/ui/breadcrumbs/Index.vue";
 import Dashboard from "@/views/myaccount/Dashboard.vue";
 import Address from "@/views/myaccount/Address.vue";
 import Orders from "@/views/myaccount/Orders.vue";

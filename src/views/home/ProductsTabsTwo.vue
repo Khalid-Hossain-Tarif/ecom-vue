@@ -1,6 +1,6 @@
 <script setup>
-import Tabs from '@/components/common/Tabs.vue';
-import ProductCard from '@/components/common/ProductCard.vue';
+import Tabs from '@/components/ui/tabs/Index.vue';
+import ProductCard from '@/components/common/products/product-card/Index.vue';
 
 const myTabs = [
     { id: 'tab1', label: 'New products' },
