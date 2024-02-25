@@ -3,7 +3,7 @@ import { manageProducts } from "@/composables/getAllProducts"
 import ProductCard from '@/components/common/products/product-card/Index.vue';
 import DataNotFound from "@/components/common/not-found/dataNotFound.vue";
 
-const { allProducts } = manageProducts();
+const { productCardData } = manageProducts();
 </script>
 
 <template>
@@ -16,7 +16,7 @@ const { allProducts } = manageProducts();
 
         <div class="mt-6">
           <swiper-container 
-            v-if="allProducts" 
+            v-if="productCardData" 
             style="--swiper-navigation-size: 30px;" space-between="16" :navigation="true" :slides-per-view="2" 
             :breakpoints="{
               768: {
@@ -31,7 +31,7 @@ const { allProducts } = manageProducts();
             }"
           >
             <swiper-slide 
-              v-for="product in allProducts" 
+              v-for="product in productCardData" 
               :key="product?.id"
             >
               <ProductCard 
