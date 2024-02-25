@@ -4,14 +4,14 @@ import { apiBaseUrl } from "@/composables/baseApiUrl";
 
 export function manageProducts() {
   const loading = inject("loading");
-  const products = ref([]);
+  const allProducts = ref([]);
 
   const getAllProducts = async () => {
     loading(true);
     await axios
       .get(apiBaseUrl + "/products")
       .then((res) => {
-        products.value = res?.data;
+        allProducts.value = res?.data;
       })
       .catch((err) => {
         console.log(err);
@@ -27,7 +27,7 @@ export function manageProducts() {
   loadProducts();
 
   return {
-    products,
+    allProducts,
     getAllProducts,
   };
 }

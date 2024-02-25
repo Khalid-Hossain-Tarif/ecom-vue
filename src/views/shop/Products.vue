@@ -17,7 +17,7 @@ const sortProducts = ref([
 ]);
 
 const selectedOption = ref(null);
-const { products } = manageProducts();
+const { allProducts } = manageProducts();
 </script>
 
 <template>
@@ -32,10 +32,10 @@ const { products } = manageProducts();
   </div>
 
   <div class="pt-5 md:pt-7">
-    <div v-if="products">
+    <div v-if="allProducts">
       <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
         <ProductCard 
-          v-for="product in products" 
+          v-for="product in allProducts" 
           :key="product?.id" 
           :product="product" 
         />
