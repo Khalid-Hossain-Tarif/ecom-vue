@@ -78,7 +78,9 @@ const routes = [
   },
 ];
 
-const isAuthenticated = false;
+const isAuthenticated = () => {
+  return localStorage.getItem('token') == '1234'
+};
 
 const router = createRouter({
   history: createWebHistory(),
@@ -86,7 +88,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if(to.meta.requiresAuth && !isAuthenticated) {
+  if(to.meta.requiresAuth && !isAuthenticated()) {
     next('/')
   }
   else {

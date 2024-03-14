@@ -1,5 +1,10 @@
 <script setup>
+import router from '../../../router';
 
+function logout() {
+    localStorage.setItem('token', 'weg');
+    router.push('/')
+}
 </script>
 
 <template>
@@ -14,7 +19,7 @@
           <router-link to="/myAccount">My account</router-link>
         </li>
         <li class="menu-item">
-          <router-link to="">Logout</router-link>
+          <button @click="logout">Logout</button>
         </li>
       </ul>
     </nav>

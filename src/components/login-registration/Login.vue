@@ -5,6 +5,10 @@ const isPasswordShow = ref(false);
 const passwordHandler = () => {
     isPasswordShow.value = !isPasswordShow.value;
 }
+
+function authenticate() {
+    localStorage.setItem('token', '1234')
+}
 </script>
 
 <template>
@@ -40,13 +44,18 @@ const passwordHandler = () => {
                         </div>
                         <a href="#" class="font-medium text-blue-600 hover:underline">Lost Password?</a>
                     </div>
-                    <button class="btn btn-secondary w-full">Login to your account</button>
+                    <button class="btn btn-secondary w-full">
+                        Login to your account
+                    </button>
                     <p> Not registered yet?
                         <router-link to="/registration" class="font-semibold text-secondary underline">
                             Create an account
                         </router-link>
                     </p>
                 </form>
+                <button @click="authenticate" class="btn btn-secondary w-full">
+                    Login to your account
+                </button>
             </div>
         </div>
     </section>
