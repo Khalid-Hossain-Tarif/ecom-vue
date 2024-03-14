@@ -32,6 +32,9 @@ const routes = [
     path: "/myAccount",
     name: "myAccount",
     component: MyAccount,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/category",
@@ -75,7 +78,20 @@ const routes = [
   },
 ];
 
-export default createRouter({
+const isAuthenticated = false;
+
+const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+router.beforeEach((to, from, next) => {
+  if(to.meta.requiresAuth && !isAuthenticated) {
+    next('/')
+  }
+  else {
+    next()
+  }
+});
+
+export default router;
