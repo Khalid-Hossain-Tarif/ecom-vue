@@ -1,8 +1,14 @@
 <script setup>
-import router from '../../../router';
+import router from '@/router';
+import { authStore } from "@/store/auth/store";
+
+// function logout() {
+//     localStorage.setItem('token', 'weg');
+//     router.push('/')
+// }
 
 function logout() {
-    localStorage.setItem('token', 'weg');
+    authStore.logout()
     router.push('/')
 }
 </script>
@@ -18,7 +24,7 @@ function logout() {
         <li class="menu-item">
           <router-link to="/myAccount">My account</router-link>
         </li>
-        <li class="menu-item">
+        <li class="menu-item" v-if="authStore.isAuthenticated">
           <button @click="logout">Logout</button>
         </li>
       </ul>

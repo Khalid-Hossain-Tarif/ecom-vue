@@ -11,6 +11,7 @@ import Shop from "../views/shop/Index.vue";
 import About from "../views/about/Index.vue";
 import Contact from "../views/contact/Index.vue";
 import PageNotFound from "../components/common/not-found/pageNotFound.vue";
+import { authStore } from "../store/auth/store";
 
 const routes = [
   {
@@ -78,21 +79,29 @@ const routes = [
   },
 ];
 
-const isAuthenticated = () => {
-  return localStorage.getItem('token') == '1234'
-};
-
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
 
+// const isAuthenticated = () => {
+//   return localStorage.getItem("token") == "1234";
+// };
+
+// router.beforeEach((to, from, next) => {
+//   if (to.meta.requiresAuth && !isAuthenticated()) {
+//     next("/login");
+//   } else {
+//     next();
+//   }
+// });
+
+
 router.beforeEach((to, from, next) => {
-  if(to.meta.requiresAuth && !isAuthenticated()) {
-    next('/')
-  }
-  else {
-    next()
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next("/login");
+  } else {
+    next();
   }
 });
 

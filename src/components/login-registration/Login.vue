@@ -1,14 +1,15 @@
 <script setup>
 import { ref } from "vue";
-const isPasswordShow = ref(false);
+import { authStore } from "@/store/auth/store";
 
+const isPasswordShow = ref(false);
 const passwordHandler = () => {
     isPasswordShow.value = !isPasswordShow.value;
 }
 
-function authenticate() {
-    localStorage.setItem('token', '1234')
-}
+// function authenticate() {
+//     localStorage.setItem('token', '1234')
+// }
 </script>
 
 <template>
@@ -53,7 +54,7 @@ function authenticate() {
                         </router-link>
                     </p>
                 </form>
-                <button @click="authenticate" class="btn btn-secondary w-full">
+                <button @click="authStore.authenticate()" class="btn btn-secondary w-full">
                     Login to your account
                 </button>
             </div>
