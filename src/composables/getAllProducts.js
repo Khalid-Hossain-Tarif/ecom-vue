@@ -6,6 +6,7 @@ export function manageProducts() {
   const loading = inject("loading");
   const allProducts = ref([]);
   const productCardData = ref([]);
+  const todayDealProducts = ref([]);
 
   const getAllProducts = async () => {
     loading(true);
@@ -21,8 +22,12 @@ export function manageProducts() {
           name: product?.name,
           selling_price: product?.selling_price,
           discount_price: product?.discount_price,
-          trendy: product?.trendy
+          trendy: product?.trendy,
         }));
+
+        todayDealProducts.value = allProducts.value.filter(
+          (product) => product?.today_deal === 1
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -40,6 +45,7 @@ export function manageProducts() {
   return {
     allProducts,
     productCardData,
-    getAllProducts
+    todayDealProducts,
+    getAllProducts,
   };
 }
