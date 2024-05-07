@@ -5,7 +5,8 @@ import { apiBaseUrl } from "@/composables/baseApiUrl";
 export function manageProducts() {
   const loading = inject("loading");
   const allProducts = ref([]);
-  const productCardData = ref([]);
+  const productCardProducts = ref([]);
+  const todayDealProducts = ref([]);
 
   const getAllProducts = async () => {
     loading(true);
@@ -14,15 +15,29 @@ export function manageProducts() {
       .then((res) => {
         allProducts.value = res?.data;
 
-        productCardData.value = allProducts.value.map((product) => ({
+        productCardProducts.value = allProducts.value.map((product) => ({
           id: product?.id,
+          slug: product?.slug,
           thumbnail: product?.thumbnail,
           trendy: product?.trendy,
           name: product?.name,
           selling_price: product?.selling_price,
           discount_price: product?.discount_price,
-          trendy: product?.trendy
+          trendy: product?.trendy,
         }));
+
+        todayDealProducts.value = allProducts.value
+          .filter((product) => product?.today_deal === 1)
+          .map((product) => ({
+            id: product?.id,
+            slug: product?.slug,
+            thumbnail: product?.thumbnail,
+            trendy: product?.trendy,
+            name: product?.name,
+            selling_price: product?.selling_price,
+            discount_price: product?.discount_price,
+            trendy: product?.trendy,
+          }));
       })
       .catch((err) => {
         console.log(err);
@@ -39,7 +54,8 @@ export function manageProducts() {
 
   return {
     allProducts,
-    productCardData,
-    getAllProducts
+    productCardProducts,
+    todayDealProducts,
+    getAllProducts,
   };
 }

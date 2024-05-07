@@ -40,9 +40,9 @@ import StarRating from '@/components/common/products/rating/StarRating.vue';
                 </p>
                 <p class="font-medium">
                     <span>Category: </span>
-                    <span class="text-textGray"><router-link to="">Category 1, </router-link></span>
-                    <span class="text-textGray"><router-link to="">Category 2, </router-link></span>
-                    <span class="text-textGray"><router-link to="">Category 3</router-link></span>
+                    <span class="text-textGray"><router-link to="/">Category 1, </router-link></span>
+                    <span class="text-textGray"><router-link to="/">Category 2, </router-link></span>
+                    <span class="text-textGray"><router-link to="/">Category 3</router-link></span>
                 </p>
             </div>
         </div>

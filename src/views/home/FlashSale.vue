@@ -1,10 +1,10 @@
 <script setup>
-import { manageProducts } from "@/composables/getAllProducts"
+import { manageProducts } from "@/composables/getAllProducts";
 import ProductCard from '@/components/common/products/product-card/Index.vue';
 import DataNotFound from "@/components/common/not-found/dataNotFound.vue";
 import { authStore } from "@/store/auth/store";
 
-const { productCardData } = manageProducts();
+const { todayDealProducts } = manageProducts();
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const { productCardData } = manageProducts();
 
         <div class="mt-6">
           <swiper-container 
-            v-if="productCardData" 
+            v-if="todayDealProducts" 
             style="--swiper-navigation-size: 30px;" space-between="16" :navigation="true" :slides-per-view="2" 
             :breakpoints="{
               768: {
@@ -32,7 +32,7 @@ const { productCardData } = manageProducts();
             }"
           >
             <swiper-slide 
-              v-for="product in productCardData" 
+              v-for="product in todayDealProducts" 
               :key="product?.id"
             >
               <ProductCard 

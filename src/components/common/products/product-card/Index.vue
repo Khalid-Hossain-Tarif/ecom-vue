@@ -1,15 +1,21 @@
 <script setup>
+import { ref, onUnmounted } from 'vue';
+import router from "@/router";
 import Modal from '@/components/ui/modal/Index.vue';
 import ProductLabel from '@/components/common/products/ProductLabel.vue';
 import ProductPrice from '@/components/common/products/ProductPrice.vue';
 import StarRating from '@/components/common/products/rating/StarRating.vue';
 import ProductSummary from '@/components/common/products/product-summary/Index.vue';
 
-import { ref, onUnmounted } from 'vue';
+defineProps({
+    product: {
+        type: Object,
+        default: 'product'
+    }
+})
 
 const isProductModal = ref(false);
 const getBody = document.getElementsByTagName('body')[0];
-
 const productModalToggler = () => {
     isProductModal.value = !isProductModal.value;
     if (isProductModal.value) {
@@ -23,19 +29,12 @@ const productModalToggler = () => {
 onUnmounted(() => {
     getBody.style.overflow = 'auto';
 })
-
-defineProps({
-    product: {
-        type: Object,
-        default: 'product'
-    }
-})
 </script>
 
 <template>
     <div class="relative border border-grayLight rounded group transition duration-300">
         <div class="product-card-img">
-            <router-link to="/single-product">
+            <router-link :to="{ path: '/product/' + product?.slug}">
                 <!-- <img src="@/assets/images/home/top-sales/demo-product-img.png" alt=""> -->
                 <img :src="product?.thumbnail" alt="">
             </router-link>
@@ -61,7 +60,7 @@ defineProps({
 
         <div class="p-4">
             <h4 class="font-medium ellipsis-text">
-                <router-link to="/single-product">
+                <router-link :to="{ path: '/product/' + product?.slug}">
                     {{ product?.name }}
                 </router-link>
             </h4>

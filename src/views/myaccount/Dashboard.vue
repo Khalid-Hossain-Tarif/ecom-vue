@@ -6,7 +6,7 @@
   <div>
     <p>
       Hello <strong>khalidhossain</strong> (not <strong>khalidhossain</strong>?
-      <router-link to="" class="text-primary font-medium">Log out</router-link>)
+      <router-link to="/" class="text-primary font-medium">Log out</router-link>)
     </p>
     <p class="mt-5">
       From your account dashboard you can view your <strong>recent orders</strong>, manage your <strong>shipping
