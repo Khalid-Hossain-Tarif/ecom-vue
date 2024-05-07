@@ -14,7 +14,7 @@
           <router-link to="/myAccount">My account</router-link>
         </li>
         <li class="menu-item">
-          <router-link to="">Logout</router-link>
+          <router-link to="/">Logout</router-link>
         </li>
       </ul>
     </nav>

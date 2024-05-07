@@ -17,6 +17,7 @@ export function manageProducts() {
 
         productCardProducts.value = allProducts.value.map((product) => ({
           id: product?.id,
+          slug: product?.slug,
           thumbnail: product?.thumbnail,
           trendy: product?.trendy,
           name: product?.name,
@@ -29,6 +30,7 @@ export function manageProducts() {
           .filter((product) => product?.today_deal === 1)
           .map((product) => ({
             id: product?.id,
+            slug: product?.slug,
             thumbnail: product?.thumbnail,
             trendy: product?.trendy,
             name: product?.name,
