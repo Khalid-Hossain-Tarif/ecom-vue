@@ -30,8 +30,8 @@ provide('isLoading', isLoading);
     <slot></slot>
 
     <Loader />
-    <router-view></router-view>
-    <!-- <router-view :key="$route.fullPath"></router-view> -->
+    <!-- <router-view></router-view> -->
+    <router-view :key="$route.fullPath"></router-view>
   </main>
 
   <Footer />
