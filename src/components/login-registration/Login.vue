@@ -2,14 +2,13 @@
 import { ref } from "vue";
 import { authStore } from "@/store/auth/store";
 
+const auth = authStore;
+const email = ref('');
+const password = ref('');
 const isPasswordShow = ref(false);
 const passwordHandler = () => {
     isPasswordShow.value = !isPasswordShow.value;
 }
-
-// function authenticate() {
-//     localStorage.setItem('token', '1234')
-// }
 </script>
 
 <template>
@@ -22,13 +21,13 @@ const passwordHandler = () => {
                 <form class="space-y-4 md:space-y-6">
                     <div>
                         <label for="email" class="block mb-2 font-medium">Your email</label>
-                        <input autocomplete="off" type="email" name="email" id="email" required>
+                        <input v-model="email" autocomplete="off" type="email" name="email" id="email" required>
                     </div>
 
                     <div>
                         <label for="password" class="block mb-2 font-medium">Password</label>
                         <div class="relative">
-                            <input autocomplete="off" :type="isPasswordShow ? 'text' : 'password'" name="password"
+                            <input v-model="password" autocomplete="off" :type="isPasswordShow ? 'text' : 'password'" name="password"
                                 id="password" required>
                             <font-awesome-icon @click="passwordHandler"
                                 :icon="isPasswordShow ? ['far', 'eye-slash'] : ['far', 'eye']"
@@ -45,18 +44,23 @@ const passwordHandler = () => {
                         </div>
                         <a href="#" class="font-medium text-blue-600 hover:underline">Lost Password?</a>
                     </div>
-                    <button class="btn btn-secondary w-full">
+
+                    <button 
+                        @click="auth.authenticate(email, password)"
+                        class="btn btn-secondary w-full"
+                    >
                         Login to your account
                     </button>
+
                     <p> Not registered yet?
                         <router-link to="/registration" class="font-semibold text-secondary underline">
                             Create an account
                         </router-link>
                     </p>
                 </form>
-                <button @click="authStore.authenticate()" class="btn btn-secondary w-full">
+                <!-- <button @click="auth.authenticate(email, password)" class="btn btn-secondary w-full">
                     Login to your account
-                </button>
+                </button> -->
             </div>
         </div>
     </section>
