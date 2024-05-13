@@ -5,9 +5,9 @@ import router from "../../router/index.js";
 
 const authStore = reactive({
   isAuthenticated: localStorage.getItem('auth') == 1,
-  authenticate(email, password) {
-    authStore.isAuthenticated = true;
+  user: JSON.parse(localStorage.getItem('user')),
 
+  authenticate(email, password) {
     axios.post(apiBaseUrl + "/login", {
       email: email,
       password: password
@@ -17,16 +17,23 @@ const authStore = reactive({
       }
     })
     .then(res => {
-      console.log(res.data);
+      if(res?.data?.success == 0) {
+        authStore.isAuthenticated = true;
+        authStore.user = res?.data;
+        localStorage.setItem('auth', 1);
+        localStorage.setItem('user', JSON.stringify(authStore.user));
+        router.push("/");
+      }
     })
-    .catch(error => {
-      console.error('Error:', error);
+    .catch(err => {
+      console.error('Error:', err);
     });
-
-    router.push("/");
   },
   logout() {
     authStore.isAuthenticated = false;
+    authStore.user = '',
+    localStorage.setItem('auth', 0);
+    localStorage.setItem('user', '{}');
     router.push("/login");
   },
 });
