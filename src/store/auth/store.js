@@ -7,6 +7,28 @@ const authStore = reactive({
   isAuthenticated: localStorage.getItem('auth') == 1,
   user: JSON.parse(localStorage.getItem('user')),
 
+
+  registration(email, username, password) {
+    axios.post(apiBaseUrl + "/users", {
+      email: email,
+      name: username,
+      password: password,
+      // confirmPassword: confirmPassword
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => {
+      console.log('clicked1')
+      console.log(res)
+      console.log('clicked2')
+    })
+    .catch(err => {
+      console.error('Error:', err);
+    });
+  },
+
   authenticate(email, password) {
     axios.post(apiBaseUrl + "/login", {
       email: email,
