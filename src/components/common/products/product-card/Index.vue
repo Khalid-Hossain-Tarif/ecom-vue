@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onUnmounted } from 'vue';
-import router from "@/router";
 import Modal from '@/components/ui/modal/Index.vue';
 import ProductLabel from '@/components/common/products/ProductLabel.vue';
 import ProductPrice from '@/components/common/products/ProductPrice.vue';

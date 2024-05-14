@@ -3,9 +3,17 @@ import CartInputButton from '@/components/common/products/CartInputButton.vue';
 import ProductGallery from '@/components/common/products/product-gallery/Index.vue';
 import ProductPrice from '@/components/common/products/ProductPrice.vue';
 import StarRating from '@/components/common/products/rating/StarRating.vue';
+
+defineProps({
+    product: {
+        type: Object,
+        default: 'product'
+    }
+})
 </script>
 
 <template>
+    {{ product }}
     <section class="block md:grid md:grid-cols-2 gap-4 md:gap-10">
         <div>
             <ProductGallery />

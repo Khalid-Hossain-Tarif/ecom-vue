@@ -11,7 +11,8 @@ defineProps({
     <div class="flex items-center gap-4">
         <span 
             v-if="discountPrice && regularPrice"
-            :class="smallFontSize" class="text-textGray text-sm"
+            :class="smallFontSize" 
+            class="text-textGray text-sm"
         >
             <del>${{ discountPrice }}</del>
         </span>
