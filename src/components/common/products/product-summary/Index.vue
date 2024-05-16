@@ -7,9 +7,9 @@ import StarRating from '@/components/common/products/rating/StarRating.vue';
 defineProps({
     product: {
         type: Object,
-        default: 'product'
-    }
-})
+        default: {}
+    },
+});
 </script>
 
 <template>
@@ -21,10 +21,10 @@ defineProps({
 
         <div class="space-y-4 mt-7 md:mt-0">
             <StarRating />
-            <h1 class="primary-heading">4K UHD LED Smart TV with Chromecast Built-in</h1>
+            <h1 class="primary-heading">{{ product?.name }}</h1>
+            <ProductPrice :regularPrice="product?.selling_price" :discountPrice="product?.discount_price" />
             <div>
-                <p class="text-textGray">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere quasi
-                    perferendis veritatis incidunt delectus quibusdam laborum a ratione modi ab.</p>
+                <p class="text-textGray" v-html="product?.description"></p>
             </div>
             <ProductPrice smallFontSize="!text-base" largeFontSize="!text-2xl" />
 
@@ -40,11 +40,11 @@ defineProps({
             <div class="space-y-2 pt-7 !mt-7 border-t border-borderLight">
                 <p class="font-medium">
                     <span>Availability: </span>
-                    <span class="text-success">69 in stock</span>
+                    <span class="text-success">{{ product?.stock_quantity }} in stock</span>
                 </p>
                 <p class="font-medium">
                     <span>SKU: </span>
-                    <span class="text-textGray">0292</span>
+                    <span class="text-textGray">{{ product?.code }}</span>
                 </p>
                 <p class="font-medium">
                     <span>Category: </span>

@@ -33,7 +33,7 @@ onUnmounted(() => {
 <template>
     <div class="relative border border-grayLight rounded group transition duration-300">
         <div class="product-card-img">
-            <router-link v-if="product?.slug" :to="{ name: 'singleProduct', params: { slug: product?.slug } }">
+            <router-link v-if="product?.id" :to="{ name: 'singleProduct', params: { id: product?.id } }">
                 <!-- <img src="@/assets/images/home/top-sales/demo-product-img.png" alt=""> -->
                 <img :src="product?.thumbnail" alt="">
             </router-link>
@@ -59,7 +59,7 @@ onUnmounted(() => {
 
         <div class="p-4">
             <h4 class="font-medium ellipsis-text">
-                <router-link v-if="product?.slug" :to="{ name: 'singleProduct', params: { slug: product?.slug } }">
+                <router-link v-if="product?.id" :to="{ name: 'singleProduct', params: { id: product?.id } }">
                     {{ product?.name }}
                 </router-link>
             </h4>

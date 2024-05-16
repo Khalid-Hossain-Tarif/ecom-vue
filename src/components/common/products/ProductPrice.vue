@@ -14,7 +14,7 @@ defineProps({
             :class="smallFontSize" 
             class="text-textGray text-sm"
         >
-            <del>${{ discountPrice }}</del>
+            <del>${{ discountPrice}}</del>
         </span>
         <span 
             v-if="regularPrice" 
