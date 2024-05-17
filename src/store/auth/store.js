@@ -2,7 +2,9 @@ import { reactive } from "vue";
 import axios from "axios";
 import { apiBaseUrl } from "@/composables/baseApiUrl.js";
 import router from "../../router/index.js";
+import { useToast } from "vue-toastification";
 
+const toast = useToast();
 const authStore = reactive({
   isAuthenticated: localStorage.getItem("auth") == 1,
   user: JSON.parse(localStorage.getItem("user")),
@@ -22,10 +24,12 @@ const authStore = reactive({
         }
       )
       .then((res) => {
+        toast.success("Registration successful.")
         router.push("/login");
       })
       .catch((err) => {
         console.error("Error:", err);
+        // toast.error("User already registered!")
       })
   },
 
@@ -47,17 +51,20 @@ const authStore = reactive({
           authStore.user = res?.data;
           localStorage.setItem("auth", 1);
           localStorage.setItem("user", JSON.stringify(authStore.user));
+          toast.success("You are logged in.")
           router.push("/");
         }
       })
       .catch((err) => {
-        console.error("Error:", err);
+        console.error("Error:", err);          
+        toast.error("Username or password in incorrect!")
       })
   },
   logout() {
     authStore.isAuthenticated = false;
     (authStore.user = ""), localStorage.setItem("auth", 0);
     localStorage.setItem("user", "{}");
+    toast.success("You are logout.")
     router.push("/login");
   },
 });
