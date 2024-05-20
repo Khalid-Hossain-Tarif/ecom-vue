@@ -1,8 +1,10 @@
 <script setup>
+import { manageProductWithDetails } from "@/composables/getProductWithDetails";
 import CartInputButton from '@/components/common/products/CartInputButton.vue';
 import ProductGallery from '@/components/common/products/product-gallery/Index.vue';
 import ProductPrice from '@/components/common/products/ProductPrice.vue';
 import StarRating from '@/components/common/products/rating/StarRating.vue';
+const { productImagesArray  } = manageProductWithDetails();
 
 defineProps({
     product: {
@@ -13,10 +15,10 @@ defineProps({
 </script>
 
 <template>
-    {{ product }}
     <section class="block md:grid md:grid-cols-2 gap-4 md:gap-10">
         <div>
-            <ProductGallery />
+            <!-- {{ product?.images }} -->
+            <ProductGallery :productImages="productImagesArray" />
         </div>
 
         <div class="space-y-4 mt-7 md:mt-0">
@@ -48,9 +50,7 @@ defineProps({
                 </p>
                 <p class="font-medium">
                     <span>Category: </span>
-                    <span class="text-textGray"><router-link to="/">Category 1, </router-link></span>
-                    <span class="text-textGray"><router-link to="/">Category 2, </router-link></span>
-                    <span class="text-textGray"><router-link to="/">Category 3</router-link></span>
+                    <span class="text-textGray"><router-link to="/">Category 1 </router-link></span>
                 </p>
             </div>
         </div>

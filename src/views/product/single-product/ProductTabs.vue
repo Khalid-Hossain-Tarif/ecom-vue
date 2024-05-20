@@ -6,6 +6,17 @@ const myTabs = [
     { id: 'tab2', label: 'Specification' },
     { id: 'tab3', label: 'Reviews (0)' }
 ];
+
+defineProps({
+    description: {
+        type: String,
+        default: ""
+    },
+    id: {
+        type: [String, Number],
+        default: null
+    },
+});
 </script>
 
 <template>
@@ -14,18 +25,14 @@ const myTabs = [
             <Tabs :tabs="myTabs" defaultTab="tab1" headerPosition="md:justify-center">
                 <template #tab1>
                     <div>
-                        <p>
-                            A groundbreaking Retina display. Powerful dual-core and quad-core Intel processors. Fast flash
-                            storage. High-performance graphics. Great built-in apps. And now in the 13-inch model, a
-                            revolutionary new Force Touch trackpad and even longer battery life.1 Whatever you can imagine,
-                            MacBook Pro with Retina display gives you the power to create.
-                        </p>
+                        <p v-html="description"></p>
                     </div>
                 </template>
                 <template #tab2>
                     <div>
                         <p>
-                            A groundbreaking Retina display. Powerful dual-core and quad-core Intel processors. Fast flash
+                            A groundbreaking Retina display. Powerful dual-core and quad-core Intel processors. Fast
+                            flash
                             storage. High-performance graphics. Great built-in apps.
                         </p>
                     </div>
@@ -34,7 +41,8 @@ const myTabs = [
                     <div>
                         <p>
                             Great built-in apps. And now in the 13-inch model, a
-                            revolutionary new Force Touch trackpad and even longer battery life.1 Whatever you can imagine,
+                            revolutionary new Force Touch trackpad and even longer battery life.1 Whatever you can
+                            imagine,
                             MacBook Pro with Retina display gives you the power to create.
                         </p>
                     </div>

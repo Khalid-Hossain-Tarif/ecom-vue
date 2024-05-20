@@ -1,12 +1,35 @@
 <script setup>
 import ProductLabel from '@/components/common/products/ProductLabel.vue';
+import { computed } from 'vue';
+
+const props = defineProps({
+    productImages: {
+        type: Array,
+        default: [],
+    },
+});
+
+// const parsedProductImages = computed(() => {
+//     if (typeof props.productImages === 'string') {
+//         try {
+//             return JSON.parse(props.productImages);
+//         } catch (e) {
+//             return [];
+//         }
+//     }
+//     return props.productImages;
+// });
 </script>
 
 <template>
+    {{ productImages }}
     <div class="relative">
-        <swiper-container style="--swiper-navigation-size: 30px;" class="mySwiper" thumbs-swiper=".mySwiper2" loop="true"
-            space-between="10" navigation="true">
-            <swiper-slide>
+        <swiper-container style="--swiper-navigation-size: 30px;" class="mySwiper" thumbs-swiper=".mySwiper2"
+            loop="true" space-between="10" navigation="true">
+            <swiper-slide v-for="(image, index) in productImages" :key="index">
+                <img :src="`/files/product/${image}`" alt="Product Image" />
+            </swiper-slide>
+            <!-- <swiper-slide>
                 <img src="@/assets/images/home/top-sales/demo-product-img.png" />
             </swiper-slide>
             <swiper-slide>
@@ -20,12 +43,15 @@ import ProductLabel from '@/components/common/products/ProductLabel.vue';
             </swiper-slide>
             <swiper-slide>
                 <img src="@/assets/images/home/top-sales/demo-product-img.png" />
-            </swiper-slide>
+            </swiper-slide> -->
         </swiper-container>
 
         <swiper-container class="mySwiper2" loop="true" space-between="10" slides-per-view="4" free-mode="true"
             watch-slides-progress="true">
-            <swiper-slide>
+            <swiper-slide v-for="(image, index) in productImages" :key="index">
+                <img :src="`/files/product/${image}`" alt="Product Image" />
+            </swiper-slide>
+            <!-- <swiper-slide>
                 <img src="@/assets/images/home/top-sales/demo-product-img.png" />
             </swiper-slide>
             <swiper-slide>
@@ -39,7 +65,7 @@ import ProductLabel from '@/components/common/products/ProductLabel.vue';
             </swiper-slide>
             <swiper-slide>
                 <img src="@/assets/images/home/top-sales/demo-product-img.png" />
-            </swiper-slide>
+            </swiper-slide> -->
         </swiper-container>
         <ProductLabel position="left-0 right-auto" />
     </div>
