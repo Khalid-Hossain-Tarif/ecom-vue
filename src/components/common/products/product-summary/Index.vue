@@ -1,15 +1,31 @@
 <script setup>
+import { ref, watch } from "vue";
 import CartInputButton from '@/components/common/products/CartInputButton.vue';
 import ProductGallery from '@/components/common/products/product-gallery/Index.vue';
 import ProductPrice from '@/components/common/products/ProductPrice.vue';
 import StarRating from '@/components/common/products/rating/StarRating.vue';
+import { manageCategories } from "@/composables/getAllCategories"
+const { filteredCategories } = manageCategories();
 
-defineProps({
+const props = defineProps({
     product: {
         type: Object,
         default: {}
     },
 });
+
+const categoryName = ref('');
+
+function getCategoryNameById(categoryId, categories) {
+    const category = categories.find(category => category?.id === categoryId);
+    return category ? category?.category_name : 'Uncategorized';
+}
+
+watch(() => filteredCategories.value, (newVal) => {
+    if (newVal.length > 0) {
+        categoryName.value = getCategoryNameById(props?.product?.category_id, newVal);
+    }
+}, { immediate: true });
 </script>
 
 <template>
@@ -47,7 +63,9 @@ defineProps({
                 </p>
                 <p class="font-medium">
                     <span>Category: </span>
-                    <span class="text-textGray"><router-link to="/">Category 1 </router-link></span>
+                    <span class="text-textGray">
+                        <router-link to="/">{{ categoryName }}</router-link>
+                    </span>
                 </p>
             </div>
         </div>

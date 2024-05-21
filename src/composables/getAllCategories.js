@@ -5,7 +5,7 @@ import { apiBaseUrl } from "@/composables/baseApiUrl";
 export function manageCategories() {
   const loading = inject("loading");
   const allCategories = ref([]);
-//   const categorySliderData = ref([]);
+  const filteredCategories = ref([]);
 
   const getAllCategories = async () => {
     loading(true);
@@ -14,11 +14,11 @@ export function manageCategories() {
       .then((res) => {
         allCategories.value = res?.data?.data;
 
-        // categorySliderData.value = allCategories.value.map((category) => ({
-        //     id: category?.id,
-        //     icon: category?.icon,
-        //     category_name: category?.category_name,
-        // }));
+        filteredCategories.value = allCategories.value.map((category) => ({
+            id: category?.id,
+            icon: category?.icon,
+            category_name: category?.category_name,
+        }));
       })
       .catch((err) => {
         console.log(err);
@@ -35,7 +35,7 @@ export function manageCategories() {
 
   return {
     allCategories,
-    // categorySliderData,
+    filteredCategories,
     getAllCategories
   };
 }
