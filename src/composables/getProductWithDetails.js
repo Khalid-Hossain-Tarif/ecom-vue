@@ -9,8 +9,6 @@ export function manageProductWithDetails() {
   const productWithDetails = ref({});
   const productDescription = ref("");
   const productId = ref(null);
-  const productImages = ref(null);
-  const productImagesArray = ref(null);
 
   const getProductWithDetails = async () => {
     loading(true);
@@ -20,10 +18,6 @@ export function manageProductWithDetails() {
         productWithDetails.value = res?.data;
         productDescription.value = res?.data?.description;
         productId.value = res?.data?.id;
-        productImages.value = res?.data?.images;
-        productImagesArray.value  = JSON.parse(productImages.value);
-
-        console.log(typeof(productImagesArray.value))
       })
       .catch((err) => {
         console.log(err);
@@ -42,7 +36,6 @@ export function manageProductWithDetails() {
     productWithDetails,
     productDescription,
     productId,
-    productImagesArray,
     getProductWithDetails,
   };
 }

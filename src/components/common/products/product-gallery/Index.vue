@@ -1,71 +1,38 @@
 <script setup>
 import ProductLabel from '@/components/common/products/ProductLabel.vue';
-import { computed } from 'vue';
 
 const props = defineProps({
     productImages: {
-        type: Array,
-        default: [],
+        type: [Array, String],
+        required: true,
+        default: ''
     },
 });
 
-// const parsedProductImages = computed(() => {
-//     if (typeof props.productImages === 'string') {
-//         try {
-//             return JSON.parse(props.productImages);
-//         } catch (e) {
-//             return [];
-//         }
-//     }
-//     return props.productImages;
-// });
+const isValidJSON = str => {
+    try {
+        JSON.parse(str);
+        return true;
+    } catch (e) {
+        return false;
+    }
+};
 </script>
 
 <template>
-    {{ productImages }}
-    <div class="relative">
+    <div class="relative" v-if="isValidJSON(props?.productImages)">
         <swiper-container style="--swiper-navigation-size: 30px;" class="mySwiper" thumbs-swiper=".mySwiper2"
             loop="true" space-between="10" navigation="true">
-            <swiper-slide v-for="(image, index) in productImages" :key="index">
+            <swiper-slide v-for="(image, index) in JSON.parse(props?.productImages)" :key="index">
                 <img :src="`/files/product/${image}`" alt="Product Image" />
             </swiper-slide>
-            <!-- <swiper-slide>
-                <img src="@/assets/images/home/top-sales/demo-product-img.png" />
-            </swiper-slide>
-            <swiper-slide>
-                <img src="@/assets/images/home/top-sales/demo-product-img.png" />
-            </swiper-slide>
-            <swiper-slide>
-                <img src="@/assets/images/home/top-sales/demo-product-img.png" />
-            </swiper-slide>
-            <swiper-slide>
-                <img src="@/assets/images/home/top-sales/demo-product-img.png" />
-            </swiper-slide>
-            <swiper-slide>
-                <img src="@/assets/images/home/top-sales/demo-product-img.png" />
-            </swiper-slide> -->
         </swiper-container>
 
         <swiper-container class="mySwiper2" loop="true" space-between="10" slides-per-view="4" free-mode="true"
             watch-slides-progress="true">
-            <swiper-slide v-for="(image, index) in productImages" :key="index">
+            <swiper-slide v-for="(image, index) in JSON.parse(props?.productImages)" :key="index">
                 <img :src="`/files/product/${image}`" alt="Product Image" />
             </swiper-slide>
-            <!-- <swiper-slide>
-                <img src="@/assets/images/home/top-sales/demo-product-img.png" />
-            </swiper-slide>
-            <swiper-slide>
-                <img src="@/assets/images/home/top-sales/demo-product-img.png" />
-            </swiper-slide>
-            <swiper-slide>
-                <img src="@/assets/images/home/top-sales/demo-product-img.png" />
-            </swiper-slide>
-            <swiper-slide>
-                <img src="@/assets/images/home/top-sales/demo-product-img.png" />
-            </swiper-slide>
-            <swiper-slide>
-                <img src="@/assets/images/home/top-sales/demo-product-img.png" />
-            </swiper-slide> -->
         </swiper-container>
         <ProductLabel position="left-0 right-auto" />
     </div>
@@ -81,7 +48,7 @@ const props = defineProps({
 }
 
 .mySwiper2 swiper-slide {
-    @apply opacity-50 border border-borderLight px-2 py-4
+    @apply opacity-50 border border-borderLight px-2 py-4 max-h-[124px] object-cover object-bottom
 }
 
 .mySwiper2 .swiper-slide-thumb-active {
