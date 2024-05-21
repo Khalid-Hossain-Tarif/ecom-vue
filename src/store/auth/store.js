@@ -26,6 +26,12 @@ const authStore = reactive({
       .then((res) => {
         toast.success("Registration successful.")
         router.push("/login");
+
+        // console.log(res?.data)
+        // if(res?.data?.email == '') {
+        //   alert('email is empty')
+        //   console.log('email is empty')
+        // }
       })
       .catch((err) => {
         console.error("Error:", err);
@@ -64,7 +70,7 @@ const authStore = reactive({
     authStore.isAuthenticated = false;
     (authStore.user = ""), localStorage.setItem("auth", 0);
     localStorage.setItem("user", "{}");
-    toast.success("You are logout.")
+    toast.info("You are logout.")
     router.push("/login");
   },
 });
