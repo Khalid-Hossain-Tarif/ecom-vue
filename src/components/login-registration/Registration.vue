@@ -1,14 +1,32 @@
 <script setup>
-import { ref } from "vue";
+import { ref, reactive } from "vue";
+import { useVuelidate } from '@vuelidate/core'
+import { required, email } from '@vuelidate/validators'
 import { authStore } from "@/store/auth/store";
 
 const isPasswordShow = ref(false);
 const isConfirmPasswordShow = ref(false);
 const auth = authStore;
-const email = ref('');
-const password = ref('');
-const username = ref('');
-const confirmPassword = ref('');
+// const email = ref('');
+// const username = ref('');
+// const password = ref('');
+// const confirmPassword = ref('');
+
+const state = reactive({
+    email: '',
+    username: '',
+    password: '',
+})
+
+const rules = {
+    email: { required, email },
+    username: { required },
+    password: { required },
+}
+
+const v$ = useVuelidate(rules, state);
+
+// console.log(v$)
 
 const passwordHandler = () => {
     isPasswordShow.value = !isPasswordShow.value;
@@ -26,20 +44,22 @@ const confirmPasswordHandler = () => {
                 <h1 class="text-xl font-bold text-heading md:text-2xl">
                     Create a new account
                 </h1>
-                <form @submit.prevent novalidate class="space-y-4 md:space-y-6">
+                <form @submit.prevent="auth.registration" class="space-y-4 md:space-y-6">
                     <div>
                         <label for="email" class="block mb-2 font-medium">Your email</label>
-                        <input v-model="email" type="email" id="email" name="email" autocomplete="off" required>
-                        <p v-if="!email" class="mt-1 text-xs text-danger">Please enter valid email address!</p>
+                        <input v-model="state.email" type="email" id="email" name="email" autocomplete="off" required>
+                        <!-- <p v-if="!email" class="mt-1 text-xs text-danger">Please enter valid email address!</p> -->
+                        <p v-if="v$.email.$error">{{ v$.email.$errors[0].message }}</p>
                     </div>
                     <div>
                         <label for="username" class="block mb-2 font-medium">Your username</label>
-                        <input v-model="username" type="text" id="username" name="username" autocomplete="off" required>
+                        <input v-model="state.username" type="text" id="username" name="username" autocomplete="off"
+                            required>
                     </div>
                     <div>
                         <label for="password" class="block mb-2 font-medium">Password</label>
                         <div class="relative">
-                            <input v-model="password" :type="isPasswordShow ? 'text' : 'password'" id="password"
+                            <input v-model="state.password" :type="isPasswordShow ? 'text' : 'password'" id="password"
                                 name="password" autocomplete="off" required>
                             <font-awesome-icon @click="passwordHandler"
                                 :icon="isPasswordShow ? ['far', 'eye-slash'] : ['far', 'eye']"
