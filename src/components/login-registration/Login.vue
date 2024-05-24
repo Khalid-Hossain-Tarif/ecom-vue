@@ -1,10 +1,13 @@
 <script setup>
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import { authStore } from "@/store/auth/store";
 
 const auth = authStore;
-const email = ref('');
-const password = ref('');
+const user = reactive({
+  username: '',
+  password: '',
+});
+
 const isPasswordShow = ref(false);
 const passwordHandler = () => {
     isPasswordShow.value = !isPasswordShow.value;
@@ -20,14 +23,14 @@ const passwordHandler = () => {
                 </h1>
                 <form class="space-y-4 md:space-y-6">
                     <div>
-                        <label for="email" class="block mb-2 font-medium">Your email</label>
-                        <input v-model="email" autocomplete="off" type="email" name="email" id="email" required>
+                        <label for="username" class="block mb-2 font-medium">Username</label>
+                        <input v-model="user.username" autocomplete="off" type="text" name="username" id="username" required>
                     </div>
 
                     <div>
                         <label for="password" class="block mb-2 font-medium">Password</label>
                         <div class="relative">
-                            <input v-model="password" autocomplete="off" :type="isPasswordShow ? 'text' : 'password'" name="password"
+                            <input v-model="user.password" autocomplete="off" :type="isPasswordShow ? 'text' : 'password'" name="password"
                                 id="password" required>
                             <font-awesome-icon @click="passwordHandler"
                                 :icon="isPasswordShow ? ['far', 'eye-slash'] : ['far', 'eye']"
@@ -46,7 +49,7 @@ const passwordHandler = () => {
                     </div>
 
                     <button 
-                        @click="auth.authenticate(email, password)"
+                        @click="auth.authenticate(user)"
                         class="btn btn-secondary w-full"
                     >
                         Login to your account
@@ -58,9 +61,6 @@ const passwordHandler = () => {
                         </router-link>
                     </p>
                 </form>
-                <!-- <button @click="auth.authenticate(email, password)" class="btn btn-secondary w-full">
-                    Login to your account
-                </button> -->
             </div>
         </div>
     </section>

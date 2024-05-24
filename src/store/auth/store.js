@@ -6,17 +6,19 @@ import toast from "../../../utils/Toaster.js";
 
 const { infoToast, successToast, errorToast } = toast();
 const authStore = reactive({
-  isAuthenticated: localStorage.getItem("auth") == 1,
-  user: JSON.parse(localStorage.getItem("user")),
+  // isAuthenticated: localStorage.getItem("auth") == 1,
+  // user: JSON.parse(localStorage.getItem("user")),
+  isAuthenticated: localStorage.getItem("user"),
+  user: JSON.parse(localStorage.getItem("user")) || {},
 
-  registration(email, username, password) {
+  registration(user) {
     axios
       .post(
         apiBaseUrl + "/users",
         {
-          email: email,
-          name: username,
-          password: password,
+          email: user.email,
+          name: user.username,
+          password: user.password,
           // confirmPassword: confirmPassword
         },
         {
@@ -36,18 +38,18 @@ const authStore = reactive({
         // }
       })
       .catch((err) => {
-        console.error("Error:", err);
-        errorToast("User already registered!");
+        console.error("Registration Error:", err.response?.data || err);
+        // errorToast("User already registered!");
       });
   },
 
-  authenticate(email, password) {
+  authenticate(user) {
     axios
       .post(
         apiBaseUrl + "/login",
         {
-          email: email,
-          password: password,
+          name: user.name,
+          password: user.password,
         },
         {
           headers: {
@@ -56,24 +58,52 @@ const authStore = reactive({
         }
       )
       .then((res) => {
-        if (res?.data?.success == 0) {
+        // if (res?.data?.success == 0) {
+        //   authStore.isAuthenticated = true;
+        //   authStore.user = res?.data;
+        //   localStorage.setItem("auth", 1);
+        //   localStorage.setItem("user", JSON.stringify(authStore.user));
+        //   successToast("You are logged in.");
+        //   router.push("/");
+        // }
+        if (res?.data?.token) {
+          const userData = {
+            id: res.data.id,
+            token: res.data.token,
+            email: res.data.email,
+            name: res.data.name
+          };
           authStore.isAuthenticated = true;
-          authStore.user = res?.data;
-          localStorage.setItem("auth", 1);
-          localStorage.setItem("user", JSON.stringify(authStore.user));
+          localStorage.setItem('user', JSON.stringify(userData));
+          axios.defaults.headers.common['Authorization'] = `Bearer ${userData.token}`;
           successToast("You are logged in.");
           router.push("/");
+          console.log(userData);
+        } else {
+          errorToast("Login failed. Please try again.");
         }
       })
       .catch((err) => {
-        console.error("Error:", err);
-        errorToast("Username or password in incorrect!");
+        console.error("Authentication Error:", err.response?.data || err);
+        if (err.response?.status === 422) {
+          errorToast("Invalid credentials. Please check your username and password.");
+        } else {
+          errorToast("Username or password incorrect!");
+        }
+        // errorToast("Username or password in incorrect!");
       });
   },
+  // logout() {
+  //   authStore.isAuthenticated = false;
+  //   (authStore.user = ""), localStorage.setItem("auth", 0);
+  //   localStorage.setItem("user", "{}");
+  //   infoToast("You are logout.");
+  //   router.push("/login");
+  // },
   logout() {
     authStore.isAuthenticated = false;
-    (authStore.user = ""), localStorage.setItem("auth", 0);
-    localStorage.setItem("user", "{}");
+    localStorage.removeItem('user');
+    delete axios.defaults.headers.common['Authorization'];
     infoToast("You are logout.");
     router.push("/login");
   },
