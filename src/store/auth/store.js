@@ -2,16 +2,18 @@ import { reactive } from "vue";
 import axios from "axios";
 import { apiBaseUrl } from "@/composables/baseApiUrl.js";
 import router from "../../router/index.js";
-import { useToast } from "vue-toastification";
+import toast from "../../../utils/Toaster.js";
 
-const toast = useToast();
+const { infoToast, successToast, errorToast } = toast();
 const authStore = reactive({
   isAuthenticated: localStorage.getItem("auth") == 1,
   user: JSON.parse(localStorage.getItem("user")),
 
   registration(email, username, password) {
     axios
-      .post(apiBaseUrl + "/users", {
+      .post(
+        apiBaseUrl + "/users",
+        {
           email: email,
           name: username,
           password: password,
@@ -24,7 +26,7 @@ const authStore = reactive({
         }
       )
       .then((res) => {
-        toast.success("Registration successful.")
+        successToast("Registration successful.");
         router.push("/login");
 
         // console.log(res?.data)
@@ -35,13 +37,15 @@ const authStore = reactive({
       })
       .catch((err) => {
         console.error("Error:", err);
-        // toast.error("User already registered!")
-      })
+        errorToast("User already registered!");
+      });
   },
 
   authenticate(email, password) {
     axios
-      .post(apiBaseUrl + "/login", {
+      .post(
+        apiBaseUrl + "/login",
+        {
           email: email,
           password: password,
         },
@@ -57,20 +61,20 @@ const authStore = reactive({
           authStore.user = res?.data;
           localStorage.setItem("auth", 1);
           localStorage.setItem("user", JSON.stringify(authStore.user));
-          toast.success("You are logged in.")
+          successToast("You are logged in.");
           router.push("/");
         }
       })
       .catch((err) => {
-        console.error("Error:", err);          
-        toast.error("Username or password in incorrect!")
-      })
+        console.error("Error:", err);
+        errorToast("Username or password in incorrect!");
+      });
   },
   logout() {
     authStore.isAuthenticated = false;
     (authStore.user = ""), localStorage.setItem("auth", 0);
     localStorage.setItem("user", "{}");
-    toast.info("You are logout.")
+    infoToast("You are logout.");
     router.push("/login");
   },
 });
