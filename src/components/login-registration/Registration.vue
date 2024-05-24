@@ -10,14 +10,14 @@ const auth = authStore;
 
 const user = reactive({
   email: '',
-  username: '',
+  name: '',
   password: '',
 //   confirmPassword: ''
 });
 
 const rules = {
   email: { required, email },
-  username: { required },
+  // name: { required },
   password: { required, minLength: minLength(6) },
 //   confirmPassword: {
 //     required,
@@ -57,9 +57,9 @@ const submitForm = () => {
             <p v-if="v$.email.$error" class="mt-1 text-xs text-danger">{{ v$.email.$errors[0]?.$message }}</p>
           </div>
           <div>
-            <label for="username" class="block mb-2 font-medium">Your username</label>
-            <input v-model="user.username" type="text" id="username" name="username" autocomplete="off" required>
-            <p v-if="v$.username.$error" class="mt-1 text-xs text-danger">{{ v$.username.$errors[0]?.$message }}</p>
+            <label for="name" class="block mb-2 font-medium">Your name</label>
+            <input v-model="user.name" type="text" id="name" name="name" autocomplete="off">
+            <!-- <p v-if="v$.name.$error" class="mt-1 text-xs text-danger">{{ v$.name.$errors[0]?.$message }}</p> -->
           </div>
           <div>
             <label for="password" class="block mb-2 font-medium">Password</label>

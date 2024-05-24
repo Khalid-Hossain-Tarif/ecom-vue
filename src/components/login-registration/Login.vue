@@ -4,7 +4,7 @@ import { authStore } from "@/store/auth/store";
 
 const auth = authStore;
 const user = reactive({
-  username: '',
+  email: '',
   password: '',
 });
 
@@ -23,8 +23,8 @@ const passwordHandler = () => {
                 </h1>
                 <form class="space-y-4 md:space-y-6">
                     <div>
-                        <label for="username" class="block mb-2 font-medium">Username</label>
-                        <input v-model="user.username" autocomplete="off" type="text" name="username" id="username" required>
+                        <label for="email" class="block mb-2 font-medium">Email</label>
+                        <input v-model="user.email" autocomplete="off" type="email" name="email" id="email" required>
                     </div>
 
                     <div>

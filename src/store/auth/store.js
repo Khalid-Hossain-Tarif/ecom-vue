@@ -17,7 +17,7 @@ const authStore = reactive({
         apiBaseUrl + "/users",
         {
           email: user.email,
-          name: user.username,
+          name: user.name,
           password: user.password,
           // confirmPassword: confirmPassword
         },
@@ -48,7 +48,7 @@ const authStore = reactive({
       .post(
         apiBaseUrl + "/login",
         {
-          name: user.name,
+          email: user.email,
           password: user.password,
         },
         {
@@ -86,11 +86,10 @@ const authStore = reactive({
       .catch((err) => {
         console.error("Authentication Error:", err.response?.data || err);
         if (err.response?.status === 422) {
-          errorToast("Invalid credentials. Please check your username and password.");
+          errorToast("Invalid credentials. Please check your name and password.");
         } else {
-          errorToast("Username or password incorrect!");
+          errorToast("You don't have an account! Register first please.");
         }
-        // errorToast("Username or password in incorrect!");
       });
   },
   // logout() {
