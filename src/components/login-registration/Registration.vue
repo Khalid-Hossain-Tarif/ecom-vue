@@ -2,7 +2,7 @@
 import { ref, reactive } from "vue";
 import { authStore } from "@/store/auth/store";
 import useVuelidate from '@vuelidate/core';
-import { required, email, minLength } from '@vuelidate/validators';
+import { required, helpers, email, minLength } from '@vuelidate/validators';
 
 const isPasswordShow = ref(false);
 // const isConfirmPasswordShow = ref(false);
@@ -16,9 +16,9 @@ const user = reactive({
 });
 
 const rules = {
-  email: { required, email },
-  // name: { required },
-  password: { required, minLength: minLength(6) },
+  email: { required: helpers.withMessage('Email cannot be empty', required), email },
+  name: { required: helpers.withMessage('Name cannot be empty', required) },
+  password: { required: helpers.withMessage('Password cannot be empty', required), minLength: minLength(6) },
 //   confirmPassword: {
 //     required,
 //     sameAsPassword(value) {
@@ -58,8 +58,8 @@ const submitForm = () => {
           </div>
           <div>
             <label for="name" class="block mb-2 font-medium">Your name</label>
-            <input v-model="user.name" type="text" id="name" name="name" autocomplete="off">
-            <!-- <p v-if="v$.name.$error" class="mt-1 text-xs text-danger">{{ v$.name.$errors[0]?.$message }}</p> -->
+            <input v-model="user.name" type="text" id="name" name="name" autocomplete="off" required>
+            <p v-if="v$.name.$error" class="mt-1 text-xs text-danger">{{ v$.name.$errors[0]?.$message }}</p>
           </div>
           <div>
             <label for="password" class="block mb-2 font-medium">Password</label>

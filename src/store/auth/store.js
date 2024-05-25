@@ -78,7 +78,6 @@ const authStore = reactive({
           axios.defaults.headers.common['Authorization'] = `Bearer ${userData.token}`;
           successToast("You are logged in.");
           router.push("/");
-          console.log(userData);
         } else {
           errorToast("Login failed. Please try again.");
         }
