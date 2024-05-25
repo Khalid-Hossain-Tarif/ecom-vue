@@ -5,26 +5,30 @@ import useVuelidate from '@vuelidate/core';
 import { required, helpers, email, minLength } from '@vuelidate/validators';
 
 const isPasswordShow = ref(false);
-// const isConfirmPasswordShow = ref(false);
+const isConfirmPasswordShow = ref(false);
 const auth = authStore;
 
 const user = reactive({
   email: '',
   name: '',
   password: '',
-//   confirmPassword: ''
+  confirmPassword: ''
 });
+
+const sameAsPassword = helpers.withMessage(
+  'Passwords do not match',
+  (value) => value === user.password
+);
 
 const rules = {
   email: { required: helpers.withMessage('Email cannot be empty', required), email },
   name: { required: helpers.withMessage('Name cannot be empty', required) },
   password: { required: helpers.withMessage('Password cannot be empty', required), minLength: minLength(6) },
-//   confirmPassword: {
-//     required,
-//     sameAsPassword(value) {
-//       return value === user.password;
-//     }
-//   }
+  confirmPassword: {
+    required: helpers.withMessage('Please enter same password.', required),
+    minLength: minLength(6),
+    sameAsPassword
+  }
 };
 
 const v$ = useVuelidate(rules, user);
@@ -33,9 +37,9 @@ const passwordHandler = () => {
   isPasswordShow.value = !isPasswordShow.value;
 };
 
-// const confirmPasswordHandler = () => {
-//   isConfirmPasswordShow.value = !isConfirmPasswordShow.value;
-// };
+const confirmPasswordHandler = () => {
+  isConfirmPasswordShow.value = !isConfirmPasswordShow.value;
+};
 
 const submitForm = () => {
   v$.value.$touch();
@@ -69,14 +73,14 @@ const submitForm = () => {
             </div>
             <p v-if="v$.password.$error" class="mt-1 text-xs text-danger">{{ v$.password.$errors[0]?.$message }}</p>
           </div>
-          <!-- <div>
+          <div>
             <label for="confirm-password" class="block mb-2 font-medium">Confirm password</label>
             <div class="relative">
               <input v-model="user.confirmPassword" :type="isConfirmPasswordShow ? 'text' : 'password'" id="confirm-password" name="confirm-password" autocomplete="off" required>
               <font-awesome-icon @click="confirmPasswordHandler" :icon="isConfirmPasswordShow ? ['far', 'eye-slash'] : ['far', 'eye']" class="absolute right-2 top-1/2 -translate-y-1/2 opacity-90" />
             </div>
             <p v-if="v$.confirmPassword.$error" class="mt-1 text-xs text-danger">{{ v$.confirmPassword.$errors[0]?.$message }}</p>
-          </div> -->
+          </div>
           <button type="submit" @click="submitForm" class="btn btn-secondary w-full">Register</button>
           <p> Already have an account?
             <router-link to="/login" class="font-semibold text-secondary underline">Login here</router-link>
