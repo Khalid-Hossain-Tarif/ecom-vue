@@ -39,7 +39,11 @@ const authStore = reactive({
       })
       .catch((err) => {
         console.error("Registration Error:", err.response?.data || err);
-        // errorToast("User already registered!");
+        if(err.response?.data?.error == 1) {
+          errorToast(err.response?.data?.message);
+        } else {
+          errorToast("Something went wrong!");
+        }
       });
   },
 
@@ -84,10 +88,10 @@ const authStore = reactive({
       })
       .catch((err) => {
         console.error("Authentication Error:", err.response?.data || err);
-        if (err.response?.status === 422) {
-          errorToast("Invalid credentials. Please check your name and password.");
+        if (err.response?.data?.error == 1) {
+          errorToast("Invalid credentials!");
         } else {
-          errorToast("You don't have an account! Register first please.");
+          errorToast("Something went wrong!");
         }
       });
   },
