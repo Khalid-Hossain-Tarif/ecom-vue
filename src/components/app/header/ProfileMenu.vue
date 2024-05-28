@@ -1,5 +1,7 @@
 <script setup>
+import { authStore } from "@/store/auth/store";
 
+const auth = authStore;
 </script>
 
 <template>
@@ -13,8 +15,8 @@
         <li class="menu-item">
           <router-link to="/myAccount">My account</router-link>
         </li>
-        <li class="menu-item">
-          <router-link to="/">Logout</router-link>
+        <li class="menu-item" v-if="auth.isAuthenticated">
+          <button @click="auth.logout">Logout</button>
         </li>
       </ul>
     </nav>

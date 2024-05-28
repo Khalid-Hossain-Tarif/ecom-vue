@@ -31,7 +31,8 @@ provide('isLoading', isLoading);
 
     <Loader />
     <!-- <router-view></router-view> -->
-    <router-view :key="$route.fullPath"></router-view>
+    <router-view :key="$route.fullPath"></router-view> 
+    <!-- :key="$route.fullPath" using this we can make <router-view></router-view>unique. Then every time router will update when navigating -->
   </main>
 
   <Footer />

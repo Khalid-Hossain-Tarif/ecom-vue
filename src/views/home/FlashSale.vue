@@ -2,6 +2,7 @@
 import { manageProducts } from "@/composables/getAllProducts";
 import ProductCard from '@/components/common/products/product-card/Index.vue';
 import DataNotFound from "@/components/common/not-found/dataNotFound.vue";
+import { authStore } from "@/store/auth/store";
 
 const { todayDealProducts } = manageProducts();
 </script>
@@ -10,7 +11,7 @@ const { todayDealProducts } = manageProducts();
   <section>
     <div class="custom-container">
       <div class="section-margin custom-swiper-navs">
-        <h3 class="primary-heading">
+        <h3 class="primary-heading" v-if="authStore.isAuthenticated">
           <span class="mr-1">🔥</span> Flash Sale Today!
         </h3>
 
