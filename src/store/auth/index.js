@@ -108,7 +108,7 @@ const authStore = reactive({
     localStorage.removeItem('user');
     delete axios.defaults.headers.common['Authorization'];
     cart.items = {};
-    cart.totalPrice = 0;
+    // cart.totalPrice = 0; //getting error - check console
     cart.saveCartInLocalStorage();
     infoToast("You are logout.");
     router.push("/login");

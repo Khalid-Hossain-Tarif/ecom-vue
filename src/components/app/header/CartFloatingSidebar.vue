@@ -1,6 +1,7 @@
 <script setup>
 import CartInputButton from '@/components/common/products/CartInputButton.vue';
 import SideNav from "@/components/common/SideNav.vue";
+import { cart } from "@/store/cart/index";
 import { ref } from 'vue';
 
 const isCartPopup = ref(false);
@@ -20,7 +21,7 @@ const cartPopupToggler = () => {
 <template>
     <button @click="cartPopupToggler" class="relative">
         <font-awesome-icon :icon="['fas', 'cart-plus']" />
-        <span class="count-number">2</span>
+        <span class="count-number">{{ cart.totalCartItems }}</span>
     </button>
 
     <SideNav :isSideNavOpen="isCartPopup" :toggleSideNav="cartPopupToggler" sideNavWidth="w-full sm:w-[400px]"

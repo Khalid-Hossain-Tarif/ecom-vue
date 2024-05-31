@@ -10,6 +10,13 @@ const cart = reactive({
         }
         return total
     }),
+    subtotalPrice: computed(() => {
+        let total = 0;
+        for (let id in cart.items) {
+            total += cart.items[id].product.selling_price * cart.items[id].quantity
+        }
+        return parseFloat(total.toFixed(2))
+    }),
     totalPrice: computed(() => {
         let total = 0;
         for (let id in cart.items) {
@@ -28,7 +35,17 @@ const cart = reactive({
         }
         this.saveCartInLocalStorage()
     },
-    removeItem(product){},
+    removeItem(product){
+        if(this.items[product.id]) {
+            this.items[product.id].quantity--
+        } else {
+            this.items[product.id] = {
+                product,
+                quantity: 1
+            }
+        }
+        this.saveCartInLocalStorage()
+    },
     emptyCart(){},
     saveCartInLocalStorage(){
         localStorage.setItem('cart', JSON.stringify(this.items))

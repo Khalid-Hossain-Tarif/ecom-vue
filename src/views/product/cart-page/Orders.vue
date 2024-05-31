@@ -1,5 +1,7 @@
 <script setup>
 import CartInputButton from '@/components/common/products/CartInputButton.vue';
+import { cart } from "@/store/cart/index"
+import { printPrice } from "/utils/Helpers.js";
 </script>
 
 <template>
@@ -19,22 +21,22 @@ import CartInputButton from '@/components/common/products/CartInputButton.vue';
                     </thead>
 
                     <tbody>
-                        <tr v-for="n in 3" :key="index" class="relative">
+                        <tr v-for="item in cart.items" :key="index" class="relative">
                             <td data-title="Product" class="flex gap-3 items-center">
-                                <router-link to="/single-product">
+                                <router-link class="shrink-0" :to="{ name: 'singleProduct', params: { id: item.product.id } }">
                                     <img class="w-16 h-14"
-                                        src="@/assets/images/home/top-sales/demo-product-img.png"
+                                        :src="item.product.thumbnail"
                                         alt="Digital Product">
                                 </router-link>
                                 <h4>
-                                    <router-link to="/single-product" class="font-semibold">
-                                        Wireless PS Handler
+                                    <router-link :to="{ name: 'singleProduct', params: { id: item.product.id } }" class="font-semibold">
+                                        {{ item.product.name }}
                                     </router-link>
                                 </h4>
                             </td>
 
                             <td data-title="Price" class="res-heading text-center font-semibold text-textGray">
-                                $124.00
+                                {{ printPrice(item.product.selling_price) }}
                             </td>
 
                             <td data-title="Qty" class="res-heading text-center">
@@ -42,7 +44,7 @@ import CartInputButton from '@/components/common/products/CartInputButton.vue';
                             </td>
 
                             <td data-title="Subtotal" class="res-heading text-center font-semibold text-textGray">
-                                $275.00
+                                {{ printPrice(item.product.selling_price * item.quantity) }}
                             </td>
 
                             <td class="res-btn">
@@ -74,7 +76,7 @@ import CartInputButton from '@/components/common/products/CartInputButton.vue';
                     <tbody>
                         <tr>
                             <td class="min-w-[100px] xl:min-w-[120px]">Subtotal</td>
-                            <td>$117.00</td>
+                            <td>{{ printPrice(cart.subtotalPrice) }}</td>
                         </tr>
                         <tr>
                             <td class="min-w-[100px] xl:min-w-[120px]">Shipping</td>
@@ -99,7 +101,7 @@ import CartInputButton from '@/components/common/products/CartInputButton.vue';
                         </tr>
                         <tr>
                             <td class="min-w-[100px] xl:min-w-[120px]">Total</td>
-                            <td class="!font-bold text-primary text-lg">$125.00</td>
+                            <td class="!font-bold text-primary text-lg">{{ printPrice(cart.totalPrice) }}</td>
                         </tr>
                     </tbody>
                 </table>
