@@ -11,7 +11,7 @@ import Shop from "../views/shop/Index.vue";
 import About from "../views/about/Index.vue";
 import Contact from "../views/contact/Index.vue";
 import PageNotFound from "../components/common/not-found/pageNotFound.vue";
-import { authStore } from "../store/auth/store";
+import { authStore } from "../store/auth/index";
 
 const routes = [
   {

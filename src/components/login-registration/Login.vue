@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive } from "vue";
-import { authStore } from "@/store/auth/store";
+import { authStore } from "@/store/auth/index";
 import useVuelidate from '@vuelidate/core';
 import { required, helpers, email, minLength } from '@vuelidate/validators';
 

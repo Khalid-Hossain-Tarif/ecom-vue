@@ -2,7 +2,7 @@
 import { manageProducts } from "@/composables/getAllProducts";
 import ProductCard from '@/components/common/products/product-card/Index.vue';
 import DataNotFound from "@/components/common/not-found/dataNotFound.vue";
-import { authStore } from "@/store/auth/store";
+import { authStore } from "@/store/auth/index";
 
 const { todayDealProducts } = manageProducts();
 </script>

@@ -1,5 +1,5 @@
 <script setup>
-import { authStore } from "@/store/auth/store";
+import { authStore } from "@/store/auth/index";
 
 const auth = authStore;
 </script>
