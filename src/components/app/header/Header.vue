@@ -3,6 +3,7 @@ import ShopByCategoriesMenu from "@/components/app/header/ShopByCategoriesMenu.v
 import ProfileMenu from "@/components/app/header/ProfileMenu.vue";
 import PrimaryMenu from "@/components/app/header/PrimaryMenu.vue";
 import CartFloatingSidebar from "@/components/app/header/CartFloatingSidebar.vue";
+import { cart } from "@/store/cart/index"
 </script>
 
 <template>
@@ -29,7 +30,7 @@ import CartFloatingSidebar from "@/components/app/header/CartFloatingSidebar.vue
             <li>
               <router-link to="/wishlist" class="relative">
                 <font-awesome-icon :icon="['far', 'heart']" />
-                <span class="count-number">1</span>
+                <span class="count-number">{{ cart.totalCartItems }}</span>
               </router-link>
             </li>
             <li>

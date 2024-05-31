@@ -3,6 +3,7 @@ import axios from "axios";
 import { apiBaseUrl } from "@/composables/baseApiUrl.js";
 import router from "../../router/index.js";
 import toast from "../../../utils/Toaster.js";
+import { cart } from "@/store/cart/index"
 
 const { infoToast, successToast, errorToast } = toast();
 const authStore = reactive({
@@ -106,6 +107,9 @@ const authStore = reactive({
     authStore.isAuthenticated = false;
     localStorage.removeItem('user');
     delete axios.defaults.headers.common['Authorization'];
+    cart.items = {};
+    cart.totalPrice = 0;
+    cart.saveCartInLocalStorage();
     infoToast("You are logout.");
     router.push("/login");
   },
