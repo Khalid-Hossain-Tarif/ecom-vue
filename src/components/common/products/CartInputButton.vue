@@ -2,6 +2,10 @@
 import { cart } from "@/store/cart/index"
 
 defineProps({
+    item: {
+        type: Object,
+        default: 'item'
+    },
     class: {
         type: String
     },
@@ -13,16 +17,40 @@ defineProps({
 </script>
 
 <template>
+    <!-- {{cart.items}} -->
     <div :class="class">
-        <input type="button" value="-"
+        <!-- <input type="button" value="-"
             class="border border-grayLight rounded-l bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
-            :class="fieldPadding">
-        <input type="number" step="1" min="1" max="98" value="1" inputmode="numeric" autocomplete="off"
+            :class="fieldPadding"> -->
+        <button 
+            @click="cart.removeItem(item.product)"
+            class="border border-grayLight rounded-l bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
+            :class="fieldPadding"
+        >
+            -
+        </button>
+        <!-- <input type="number" step="1" min="1" max="98" value="1" inputmode="numeric" autocomplete="off"
             class="!w-[59px] !inline !rounded-none border border-grayLight text-base font-bold text-heading text-center"
-            :class="fieldPadding">
-        <input type="button" value="+"
+            :class="fieldPadding"> -->
+
+        <input 
+            type="number" step="1" min="1" 
+            :value="item.quantity" 
+            inputmode="numeric" autocomplete="off"
+            class="!w-[59px] !inline !rounded-none border border-grayLight text-base font-bold text-heading text-center"
+            :class="fieldPadding"
+        >    
+
+        <!-- <input type="button" value="+"
             class="border border-grayLight rounded-r bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-success"
-            :class="fieldPadding">
+            :class="fieldPadding"> -->
+        <button 
+            @click="cart.addItem(item.product)"
+            class="border border-grayLight rounded-l bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
+            :class="fieldPadding"
+        >
+            +
+        </button>
     </div>
 </template>
 

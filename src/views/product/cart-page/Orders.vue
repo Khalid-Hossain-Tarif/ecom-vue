@@ -2,6 +2,10 @@
 import CartInputButton from '@/components/common/products/CartInputButton.vue';
 import { cart } from "@/store/cart/index"
 import { printPrice } from "/utils/Helpers.js";
+
+const updateCart = () => {
+    cart.updatePrices();
+};
 </script>
 
 <template>
@@ -23,13 +27,18 @@ import { printPrice } from "/utils/Helpers.js";
                     <tbody>
                         <tr v-for="item in cart.items" :key="index" class="relative">
                             <td data-title="Product" class="flex gap-3 items-center">
-                                <router-link class="shrink-0" :to="{ name: 'singleProduct', params: { id: item.product.id } }">
-                                    <img class="w-16 h-14"
-                                        :src="item.product.thumbnail"
-                                        alt="Digital Product">
+                                <router-link 
+                                    v-if="item.product.id"
+                                    :to="{ name: 'singleProduct', params: { id: item.product.id } }"
+                                    class="shrink-0"
+                                >
+                                    <img class="w-16 h-14" :src="item.product.thumbnail" alt="Digital Product">
                                 </router-link>
                                 <h4>
-                                    <router-link :to="{ name: 'singleProduct', params: { id: item.product.id } }" class="font-semibold">
+                                    <router-link 
+                                        v-if="item.product.id" 
+                                        :to="{ name: 'singleProduct', params: { id: item.product.id } }"
+                                        class="font-semibold">
                                         {{ item.product.name }}
                                     </router-link>
                                 </h4>
@@ -40,7 +49,8 @@ import { printPrice } from "/utils/Helpers.js";
                             </td>
 
                             <td data-title="Qty" class="res-heading text-center">
-                                <CartInputButton />
+                                <!-- <CartInputButton /> -->
+                                <CartInputButton :item="item" />
                             </td>
 
                             <td data-title="Subtotal" class="res-heading text-center font-semibold text-textGray">
@@ -49,6 +59,7 @@ import { printPrice } from "/utils/Helpers.js";
 
                             <td class="res-btn">
                                 <button
+                                    @click="cart.deleteItem(item.product)"
                                     class="border border-borderLight hover:border-primary w-9 h-9 rounded-full text-[11px] text-primary">
                                     <font-awesome-icon :icon="['fas', 'x']" />
                                 </button>
@@ -59,13 +70,29 @@ import { printPrice } from "/utils/Helpers.js";
 
                 <div class="mt-5 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                     <div class="flex items-center">
-                        <input autocomplete="off" type="text" id="coupon" placeholder="Enter coupon code" class="!rounded-r-none">
-                        <button class="btn btn-secondary font-bold uppercase rounded-l-none shrink-0">Apply coupon</button>
+                        <input autocomplete="off" type="text" id="coupon" placeholder="Enter coupon code"
+                            class="!rounded-r-none">
+                        <button class="btn btn-secondary font-bold uppercase rounded-l-none shrink-0">Apply
+                            coupon</button>
                     </div>
 
                     <div class="flex items-center gap-2 xl:gap-4">
-                        <button class="btn btn-bordered grow">Empty cart</button>
-                        <button class="btn btn-bordered grow">Update cart</button>
+                        <button
+                            :disabled="cart.totalCartItems === 0" 
+                            @click="cart.emptyCart" 
+                            class="btn btn-bordered grow"
+                            :class="cart.totalCartItems === 0 ? 'opacity-30' : ''"
+                        >
+                            Empty cart
+                        </button>
+                        <button 
+                            :disabled="!cart.isCartUpdated" 
+                            @click="updateCart" 
+                            class="btn btn-bordered grow"
+                            :class="!cart.isCartUpdated ? 'opacity-30' : ''"
+                        >
+                            Update cart
+                        </button>
                     </div>
                 </div>
             </div>
@@ -136,24 +163,28 @@ thead tr {
     @apply pt-0
 }
 
-.cart-products-table th, 
+.cart-products-table th,
 .cart-products-table td {
     @apply p-4
 }
 
-@media (width <= 412px) {
+@media (width <=412px) {
     .cart-products-table tr {
         @apply block border-b-borderDark bg-[#f7f7f7]
     }
+
     .cart-products-table td {
         @apply flex justify-between items-center border-b border-borderLight last:border-b-0
     }
+
     .cart-products-table td:first-child {
         @apply justify-start
     }
+
     .res-heading::before {
         @apply content-[attr(data-title)_":"] text-body font-medium
     }
+
     .res-btn {
         @apply absolute top-3 right-0
     }
