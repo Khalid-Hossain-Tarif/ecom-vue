@@ -86,10 +86,10 @@ const updateCart = () => {
                             Empty cart
                         </button>
                         <button 
-                            :disabled="!cart.isCartUpdated" 
                             @click="updateCart" 
-                            class="btn btn-bordered grow"
+                            :disabled="!cart.isCartUpdated" 
                             :class="!cart.isCartUpdated ? 'opacity-30' : ''"
+                            class="btn btn-bordered grow"
                         >
                             Update cart
                         </button>

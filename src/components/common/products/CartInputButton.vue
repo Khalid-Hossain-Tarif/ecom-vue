@@ -23,7 +23,7 @@ defineProps({
             class="border border-grayLight rounded-l bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
             :class="fieldPadding"> -->
         <button 
-            @click="cart.removeItem(item.product)"
+            @click="cart.productCount('decrement', item.product)"
             class="border border-grayLight rounded-l bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
             :class="fieldPadding"
         >
@@ -45,7 +45,7 @@ defineProps({
             class="border border-grayLight rounded-r bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-success"
             :class="fieldPadding"> -->
         <button 
-            @click="cart.addItem(item.product)"
+            @click="cart.productCount('increment', item.product)"
             class="border border-grayLight rounded-l bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
             :class="fieldPadding"
         >
