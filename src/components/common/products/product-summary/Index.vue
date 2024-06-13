@@ -7,6 +7,8 @@ import StarRating from '@/components/common/products/rating/StarRating.vue';
 import { manageCategories } from "@/composables/getAllCategories";
 import { cart } from "@/store/cart/index"
 
+const { cartItems, productCount, emptyCart, updatePrices, addItem, deleteItem } = cart()
+
 const { filteredCategories } = manageCategories();
 
 const props = defineProps({
@@ -37,7 +39,7 @@ watch(() => filteredCategories.value, (newVal) => {
         </div>
 
         <div class="space-y-4 mt-7 md:mt-0">
-            {{ cart }}
+            {{ cartItems.items }}
             <StarRating />
             <h1 class="primary-heading">{{ product?.name }}</h1>
             <ProductPrice :regularPrice="product?.selling_price" :discountPrice="product?.discount_price" />
@@ -48,7 +50,7 @@ watch(() => filteredCategories.value, (newVal) => {
 
             <div class="flex gap-2 lg:gap-4 items-center flex-wrap">
                 <CartInputButton class="h-11" />
-                <button @click="cart.addItem(product)" class="btn btn-secondary h-11">Add to cart</button>
+                <button @click="addItem(product)" class="btn btn-secondary h-11">Add to cart</button>
                 <button
                     class="h-11 overflow-hidden border-2 border-grayLight rounded px-4 py-2.5 transition duration-300 hover:text-info group/btn">
                     <font-awesome-icon :icon="['far', 'heart']" class="group-hover/btn:animate-btnIconSlide" />

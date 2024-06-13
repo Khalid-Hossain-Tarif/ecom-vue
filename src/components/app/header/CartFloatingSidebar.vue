@@ -4,6 +4,8 @@ import SideNav from "@/components/common/SideNav.vue";
 import { cart } from "@/store/cart/index";
 import { ref } from 'vue';
 
+const { cartItems, productCount, emptyCart, updatePrices, addItem, deleteItem } = cart()
+
 const isCartPopup = ref(false);
 const getBody = document.getElementsByTagName('body')[0];
 
@@ -21,14 +23,14 @@ const cartPopupToggler = () => {
 <template>
     <button @click="cartPopupToggler" class="relative">
         <font-awesome-icon :icon="['fas', 'cart-plus']" />
-        <span class="count-number">{{ cart.totalCartItems }}</span>
+        <span class="count-number">{{ cartItems.totalCartItems }}</span>
     </button>
 
     <SideNav :isSideNavOpen="isCartPopup" :toggleSideNav="cartPopupToggler" sideNavWidth="w-full sm:w-[400px]"
         sideNavContentPadding="p-7 pr-5" toRight>
         <template #header>
             <div class="p-5 flex justify-between items-center border-b border-borderLight">
-                <h4 class="small-heading uppercase">Cart(0)</h4>
+                <h4 class="small-heading uppercase">Cart({{ cartItems.totalCartItems }})</h4>
                 <div class="flex items-center gap-3">
                     <button class="border-b uppercase text-xs font-medium hover:text-primary">Clear all</button>
                     <font-awesome-icon @click="cartPopupToggler" :icon="['far', 'circle-xmark']"

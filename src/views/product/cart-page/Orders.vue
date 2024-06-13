@@ -3,9 +3,11 @@ import CartInputButton from '@/components/common/products/CartInputButton.vue';
 import { cart } from "@/store/cart/index"
 import { printPrice } from "/utils/Helpers.js";
 
-const updateCart = () => {
-    cart.updatePrices();
-};
+const { cartItems, productCount, emptyCart, updatePrices, addItem, deleteItem } = cart()
+
+// const updateCart = () => {
+//     cart.updatePrices();
+// };
 </script>
 
 <template>
@@ -25,7 +27,7 @@ const updateCart = () => {
                     </thead>
 
                     <tbody>
-                        <tr v-for="item in cart.items" :key="index" class="relative">
+                        <tr v-for="item in cartItems.items" :key="item.product.id" class="relative">
                             <td data-title="Product" class="flex gap-3 items-center">
                                 <router-link 
                                     v-if="item.product.id"
@@ -51,6 +53,25 @@ const updateCart = () => {
                             <td data-title="Qty" class="res-heading text-center">
                                 <!-- <CartInputButton /> -->
                                 <CartInputButton :item="item" />
+
+
+                                <button 
+            @click="productCount('decrement', item.product)"
+            class="border border-grayLight rounded-l bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
+            :class="fieldPadding"
+        >
+            -
+        </button>
+ {{ item.quantity }}
+        <button 
+            @click="productCount('increment', item.product)"
+            class="border border-grayLight rounded-r bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
+            :class="fieldPadding"
+        >
+            +
+        </button>
+
+
                             </td>
 
                             <td data-title="Subtotal" class="res-heading text-center font-semibold text-textGray">
@@ -59,7 +80,7 @@ const updateCart = () => {
 
                             <td class="res-btn">
                                 <button
-                                    @click="cart.deleteItem(item.product)"
+                                    @click="deleteItem(item.product)"
                                     class="border border-borderLight hover:border-primary w-9 h-9 rounded-full text-[11px] text-primary">
                                     <font-awesome-icon :icon="['fas', 'x']" />
                                 </button>
@@ -78,17 +99,17 @@ const updateCart = () => {
 
                     <div class="flex items-center gap-2 xl:gap-4">
                         <button
-                            :disabled="cart.totalCartItems === 0" 
-                            @click="cart.emptyCart" 
+                            :disabled="totalCartItems === 0" 
+                            @click="emptyCart" 
                             class="btn btn-bordered grow"
-                            :class="cart.totalCartItems === 0 ? 'opacity-30' : ''"
+                            :class="totalCartItems === 0 ? 'opacity-30' : ''"
                         >
                             Empty cart
                         </button>
                         <button 
-                            @click="updateCart" 
-                            :disabled="!cart.isCartUpdated" 
-                            :class="!cart.isCartUpdated ? 'opacity-30' : ''"
+                            @click="updatePrices" 
+                            :disabled="!cartItems.isCartUpdated" 
+                            :class="!cartItems.isCartUpdated ? 'opacity-30' : ''"
                             class="btn btn-bordered grow"
                         >
                             Update cart
@@ -103,7 +124,7 @@ const updateCart = () => {
                     <tbody>
                         <tr>
                             <td class="min-w-[100px] xl:min-w-[120px]">Subtotal</td>
-                            <td>{{ printPrice(cart.subtotalPrice) }}</td>
+                            <td>{{ printPrice(cartItems.subtotalPrice) }}</td>
                         </tr>
                         <tr>
                             <td class="min-w-[100px] xl:min-w-[120px]">Shipping</td>
@@ -128,7 +149,7 @@ const updateCart = () => {
                         </tr>
                         <tr>
                             <td class="min-w-[100px] xl:min-w-[120px]">Total</td>
-                            <td class="!font-bold text-primary text-lg">{{ printPrice(cart.totalPrice) }}</td>
+                            <td class="!font-bold text-primary text-lg">{{ printPrice(cartItems.totalPrice) }}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -1,146 +1,120 @@
-import { reactive, computed, onMounted, onUnmounted } from "vue";  
+import { reactive, computed, onMounted, onUnmounted } from "vue";
 import toast from "../../../utils/Toaster.js";
 
 const { successToast, errorToast } = toast();
 
-const cart = reactive({
+export const cart = () => {
+  const cartItems = reactive({
     items: {},
     subtotalPrice: 0,
     totalPrice: 0,
     isCartUpdated: false,
+    // quantity: 0,
     totalCartItems: computed(() => {
         let total = 0;
-        for (let id in cart.items) {
-            total += cart.items[id].quantity
+        for (let id in cartItems.items) {
+            total += cartItems.items[id].quantity
         }
         return total
     }),
+  });
 
-    // addItem(product) {
-    //     if(this.items[product.id]) {
-    //         this.items[product.id].quantity++
-    //     } else {
-    //         this.items[product.id] = {
-    //             product,
-    //             quantity: 1
-    //         }
-    //     }
-    //     this.isCartUpdated = true;
-    //     this.saveCartInLocalStorage()
-    // },
+//   const totalCartItems = computed(() => {
+//     let total = 0;
+//     for (let id in cartItems.items) {
+//       total += cartItems.items[id].quantity;
+//     }
+//     return total;
+//   });
 
-
-    // removeItem(product){
-    //     if(this.items[product.id]) {
-    //         this.items[product.id].quantity--
-    //     } else {
-    //         this.items[product.id] = {
-    //             product,
-    //             quantity: 1
-    //         }
-    //     }
-    //     this.saveCartInLocalStorage()
-    // },
-    // removeItem(product) {
-    //     if (this.items[product.id]) {
-    //         this.items[product.id].quantity--;
-    //         if (this.items[product.id].quantity < 0) {
-    //             // delete this.items[product.id];
-    //             this.items[product.id] = {
-    //                 product,
-    //                 quantity: 0
-    //             }
-    //         }
-    //         this.isCartUpdated = true;
-    //         this.saveCartInLocalStorage();
-    //     }
-    // },
-
-    productCount(actionType, product) {
-        if(actionType === 'increment') {
-            if(this.items[product.id]) {
-                this.items[product.id].quantity++
-            } else {
-                this.items[product.id] = {
-                    product,
-                    quantity: 1
-                }
-            }
-        } else {
-            if (this.items[product.id]) {
-                this.items[product.id].quantity--;
-                if (this.items[product.id].quantity < 0) {
-                    // delete this.items[product.id];
-                    this.items[product.id] = {
-                        product,
-                        quantity: 0
-                    }
-                }
-            }
+  const productCount = (actionType, product) => {
+    if (actionType === "increment") {
+      
+      if (cartItems.items[product.id]) {
+        console.log(cartItems.items[product.id].quantity);
+        cartItems.items[product.id].quantity++;
+      } else {
+        cartItems.items[product.id] = {
+          product,
+          quantity: 1,
+        };
+      }
+    } else {
+      if (cartItems.items[product.id]) {
+        cartItems.items[product.id].quantity--;
+        if (cartItems.items[product.id].quantity < 0) {
+          cartItems.items[product.id] = {
+            product,
+            quantity: 0,
+          };
         }
-        this.isCartUpdated = true;
-        this.saveCartInLocalStorage()
-    },
-    emptyCart() {
-        this.items = {};
-        this.subtotalPrice = 0;
-        this.totalPrice = 0;
-        this.saveCartInLocalStorage();
-    },    
-    
-    // subtotalPrice: computed(() => {
-    //     let subtotal = 0;
-    //     for (let id in cart.items) {
-    //         subtotal += cart.items[id].product.selling_price * cart.items[id].quantity
-    //     }
-    //     return parseFloat(total.toFixed(2))
-    // }),
-    // totalPrice: computed(() => {
-    //     let total = 0;
-    //     for (let id in cart.items) {
-    //         total += cart.items[id].product.selling_price * cart.items[id].quantity
-    //     }
-    //     return parseFloat(total.toFixed(2))
-    // }),
-
-    updatePrices() {
-        let subtotal = 0;
-        for (let id in this.items) {
-            subtotal += this.items[id].product.selling_price * this.items[id].quantity;
-        }
-        this.subtotalPrice = parseFloat(subtotal.toFixed(2));
-        this.totalPrice = parseFloat(subtotal.toFixed(2));
-        this.isCartUpdated = false;
-    },
-    addItem(product) {
-        if(!this.items[product.id]) {
-            this.items[product.id] = {
-                product,
-                quantity: 1
-            }
-            this.isCartUpdated = true
-            this.updatePrices()
-            this.saveCartInLocalStorage()
-            successToast("This product added to the cart.")
-        }
-        else {
-            errorToast("This item is already added in the cart!")
-        }
-    },
-    deleteItem(product) {
-        delete this.items[product.id]
-        this.updatePrices()
-        this.saveCartInLocalStorage()
-    },
-    saveCartInLocalStorage(){
-        localStorage.setItem('cart', JSON.stringify(this.items))
-    },
-    getCartFromLocalStorage(){
-        this.items = JSON.parse(localStorage.getItem("cart")) || {}
-        this.updatePrices()
+      }
     }
-})
+    cartItems.isCartUpdated = true;
+    saveCartInLocalStorage();
+  };
 
-cart.getCartFromLocalStorage()
+  function emptyCart() {
+    cartItems.items = {};
+    cartItems.subtotalPrice = 0;
+    cartItems.totalPrice = 0;
+    saveCartInLocalStorage();
+  }
 
-export { cart }
+  function updatePrices() {
+    let subtotal = 0;
+    for (let id in cartItems.items) {
+      subtotal +=
+        cartItems.items[id].product.selling_price *
+        cartItems.items[id].quantity;
+    }
+    cartItems.subtotalPrice = parseFloat(subtotal.toFixed(2));
+    cartItems.totalPrice = parseFloat(subtotal.toFixed(2));
+    cartItems.isCartUpdated = false;
+  }
+
+  function addItem(product) {
+    if (!cartItems.items[product.id]) {
+      cartItems.items[product.id] = {
+        product,
+        quantity: 1,
+      };
+      cartItems.isCartUpdated = true;
+      updatePrices();
+      saveCartInLocalStorage();
+      successToast("This product added to the cart.");
+    } else {
+      errorToast("This item is already added in the cart!");
+    }
+  }
+
+  function deleteItem(product) {
+    delete cartItems.items[product.id];
+    updatePrices();
+    saveCartInLocalStorage();
+  }
+
+  function saveCartInLocalStorage() {
+    localStorage.setItem("cart", JSON.stringify(cartItems.items));
+  }
+
+  function getCartFromLocalStorage() {
+    cartItems.items = JSON.parse(localStorage.getItem("cart")) || {};
+    updatePrices();
+  }
+
+  getCartFromLocalStorage();
+
+  return {
+    cartItems,
+    productCount,
+    emptyCart,
+    updatePrices,
+    addItem,
+    deleteItem,
+  };
+};
+
+// cart.getCartFromLocalStorage()
+
+// export { cart }
