@@ -1,4 +1,4 @@
-import { reactive, computed, watch } from "vue";
+import { reactive, computed, onMounted, onUnmounted } from "vue";
 import toast from "../../../utils/Toaster.js";
 
 const { successToast, errorToast } = toast();
@@ -9,19 +9,20 @@ const cart = () => {
     subtotalPrice: 0,
     totalPrice: 0,
     isCartUpdated: false,
+    totalCartItems: computed(() => {
+        let total = 0;
+        for (let id in cartItems.items) {
+            total += cartItems.items[id].quantity
+        }
+        return total
+    }),
   });
 
-  const totalCartItems = computed(() => {
-    let total = 0;
-    for (let id in cartItems.items) {
-      total += cartItems.items[id].quantity;
-    }
-    return total;
-  });
-
-  function productCount(actionType, product) {
+  const productCount = (actionType, product) => {
     if (actionType === "increment") {
+      
       if (cartItems.items[product.id]) {
+        console.log(cartItems.items[product.id].quantity);
         cartItems.items[product.id].quantity++;
       } else {
         cartItems.items[product.id] = {
@@ -33,7 +34,6 @@ const cart = () => {
       if (cartItems.items[product.id]) {
         cartItems.items[product.id].quantity--;
         if (cartItems.items[product.id].quantity < 0) {
-          // delete cartItems.items[product.id];
           cartItems.items[product.id] = {
             product,
             quantity: 0,
@@ -41,10 +41,9 @@ const cart = () => {
         }
       }
     }
-
     cartItems.isCartUpdated = true;
     saveCartInLocalStorage();
-  }
+  };
 
   function emptyCart() {
     cartItems.items = {};
@@ -81,11 +80,9 @@ const cart = () => {
   }
 
   function deleteItem(product) {
-    if (cartItems.items[product.id]) {
-      delete cartItems.items[product.id];
-      updatePrices();
-      saveCartInLocalStorage();
-    }
+    delete cartItems.items[product.id];
+    updatePrices();
+    saveCartInLocalStorage();
   }
 
   function saveCartInLocalStorage() {
@@ -101,7 +98,6 @@ const cart = () => {
 
   return {
     cartItems,
-    totalCartItems,
     productCount,
     emptyCart,
     updatePrices,
@@ -110,4 +106,4 @@ const cart = () => {
   };
 };
 
-export { cart };
+export { cart }

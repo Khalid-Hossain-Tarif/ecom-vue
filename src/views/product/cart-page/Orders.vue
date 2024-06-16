@@ -1,13 +1,9 @@
 <script setup>
 import CartInputButton from '@/components/common/products/CartInputButton.vue';
-import { cart } from "@/store/cart/index"
+import { cart } from "@/store/cart/index";
 import { printPrice } from "/utils/Helpers.js";
 
-const { cartItems, productCount, emptyCart, updatePrices, addItem, deleteItem } = cart()
-
-// const updateCart = () => {
-//     cart.updatePrices();
-// };
+const { cartItems, productCount, emptyCart, updatePrices, addItem, deleteItem } = cart();
 </script>
 
 <template>
@@ -51,29 +47,23 @@ const { cartItems, productCount, emptyCart, updatePrices, addItem, deleteItem } 
                             </td>
 
                             <td data-title="Qty" class="res-heading text-center">
-                                <!-- <CartInputButton /> -->
-                                <CartInputButton :item="item" />
-
-
+                                <!-- <CartInputButton :item="item" />  -->
                                 <button 
-            @click="productCount('decrement', item.product)"
-            class="border border-grayLight rounded-l bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
-            :class="fieldPadding"
-        >
-            -
-        </button>
- {{ item.quantity }}
-        <button 
-            @click="productCount('increment', item.product)"
-            class="border border-grayLight rounded-r bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
-            :class="fieldPadding"
-        >
-            +
-        </button>
-
-
+                                    @click="productCount('decrement', item.product)"
+                                    class="border border-grayLight rounded-l bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
+                                    :class="fieldPadding"
+                                >
+                                    -
+                                </button>
+                                {{ item.quantity }}
+                                <button 
+                                    @click="productCount('increment', item.product)"
+                                    class="border border-grayLight rounded-r bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
+                                    :class="fieldPadding"
+                                >
+                                    +
+                                </button>
                             </td>
-
                             <td data-title="Subtotal" class="res-heading text-center font-semibold text-textGray">
                                 {{ printPrice(item.product.selling_price * item.quantity) }}
                             </td>
@@ -99,10 +89,10 @@ const { cartItems, productCount, emptyCart, updatePrices, addItem, deleteItem } 
 
                     <div class="flex items-center gap-2 xl:gap-4">
                         <button
-                            :disabled="totalCartItems === 0" 
+                            :disabled="cartItems.totalCartItems === 0" 
                             @click="emptyCart" 
                             class="btn btn-bordered grow"
-                            :class="totalCartItems === 0 ? 'opacity-30' : ''"
+                            :class="cartItems.totalCartItems === 0 ? 'opacity-30' : ''"
                         >
                             Empty cart
                         </button>
@@ -158,6 +148,7 @@ const { cartItems, productCount, emptyCart, updatePrices, addItem, deleteItem } 
         </div>
     </div>
 </template>
+
 
 <style scoped>
 table {

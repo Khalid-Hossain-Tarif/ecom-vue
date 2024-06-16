@@ -1,10 +1,9 @@
 <script setup>
-import { cart } from "@/store/cart/index"
-import {computed } from 'vue'
+import { cart } from "@/store/cart/index";
 
-const { cartItems, productCount, emptyCart, updatePrices, addItem, deleteItem } = cart()
+const { cartItems, productCount } = cart();
 
-const props = defineProps({
+defineProps({
     item: {
         type: Object,
         default: 'item'
@@ -17,18 +16,10 @@ const props = defineProps({
         default: 'py-2.5'
     },
 });
-
-// const item = toRef(props.item)
-const item = computed(() => props.item)
 </script>
 
 <template>
-    <!-- {{ item }} -->
-    <!-- {{cart.items}} -->
     <div :class="class">
-        <!-- <input type="button" value="-"
-            class="border border-grayLight rounded-l bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
-            :class="fieldPadding"> -->
         <button 
             @click="productCount('decrement', item.product)"
             class="border border-grayLight rounded-l bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
@@ -36,25 +27,7 @@ const item = computed(() => props.item)
         >
             -
         </button>
-        <!-- <input type="number" step="1" min="1" max="98" value="1" inputmode="numeric" autocomplete="off"
-            class="!w-[59px] !inline !rounded-none border border-grayLight text-base font-bold text-heading text-center"
-            :class="fieldPadding"> -->
-
-        <!-- <input 
-            type="number" step="1" min="1" 
-            :value="item.quantity" 
-            inputmode="numeric" autocomplete="off"
-            class="!w-[59px] !inline !rounded-none border border-grayLight text-base font-bold text-heading text-center"
-            :class="fieldPadding"
-        >     -->
-
         {{ item.quantity }}
-
-        <!-- {{ cartItems.items[item?.product?.id]?.quantity }} -->
-
-        <!-- <input type="button" value="+"
-            class="border border-grayLight rounded-r bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-success"
-            :class="fieldPadding"> -->
         <button 
             @click="productCount('increment', item.product)"
             class="border border-grayLight rounded-r bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
@@ -64,6 +37,7 @@ const item = computed(() => props.item)
         </button>
     </div>
 </template>
+
 
 <style scoped>
 input::-webkit-outer-spin-button,
