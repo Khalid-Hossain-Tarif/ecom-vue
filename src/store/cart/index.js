@@ -1,9 +1,11 @@
-import { reactive, computed, watch } from "vue";
+import { reactive, computed, inject } from "vue";
 import toast from "../../../utils/Toaster.js";
 
 const { successToast, errorToast } = toast();
 
 const cart = () => {
+  const loading = inject("loading");
+
   const cartItems = reactive({
     items: {},
     subtotalPrice: 0,
@@ -54,6 +56,7 @@ const cart = () => {
   }
 
   function updatePrices() {
+    loading(true);
     let subtotal = 0;
     for (let id in cartItems.items) {
       subtotal +=
@@ -63,6 +66,9 @@ const cart = () => {
     cartItems.subtotalPrice = parseFloat(subtotal.toFixed(2));
     cartItems.totalPrice = parseFloat(subtotal.toFixed(2));
     cartItems.isCartUpdated = false;
+    setTimeout(() => {
+      loading(false);
+    }, 1000);
   }
 
   function addItem(product) {

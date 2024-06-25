@@ -14,7 +14,7 @@ const { filteredCategories } = manageCategories();
 const props = defineProps({
     product: {
         type: Object,
-        default: {}
+        default: () => ({})
     },
 });
 

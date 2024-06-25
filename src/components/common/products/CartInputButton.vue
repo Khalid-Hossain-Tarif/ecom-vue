@@ -1,12 +1,13 @@
 <script setup>
-import { cart } from "@/store/cart/index";
-
-const { cartItems, productCount } = cart();
-
-defineProps({
+const props = defineProps({
     item: {
         type: Object,
-        default: 'item'
+        default: () => ({}),
+        required: true
+    },
+    productCount: {
+        type: Function,
+        required: true
     },
     class: {
         type: String
@@ -16,12 +17,24 @@ defineProps({
         default: 'py-2.5'
     },
 });
+
+const emit = defineEmits(['decrement', 'increment']);
+
+const handleDecrement = () => {
+    props.productCount('decrement', props.item.product);
+    emit('decrement', props.item.product);
+};
+
+const handleIncrement = () => {
+    props.productCount('increment', props.item.product);
+    emit('increment', props.item.product);
+};
 </script>
 
 <template>
     <div :class="class">
         <button 
-            @click="productCount('decrement', item.product)"
+            @click="handleDecrement"
             class="border border-grayLight rounded-l bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
             :class="fieldPadding"
         >
@@ -29,7 +42,7 @@ defineProps({
         </button>
         {{ item.quantity }}
         <button 
-            @click="productCount('increment', item.product)"
+            @click="handleIncrement"
             class="border border-grayLight rounded-r bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
             :class="fieldPadding"
         >
