@@ -2,6 +2,7 @@
 import CartInputButton from '@/components/common/products/CartInputButton.vue';
 import SideNav from "@/components/common/SideNav.vue";
 import { cart } from "@/store/cart/index";
+import router from "@/router/index.js";
 import { ref } from 'vue';
 
 const { cartItems, totalCartItems, productCount, emptyCart, updatePrices, addItem, deleteItem } = cart()
@@ -18,6 +19,11 @@ const cartPopupToggler = () => {
         getBody.style.overflow = 'auto';
     }
 };
+
+const goToCart = () => {
+    router.push({ name: 'cart' })
+    isCartPopup.value = false
+}
 </script>
 
 <template>
@@ -89,7 +95,7 @@ const cartPopupToggler = () => {
                     <p class="font-bold text-primary">$24.00</p>
                 </div>
                 <div class="mt-5 flex gap-2 justify-between">
-                    <router-link to="/cart" class="btn btn-bordered !px-1 flex-grow">View cart</router-link>
+                    <button @click="goToCart" class="btn btn-bordered !px-1 flex-grow">View cart</button>
                     <router-link to="/checkout" class="btn btn-primary !px-1 flex-grow">Proceed to checkout</router-link>
                 </div>
             </div>
