@@ -68,7 +68,7 @@ const cart = () => {
     cartItems.isCartUpdated = false;
     setTimeout(() => {
       loading(false);
-    }, 1000);
+    }, 500);
   }
 
   function addItem(product) {
@@ -77,13 +77,13 @@ const cart = () => {
         product,
         quantity: 1,
       };
-      cartItems.isCartUpdated = true;
-      updatePrices();
-      saveCartInLocalStorage();
       successToast("This product added to the cart.");
     } else {
-      errorToast("This item is already added in the cart!");
+      cartItems.items[product.id].quantity++;
     }
+    cartItems.isCartUpdated = true;
+    updatePrices();
+    saveCartInLocalStorage();
   }
 
   function deleteItem(product) {

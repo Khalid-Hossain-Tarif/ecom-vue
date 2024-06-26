@@ -39,7 +39,7 @@ watch(() => filteredCategories.value, (newVal) => {
         </div>
 
         <div class="space-y-4 mt-7 md:mt-0">
-            {{ cartItems.items }}
+            <!-- {{ cartItems.items }} -->
             <StarRating />
             <h1 class="primary-heading">{{ product?.name }}</h1>
             <ProductPrice :regularPrice="product?.selling_price" :discountPrice="product?.discount_price" />
