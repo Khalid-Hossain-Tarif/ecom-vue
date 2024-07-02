@@ -79,7 +79,8 @@ const cart = () => {
       };
       successToast("This product added to the cart.");
     } else {
-      cartItems.items[product.id].quantity++;
+      errorToast("This item is already added in the cart!");
+      // cartItems.items[product.id].quantity++;
     }
     cartItems.isCartUpdated = true;
     updatePrices();
