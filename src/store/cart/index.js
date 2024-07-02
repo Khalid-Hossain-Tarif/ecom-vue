@@ -72,11 +72,24 @@ const cart = () => {
   }
 
   function productAddToCartHandler(actionType) {
-    const itemCount = document.getElementById('item-count');
+    // const itemCount = document.getElementById('item-count');
     if (actionType === "increment") {
-      itemCount.innerText = parseInt(itemCount.innerText) + 1
+      // itemCount.innerText = parseInt(itemCount.innerText) + 1
+      if (cartItems.items[product.id]) {
+        cartItems.items[product.id].quantity++;
+      }
     } else {
-      itemCount.innerText < 1 ? itemCount.innerText = 0 : itemCount.innerText = parseInt(itemCount.innerText) - 1
+      // itemCount.innerText < 1 ? itemCount.innerText = 0 : itemCount.innerText = parseInt(itemCount.innerText) - 1
+      if (cartItems.items[product.id]) {
+        cartItems.items[product.id].quantity--;
+        if (cartItems.items[product.id].quantity < 0) {
+          // delete cartItems.items[product.id];
+          cartItems.items[product.id] = {
+            product,
+            quantity: 0,
+          };
+        }
+      }
     }
   }
 

@@ -51,21 +51,24 @@ watch(() => filteredCategories.value, (newVal) => {
             <div class="flex gap-2 lg:gap-4 items-center flex-wrap">
                 <div class="flex gap-x-3.5 items-center">
                     <button 
-                        @click="productAddToCartHandler('decrement')"
+                        @click="productCount('decrement')"
                         id="item-increment"
                         class="border border-grayLight rounded-l bg-grayLight h-11 px-4 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"   
                     >
                         -
                     </button>
-                       <span class="font-bold" id="item-count">1</span>
+                       <span class="font-bold" id="item-count">{{ product.quantity }}</span>
                     <button 
-                        @click="productAddToCartHandler('increment')"
+                        @click="productCount('increment', product)"
                         id="item-decrement"
                         class="border border-grayLight rounded-r bg-grayLight h-11 px-4 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
                     >
                         +
                     </button>
                 </div>
+
+                <CartInputButton :item="product" :productCount="productCount" />
+
                 <button @click="addItem(product)" class="btn btn-secondary h-11">Add to cart</button>
                 <button
                     class="h-11 overflow-hidden border-2 border-grayLight rounded px-4 py-2.5 transition duration-300 hover:text-info group/btn">
