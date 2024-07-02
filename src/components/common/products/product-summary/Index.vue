@@ -7,7 +7,7 @@ import StarRating from '@/components/common/products/rating/StarRating.vue';
 import { manageCategories } from "@/composables/getAllCategories";
 import { cart } from "@/store/cart/index"
 
-const { cartItems, productCount, emptyCart, updatePrices, addItem, deleteItem } = cart()
+const { cartItems, productCount, emptyCart, updatePrices, addItem, deleteItem, productAddToCartHandler } = cart()
 
 const { filteredCategories } = manageCategories();
 
@@ -39,7 +39,7 @@ watch(() => filteredCategories.value, (newVal) => {
         </div>
 
         <div class="space-y-4 mt-7 md:mt-0">
-            <!-- {{ cartItems.items }} -->
+            {{ product }}
             <StarRating />
             <h1 class="primary-heading">{{ product?.name }}</h1>
             <ProductPrice :regularPrice="product?.selling_price" :discountPrice="product?.discount_price" />
@@ -49,7 +49,23 @@ watch(() => filteredCategories.value, (newVal) => {
             <ProductPrice smallFontSize="!text-base" largeFontSize="!text-2xl" />
 
             <div class="flex gap-2 lg:gap-4 items-center flex-wrap">
-                <CartInputButton class="h-11" />
+                <div class="flex gap-x-3.5 items-center">
+                    <button 
+                        @click="productAddToCartHandler('decrement')"
+                        id="item-increment"
+                        class="border border-grayLight rounded-l bg-grayLight h-11 px-4 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"   
+                    >
+                        -
+                    </button>
+                       <span class="font-bold" id="item-count">1</span>
+                    <button 
+                        @click="productAddToCartHandler('increment')"
+                        id="item-decrement"
+                        class="border border-grayLight rounded-r bg-grayLight h-11 px-4 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
+                    >
+                        +
+                    </button>
+                </div>
                 <button @click="addItem(product)" class="btn btn-secondary h-11">Add to cart</button>
                 <button
                     class="h-11 overflow-hidden border-2 border-grayLight rounded px-4 py-2.5 transition duration-300 hover:text-info group/btn">

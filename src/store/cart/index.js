@@ -71,6 +71,15 @@ const cart = () => {
     }, 500);
   }
 
+  function productAddToCartHandler(actionType) {
+    const itemCount = document.getElementById('item-count');
+    if (actionType === "increment") {
+      itemCount.innerText = parseInt(itemCount.innerText) + 1
+    } else {
+      itemCount.innerText < 1 ? itemCount.innerText = 0 : itemCount.innerText = parseInt(itemCount.innerText) - 1
+    }
+  }
+
   function addItem(product) {
     if (!cartItems.items[product.id]) {
       cartItems.items[product.id] = {
@@ -79,7 +88,7 @@ const cart = () => {
       };
       successToast("This product added to the cart.");
     } else {
-      errorToast("This item is already added in the cart!");
+      errorToast("This product is already added in the cart!");
       // cartItems.items[product.id].quantity++;
     }
     cartItems.isCartUpdated = true;
@@ -114,6 +123,7 @@ const cart = () => {
     updatePrices,
     addItem,
     deleteItem,
+    productAddToCartHandler
   };
 };
 
