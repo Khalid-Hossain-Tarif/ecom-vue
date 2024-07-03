@@ -39,7 +39,7 @@ watch(() => filteredCategories.value, (newVal) => {
         </div>
 
         <div class="space-y-4 mt-7 md:mt-0">
-            {{ product }}
+            <!-- {{ product }} -->
             <StarRating />
             <h1 class="primary-heading">{{ product?.name }}</h1>
             <ProductPrice :regularPrice="product?.selling_price" :discountPrice="product?.discount_price" />
@@ -51,15 +51,16 @@ watch(() => filteredCategories.value, (newVal) => {
             <div class="flex gap-2 lg:gap-4 items-center flex-wrap">
                 <div class="flex gap-x-3.5 items-center">
                     <button 
-                        @click="productCount('decrement')"
+                        @click="productAddToCartHandler('decrement')"
                         id="item-increment"
                         class="border border-grayLight rounded-l bg-grayLight h-11 px-4 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"   
                     >
                         -
                     </button>
-                       <span class="font-bold" id="item-count">{{ product.quantity }}</span>
+                       <!-- <span class="font-bold" v-for="item in cartItems.items">{{ item.quantity }}</span> -->
+                       <span class="font-bold">{{ cartItems.itemCount }}</span>
                     <button 
-                        @click="productCount('increment', product)"
+                        @click="productAddToCartHandler('increment')"
                         id="item-decrement"
                         class="border border-grayLight rounded-r bg-grayLight h-11 px-4 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
                     >
@@ -67,7 +68,7 @@ watch(() => filteredCategories.value, (newVal) => {
                     </button>
                 </div>
 
-                <CartInputButton :item="product" :productCount="productCount" />
+                <!-- <CartInputButton :item="product" :productCount="productCount" /> -->
 
                 <button @click="addItem(product)" class="btn btn-secondary h-11">Add to cart</button>
                 <button
