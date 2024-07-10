@@ -73,28 +73,6 @@ const cart = () => {
     }, 500);
   }
 
-  // function productAddToCartHandler(actionType) {
-  //   var itemCount = document.getElementById('item-count');
-  //   if (actionType === "increment") {
-  //     itemCount.innerHTML = parseInt(itemCount.innerHTML) + 1
-  //     // if (cartItems.items[product.id]) {
-  //     //   cartItems.items[product.id].quantity++;
-  //     // }
-  //   } else {
-  //     itemCount.innerHTML > 1 ? itemCount.innerHTML = parseInt(itemCount.innerHTML) - 1 : itemCount.innerHTML = 1
-  //     // if (cartItems.items[product.id]) {
-  //     //   cartItems.items[product.id].quantity--;
-  //     //   if (cartItems.items[product.id].quantity < 0) {
-  //     //     // delete cartItems.items[product.id];
-  //     //     cartItems.items[product.id] = {
-  //     //       product,
-  //     //       quantity: 0,
-  //     //     };
-  //     //   }
-  //     // }
-  //   }
-  // }
-
   function productAddToCartHandler(actionType) {
     if (actionType === "increment") {
       cartItems.itemCount = cartItems.itemCount + 1

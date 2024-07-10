@@ -39,7 +39,6 @@ watch(() => filteredCategories.value, (newVal) => {
         </div>
 
         <div class="space-y-4 mt-7 md:mt-0">
-            <!-- {{ product }} -->
             <StarRating />
             <h1 class="primary-heading">{{ product?.name }}</h1>
             <ProductPrice :regularPrice="product?.selling_price" :discountPrice="product?.discount_price" />
@@ -57,8 +56,7 @@ watch(() => filteredCategories.value, (newVal) => {
                     >
                         -
                     </button>
-                       <!-- <span class="font-bold" v-for="item in cartItems.items">{{ item.quantity }}</span> -->
-                       <span class="font-bold">{{ cartItems.itemCount }}</span>
+                        <span class="font-bold">{{ cartItems.itemCount }}</span>
                     <button 
                         @click="productAddToCartHandler('increment')"
                         id="item-decrement"
@@ -67,8 +65,6 @@ watch(() => filteredCategories.value, (newVal) => {
                         +
                     </button>
                 </div>
-
-                <!-- <CartInputButton :item="product" :productCount="productCount" /> -->
 
                 <button @click="addItem(product)" class="btn btn-secondary h-11">Add to cart</button>
                 <button
