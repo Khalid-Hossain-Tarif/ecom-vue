@@ -1,7 +1,7 @@
 import { reactive, computed, inject } from "vue";
 import toast from "../../../utils/Toaster.js";
 
-const { successToast, errorToast } = toast();
+const { successToast } = toast();
 
 const cart = () => {
   const loading = inject("loading");

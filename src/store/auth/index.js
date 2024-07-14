@@ -113,6 +113,10 @@ const authStore = reactive({
     infoToast("You are logout.");
     router.push("/login");
   },
+
+  getUserToken() {
+    return authStore.user.token
+  }
 });
 
 export { authStore };
