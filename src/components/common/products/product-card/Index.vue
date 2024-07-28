@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onUnmounted } from 'vue';
+import { ref, onUnmounted, onBeforeMount } from 'vue';
 import Modal from '@/components/ui/modal/Index.vue';
 import ProductLabel from '@/components/common/products/ProductLabel.vue';
 import ProductPrice from '@/components/common/products/ProductPrice.vue';
@@ -29,6 +29,10 @@ const productModalToggler = () => {
 onUnmounted(() => {
     getBody.style.overflow = 'auto';
 })
+
+// onBeforeMount(() => {
+//     wishlist.fetchWishList()
+// })
 </script>
 
 <template>
