@@ -7,12 +7,15 @@ import StarRating from '@/components/common/products/rating/StarRating.vue';
 import ProductSummary from '@/components/common/products/product-summary/Index.vue';
 import { wishlist } from '@/store/wishlist';
 
+const { loadWishlist, isWishListed, toggleWishlist } = wishlist()
+
 defineProps({
     product: {
         type: Object,
-        default: 'product'
+        default: () => ({})
     }
 })
+
 
 const isProductModal = ref(false);
 const getBody = document.getElementsByTagName('body')[0];
@@ -30,14 +33,13 @@ onUnmounted(() => {
     getBody.style.overflow = 'auto';
 })
 
-// onBeforeMount(() => {
-//     wishlist.fetchWishList()
-// })
+onBeforeMount(() => {
+    loadWishlist()
+})
 </script>
 
 <template>
     <div class="relative border border-grayLight rounded group transition duration-300">
-        {{ wishlist.items }}
         <div class="product-card-img">
             <router-link v-if="product?.id" :to="{ name: 'singleProduct', params: { id: product?.id } }">
                 <!-- <img src="@/assets/images/home/top-sales/demo-product-img.png" alt=""> -->
@@ -47,10 +49,14 @@ onUnmounted(() => {
             <div class="action-buttons">
                 <div class="flex items-center justify-center">
                     <button 
-                        @click="wishlist.toggleWishlist(product)"
+                        @click="toggleWishlist(product)"
                         class="overflow-hidden bg-white px-4 py-2 transition duration-300 group/btn"
                     >
-                        <font-awesome-icon :icon="['far', 'heart']" class="group-hover/btn:animate-btnIconSlide" />
+                        <font-awesome-icon 
+                            :icon="[isWishListed(product) ? 'fas' : 'far', 'heart']" 
+                            :class="isWishListed(product) ? 'text-primary' : ''"
+                            class="group-hover/btn:animate-btnIconSlide"
+                        />
                     </button>
                     <button class="overflow-hidden bg-primary text-white px-4 py-2 grow transition duration-300 group/btn">
                         <font-awesome-icon :icon="['fas', 'cart-plus']" class="group-hover/btn:animate-btnIconSlide" />
