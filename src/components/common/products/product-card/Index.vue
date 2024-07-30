@@ -7,7 +7,7 @@ import StarRating from '@/components/common/products/rating/StarRating.vue';
 import ProductSummary from '@/components/common/products/product-summary/Index.vue';
 import { wishlist } from '@/store/wishlist';
 
-const { loadWishlist, isWishListed, toggleWishlist } = wishlist()
+const { isWishListed, toggleWishlist, fetchWishlist } = wishlist()
 
 defineProps({
     product: {
@@ -33,9 +33,7 @@ onUnmounted(() => {
     getBody.style.overflow = 'auto';
 })
 
-onBeforeMount(() => {
-    loadWishlist()
-})
+fetchWishlist()
 </script>
 
 <template>
