@@ -1,105 +1,69 @@
-import { reactive } from "vue";
+import { reactive, toRefs } from "vue";
+import axios from "axios";
 import toast from "../../../utils/Toaster.js";
 import { apiBaseUrl } from "@/composables/baseApiUrl.js";
 import { authStore } from "../auth/index.js";
 
 const { successToast, errorToast } = toast();
 
-const state = reactive({
-  wishlistItems: [],
-});
+const useWishlist = () => {
+  const state = reactive({
+    wishlistItems: [],
+    wishlistCount: 0,
+    loading: false,
+  });
 
-const wishlist = () => {
-  
-  function clearWishlist() {
-    state.wishlistItems = [];
-  }
+  const apiUrl = `${apiBaseUrl}/wishlist`;
+  const token = authStore.getUserToken();
 
-  function isWishListed(product) {
-    return state.wishlistItems.includes(product?.id);
-  }
-
-  async function toggleWishlist(product) {
-    const token = authStore.getUserToken();
-    if (!token) {
-      errorToast("Login first to add wishlist!");
-      return;
-    }
-    let apiUrl = apiBaseUrl + "/wishlist";
-    let method = "POST";
-    let payload = {
-      product_id: product.id,
-    };
-
-    if (!isWishListed(product)) {
-      state.wishlistItems.push(product.id);
-    } else {
-      state.wishlistItems = state.wishlistItems.filter(
-        (id) => id != product.id
-      );
-      apiUrl = apiBaseUrl + `/wishlist/${product.id}`;
-      method = "DELETE";
-      payload = {};
-    }
-
+  const fetchWishlist = async () => {
+    state.loading = true;
     try {
-      const response = await fetch(apiUrl, {
-        method: method,
+      const response = await axios.get(apiUrl, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
         },
-        body: method === "POST" ? JSON.stringify(payload) : undefined,
       });
+      state.wishlistItems = Array.isArray(response.data) ? response.data : [];
+      state.wishlistCount = state.wishlistItems.length;
+    } catch (error) {
+      errorToast("Failed to fetch wishlist items");
+    } finally {
+      state.loading = false;
+    }
+  };
 
-      if (!response.ok) {
-        throw new Error("Network response wasn't ok");
-      }
-
-      if (method === "POST") {
-        successToast("Added to wishlist!");
+  const toggleWishlist = async (item) => {
+    const itemExists = state.wishlistItems.find(wishlistItem => wishlistItem.id === item.id);
+    try {
+      if (itemExists) {
+        await axios.delete(`${apiUrl}/${item.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        successToast("Item removed from wishlist");
       } else {
-        errorToast("Removed from wishlist!");
+        await axios.post(apiUrl, item, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        successToast("Item added to wishlist");
       }
+      await fetchWishlist();
     } catch (error) {
-      console.log("Error toggling wishlist", error);
+      errorToast("Failed to update wishlist");
     }
-  }
-
-  async function fetchWishlist() {
-    const apiUrl = apiBaseUrl + "/wishlist";
-    const token = authStore.getUserToken();
-    if (!token) {
-      clearWishlist();
-      return;
-    }
-    try {
-      const response = await fetch(apiUrl, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response wasn't ok");
-      }
-
-      const wishListData = await response.json();
-      state.wishlistItems = wishListData.wishlist;
-      console.log(state.wishlistItems)
-    } catch (error) {
-      console.log("Error fetching wishlist", error);
-    }
-  }
+  };
 
   return {
-    clearWishlist,
-    isWishListed,
-    toggleWishlist,
+    ...toRefs(state),
     fetchWishlist,
+    toggleWishlist,
   };
 };
 
-export { state, wishlist };
+export default useWishlist;

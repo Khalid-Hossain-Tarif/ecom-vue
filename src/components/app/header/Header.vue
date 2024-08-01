@@ -3,7 +3,9 @@ import ShopByCategoriesMenu from "@/components/app/header/ShopByCategoriesMenu.v
 import ProfileMenu from "@/components/app/header/ProfileMenu.vue";
 import PrimaryMenu from "@/components/app/header/PrimaryMenu.vue";
 import CartFloatingSidebar from "@/components/app/header/CartFloatingSidebar.vue";
-import { state } from '@/store/wishlist';
+import useWishlist from '@/store/wishlist';
+
+const { wishlistCount, fetchWishlist, toggleWishlist } = useWishlist();
 </script>
 
 <template>
@@ -30,7 +32,7 @@ import { state } from '@/store/wishlist';
             <li>
               <router-link to="/wishlist" class="relative">
                 <font-awesome-icon :icon="['far', 'heart']" />
-                <span class="count-number">{{ state.wishlistItems.length }}</span>
+                <span class="count-number">{{ wishlistCount }}</span>
               </router-link>
             </li>
             <li>

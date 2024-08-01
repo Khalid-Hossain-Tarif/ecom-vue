@@ -1,13 +1,21 @@
 <script setup>
-import { ref, onUnmounted, onBeforeMount } from 'vue';
+import { ref, onUnmounted, onMounted } from 'vue';
 import Modal from '@/components/ui/modal/Index.vue';
 import ProductLabel from '@/components/common/products/ProductLabel.vue';
 import ProductPrice from '@/components/common/products/ProductPrice.vue';
 import StarRating from '@/components/common/products/rating/StarRating.vue';
 import ProductSummary from '@/components/common/products/product-summary/Index.vue';
-import { wishlist } from '@/store/wishlist';
+import useWishlist from '@/store/wishlist';
 
-const { isWishListed, toggleWishlist, fetchWishlist } = wishlist()
+const { wishlistCount, fetchWishlist, toggleWishlist } = useWishlist();
+
+const toggleWishlistHandler = (product) => {
+      toggleWishlist(product);
+    };
+
+    onMounted(() => {
+      fetchWishlist();
+    });
 
 defineProps({
     product: {
@@ -32,13 +40,12 @@ const productModalToggler = () => {
 onUnmounted(() => {
     getBody.style.overflow = 'auto';
 })
-
-fetchWishlist()
 </script>
 
 <template>
     <div class="relative border border-grayLight rounded group transition duration-300">
         <div class="product-card-img">
+            {{ wishlistCount  }}
             <router-link v-if="product?.id" :to="{ name: 'singleProduct', params: { id: product?.id } }">
                 <!-- <img src="@/assets/images/home/top-sales/demo-product-img.png" alt=""> -->
                 <img :src="product?.thumbnail" alt="">
@@ -46,17 +53,14 @@ fetchWishlist()
 
             <div class="action-buttons">
                 <div class="flex items-center justify-center">
-                    <button 
-                        @click="toggleWishlist(product)"
-                        class="overflow-hidden bg-white px-4 py-2 transition duration-300 group/btn"
-                    >
-                        <font-awesome-icon 
-                            :icon="[isWishListed(product) ? 'fas' : 'far', 'heart']" 
-                            :class="isWishListed(product) ? 'text-primary' : ''"
-                            class="group-hover/btn:animate-btnIconSlide"
-                        />
+                    <button @click="toggleWishlistHandler(product)"
+                        class="overflow-hidden bg-white px-4 py-2 transition duration-300 group/btn">
+                        <font-awesome-icon :icon="['far', 'heart']"
+                            
+                            class="group-hover/btn:animate-btnIconSlide" />
                     </button>
-                    <button class="overflow-hidden bg-primary text-white px-4 py-2 grow transition duration-300 group/btn">
+                    <button
+                        class="overflow-hidden bg-primary text-white px-4 py-2 grow transition duration-300 group/btn">
                         <font-awesome-icon :icon="['fas', 'cart-plus']" class="group-hover/btn:animate-btnIconSlide" />
                     </button>
                     <button @click="productModalToggler"
@@ -65,9 +69,7 @@ fetchWishlist()
                     </button>
                 </div>
             </div>
-            <ProductLabel 
-                :label="product?.trendy"
-            />
+            <ProductLabel :label="product?.trendy" />
         </div>
 
         <div class="p-4">
@@ -79,10 +81,7 @@ fetchWishlist()
             <div class="mt-2 mb-3">
                 <StarRating />
             </div>
-            <ProductPrice 
-                :regularPrice="product?.selling_price" 
-                :discountPrice="product?.discount_price"
-            />
+            <ProductPrice :regularPrice="product?.selling_price" :discountPrice="product?.discount_price" />
         </div>
     </div>
 
