@@ -5,94 +5,9 @@ import ProductLabel from '@/components/common/products/ProductLabel.vue';
 import ProductPrice from '@/components/common/products/ProductPrice.vue';
 import StarRating from '@/components/common/products/rating/StarRating.vue';
 import ProductSummary from '@/components/common/products/product-summary/Index.vue';
-import axios from "axios";
-import { authStore } from "@/store/auth/index.js";
-import { apiBaseUrl } from "@/composables/baseApiUrl.js";
-import toast from "/utils/Toaster.js";
+import { wishlistItems, useWishlist } from '@/store/wishlist';
 
-const { successToast, errorToast } = toast();
-const token = authStore.getUserToken();
-const wishlistItems = ref([]);
-console.log(token)
-
-async function fetchWishList() {
-    const apiUrl = apiBaseUrl + "/wishlist";
-
-    if (!token) {
-        return;
-    }
-
-    try {
-        const response = await fetch(apiUrl, {
-            method: "GET",
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'Application/json'
-            }
-        })
-
-        if (!response.ok) {
-            throw new Error("Network response wasn't ok")
-        }
-
-        const wishListData = await response.json();
-        wishlistItems.value = wishListData.wishlist || [];
-    }
-
-    catch (error) {
-        console.log('Error fetching wishlist', error)
-    }
-}
-
-fetchWishList()
-
-function isWishListed(product) {
-    return wishlistItems.value.includes(product.id);
-}
-
-async function toggleWishlist(product) {
-    let apiUrl = apiBaseUrl + "/wishlist";
-    let method = "POST";
-    let payload = {
-        product_id: product.id,
-    };
-
-    if (!isWishListed(product)) {
-        wishlistItems.value = [...wishlistItems.value, product.id];
-    } else {
-        wishlistItems.value = wishlistItems.value.filter(
-            id => id !== product.id
-        );
-        apiUrl = apiBaseUrl + `/wishlist/${product.id}`;
-        method = "DELETE";
-        payload = {};
-    }
-
-    if (!token) {
-        return
-    }
-    try {
-        const response = await fetch(apiUrl, {
-            method: method,
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "Application/json",
-            },
-            body: method === "POST" ? JSON.stringify(payload) : undefined,
-        });
-        if (!response.ok) {
-            throw new Error("Network response wasn't ok");
-        }
-
-        if (method === "POST") {
-            successToast("Added to wishlist!");
-        } else {
-            errorToast("Removed from wishlist!");
-        }
-    } catch (error) {
-        console.log("Error toggling wishlist", error);
-    }
-}
+const { toggleWishlist } = useWishlist();
 
 defineProps({
     product: {
@@ -122,7 +37,7 @@ onUnmounted(() => {
 <template>
     <div class="relative border border-grayLight rounded group transition duration-300">
         <div class="product-card-img">
-            {{ wishlistItems }} - {{ Object.keys(wishlistItems).length }}
+            {{ wishlistItems }} - {{ wishlistItems.length }}
             <router-link v-if="product?.id" :to="{ name: 'singleProduct', params: { id: product?.id } }">
                 <!-- <img src="@/assets/images/home/top-sales/demo-product-img.png" alt=""> -->
                 <img :src="product?.thumbnail" alt="">
