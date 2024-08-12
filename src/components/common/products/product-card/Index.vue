@@ -1,21 +1,98 @@
 <script setup>
-import { ref, onUnmounted, onMounted } from 'vue';
+import { ref, reactive, onUnmounted, onMounted, onBeforeMount } from 'vue';
 import Modal from '@/components/ui/modal/Index.vue';
 import ProductLabel from '@/components/common/products/ProductLabel.vue';
 import ProductPrice from '@/components/common/products/ProductPrice.vue';
 import StarRating from '@/components/common/products/rating/StarRating.vue';
 import ProductSummary from '@/components/common/products/product-summary/Index.vue';
-import useWishlist from '@/store/wishlist';
+import axios from "axios";
+import { authStore } from "@/store/auth/index.js";
+import { apiBaseUrl } from "@/composables/baseApiUrl.js";
+import toast from "/utils/Toaster.js";
 
-const { wishlistCount, fetchWishlist, toggleWishlist } = useWishlist();
+const { successToast, errorToast } = toast();
+const token = authStore.getUserToken();
+const wishlistItems = ref([]);
+console.log(token)
 
-const toggleWishlistHandler = (product) => {
-      toggleWishlist(product);
+async function fetchWishList() {
+    const apiUrl = apiBaseUrl + "/wishlist";
+
+    if (!token) {
+        return;
+    }
+
+    try {
+        const response = await fetch(apiUrl, {
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'Application/json'
+            }
+        })
+
+        if (!response.ok) {
+            throw new Error("Network response wasn't ok")
+        }
+
+        const wishListData = await response.json();
+        wishlistItems.value = wishListData.wishlist || [];
+    }
+
+    catch (error) {
+        console.log('Error fetching wishlist', error)
+    }
+}
+
+fetchWishList()
+
+function isWishListed(product) {
+    return wishlistItems.value.includes(product.id);
+}
+
+async function toggleWishlist(product) {
+    let apiUrl = apiBaseUrl + "/wishlist";
+    let method = "POST";
+    let payload = {
+        product_id: product.id,
     };
 
-    onMounted(() => {
-      fetchWishlist();
-    });
+    if (!isWishListed(product)) {
+        wishlistItems.value = [...wishlistItems.value, product.id];
+    } else {
+        wishlistItems.value = wishlistItems.value.filter(
+            id => id !== product.id
+        );
+        apiUrl = apiBaseUrl + `/wishlist/${product.id}`;
+        method = "DELETE";
+        payload = {};
+    }
+
+    if (!token) {
+        return
+    }
+    try {
+        const response = await fetch(apiUrl, {
+            method: method,
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "Application/json",
+            },
+            body: method === "POST" ? JSON.stringify(payload) : undefined,
+        });
+        if (!response.ok) {
+            throw new Error("Network response wasn't ok");
+        }
+
+        if (method === "POST") {
+            successToast("Added to wishlist!");
+        } else {
+            errorToast("Removed from wishlist!");
+        }
+    } catch (error) {
+        console.log("Error toggling wishlist", error);
+    }
+}
 
 defineProps({
     product: {
@@ -45,7 +122,7 @@ onUnmounted(() => {
 <template>
     <div class="relative border border-grayLight rounded group transition duration-300">
         <div class="product-card-img">
-            {{ wishlistCount  }}
+            {{ wishlistItems }} - {{ Object.keys(wishlistItems).length }}
             <router-link v-if="product?.id" :to="{ name: 'singleProduct', params: { id: product?.id } }">
                 <!-- <img src="@/assets/images/home/top-sales/demo-product-img.png" alt=""> -->
                 <img :src="product?.thumbnail" alt="">
@@ -53,11 +130,9 @@ onUnmounted(() => {
 
             <div class="action-buttons">
                 <div class="flex items-center justify-center">
-                    <button @click="toggleWishlistHandler(product)"
+                    <button @click="toggleWishlist(product)"
                         class="overflow-hidden bg-white px-4 py-2 transition duration-300 group/btn">
-                        <font-awesome-icon :icon="['far', 'heart']"
-                            
-                            class="group-hover/btn:animate-btnIconSlide" />
+                        <font-awesome-icon :icon="['far', 'heart']" class="group-hover/btn:animate-btnIconSlide" />
                     </button>
                     <button
                         class="overflow-hidden bg-primary text-white px-4 py-2 grow transition duration-300 group/btn">
