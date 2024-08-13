@@ -5,7 +5,7 @@ function toast() {
 
   const defaultOptions = {
     position: "bottom-right",
-    timeout: 5000,
+    timeout: 3000,
     closeOnClick: true,
     pauseOnFocusLoss: true,
     pauseOnHover: true,

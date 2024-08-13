@@ -7,7 +7,7 @@ import StarRating from '@/components/common/products/rating/StarRating.vue';
 import ProductSummary from '@/components/common/products/product-summary/Index.vue';
 import { wishlistItems, useWishlist } from '@/store/wishlist';
 
-const { toggleWishlist } = useWishlist();
+const { toggleWishlist, getWishlistIcon } = useWishlist();
 
 defineProps({
     product: {
@@ -47,7 +47,7 @@ onUnmounted(() => {
                 <div class="flex items-center justify-center">
                     <button @click="toggleWishlist(product)"
                         class="overflow-hidden bg-white px-4 py-2 transition duration-300 group/btn">
-                        <font-awesome-icon :icon="['far', 'heart']" class="group-hover/btn:animate-btnIconSlide" />
+                        <font-awesome-icon :icon="getWishlistIcon(product)" class="group-hover/btn:animate-btnIconSlide" />
                     </button>
                     <button
                         class="overflow-hidden bg-primary text-white px-4 py-2 grow transition duration-300 group/btn">
