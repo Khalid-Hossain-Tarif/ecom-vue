@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onUnmounted, onMounted, onBeforeMount } from 'vue';
+import { ref, onUnmounted } from 'vue';
 import Modal from '@/components/ui/modal/Index.vue';
 import ProductLabel from '@/components/common/products/ProductLabel.vue';
 import ProductPrice from '@/components/common/products/ProductPrice.vue';
@@ -15,7 +15,6 @@ defineProps({
         default: () => ({})
     }
 })
-
 
 const isProductModal = ref(false);
 const getBody = document.getElementsByTagName('body')[0];

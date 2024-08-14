@@ -112,7 +112,6 @@ const authStore = reactive({
     delete axios.defaults.headers.common['Authorization'];
     cart.items = {};
     emptyWishlist()
-    console.log('---', wishlistItems.value)
     // wishlistItems = null
     // console.log('---', wishlistItems)
     // cart.totalPrice = 0; //getting error - check console
@@ -122,7 +121,8 @@ const authStore = reactive({
   },
 
   getUserToken() {
-    return authStore.user.token
+    const userToken = JSON.parse(localStorage.getItem("user"))?.token;
+    return userToken;
   }
 });
 

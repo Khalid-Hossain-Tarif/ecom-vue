@@ -1,10 +1,17 @@
 <script setup>
-import { manageProducts } from "@/composables/getAllProducts";
+import { onMounted } from 'vue';
 import ProductCard from '@/components/common/products/product-card/Index.vue';
 import DataNotFound from "@/components/common/not-found/dataNotFound.vue";
 import { authStore } from "@/store/auth/index";
+import { manageProducts } from "@/composables/getAllProducts";
+import { useWishlist } from '@/store/wishlist';
 
 const { todayDealProducts } = manageProducts();
+const { fetchWishList } = useWishlist();
+
+onMounted(() => {
+  fetchWishList()
+})
 </script>
 
 <template>
