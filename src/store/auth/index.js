@@ -79,6 +79,7 @@ const authStore = reactive({
             email: res.data.email,
             name: res.data.name
           };
+          authStore.user = userData;
           authStore.isAuthenticated = true;
           localStorage.setItem('user', JSON.stringify(userData));
           axios.defaults.headers.common['Authorization'] = `Bearer ${userData.token}`;
@@ -118,10 +119,13 @@ const authStore = reactive({
     router.push("/login");
   },
 
-  getUserToken() {
-    const userToken = JSON.parse(localStorage.getItem("user"))?.token;
-    return userToken;
-  }
+  // getUserToken() {
+  //   // const userToken = JSON.parse(localStorage.getItem("user"))?.token;
+  //   // return userToken;
+  //   const userToken = authStore.user?.token
+  //   console.log('...', userToken)
+  //   return userToken
+  // }
 });
 
 export { authStore };

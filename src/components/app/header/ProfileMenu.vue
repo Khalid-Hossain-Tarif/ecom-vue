@@ -1,14 +1,22 @@
 <script setup>
 import { authStore } from "@/store/auth/index";
+import router from "@/router/index.js";
 
 const auth = authStore;
+function handleLoginClick(e) {
+  if (auth.isAuthenticated) {
+    e.preventDefault();
+  } else {
+    router.push({ name: 'login' })
+  }
+}
 </script>
 
 <template>
   <li class="menu-hover relative">
-    <router-link to="/login" class="inline-block">
-      <font-awesome-icon :icon="['fas', 'user']"/>
-    </router-link>
+    <div class="inline-block cursor-pointer" @click.prevent="handleLoginClick">
+      <font-awesome-icon :icon="['fas', 'user']" />
+    </div>
 
     <nav class="menu-items">
       <ul class="bg-white rounded px-5 border border-borderLight shadow-2xl">

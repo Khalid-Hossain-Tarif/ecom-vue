@@ -13,7 +13,7 @@ function emptyWishlist() {
 
 const useWishlist = () => {
   const loading = inject("loading");
-  const token = authStore.getUserToken();
+  const token = authStore.user?.token;
   const isLogin = authStore.isAuthenticated;
 
   function isWishListed(product) {
@@ -21,7 +21,7 @@ const useWishlist = () => {
   }
 
   async function toggleWishlist(product) {
-    if (!token) {
+    if (!token || !isLogin) {
       errorToast("Login first to add wishlist!");
       return;
     }
@@ -66,7 +66,7 @@ const useWishlist = () => {
   }
 
   async function fetchWishList() {
-    if (!token) {
+    if (!token || !isLogin) {
       return;
     }
 
