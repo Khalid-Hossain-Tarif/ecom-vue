@@ -4,7 +4,7 @@ import { apiBaseUrl } from "@/composables/baseApiUrl.js";
 import router from "../../router/index.js";
 import toast from "../../../utils/Toaster.js";
 import { cart } from "@/store/cart/index";
-import { emptyWishlist, wishlistItems } from '@/store/wishlist';
+import { emptyWishlist } from '@/store/wishlist';
 
 const { infoToast, successToast, errorToast } = toast();
 const authStore = reactive({
@@ -112,8 +112,6 @@ const authStore = reactive({
     delete axios.defaults.headers.common['Authorization'];
     cart.items = {};
     emptyWishlist()
-    // wishlistItems = null
-    // console.log('---', wishlistItems)
     // cart.totalPrice = 0; //getting error - check console
     // cart.saveCartInLocalStorage();
     infoToast("You are logout.");

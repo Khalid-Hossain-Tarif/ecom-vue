@@ -13,15 +13,15 @@ function emptyWishlist() {
 
 const useWishlist = () => {
   const loading = inject("loading");
-  const token = ref(authStore.getUserToken());
-  const isLogin = ref(authStore.isAuthenticated);
+  const token = authStore.getUserToken();
+  const isLogin = authStore.isAuthenticated;
 
   function isWishListed(product) {
     return wishlistItems.value.includes(product.id);
   }
 
   async function toggleWishlist(product) {
-    if (!isLogin.value || !token.value) {
+    if (!token) {
       errorToast("Login first to add wishlist!");
       return;
     }
@@ -45,7 +45,7 @@ const useWishlist = () => {
       const response = await fetch(apiUrl, {
         method: method,
         headers: {
-          Authorization: `Bearer ${token.value}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "Application/json",
         },
         body: method === "POST" ? JSON.stringify(payload) : undefined,
@@ -66,7 +66,7 @@ const useWishlist = () => {
   }
 
   async function fetchWishList() {
-    if (!token.value) {
+    if (!token) {
       return;
     }
 
@@ -77,7 +77,7 @@ const useWishlist = () => {
       const response = await fetch(apiUrl, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${token.value}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "Application/json",
         },
       });
