@@ -5,7 +5,7 @@ import ProductLabel from '@/components/common/products/ProductLabel.vue';
 import ProductPrice from '@/components/common/products/ProductPrice.vue';
 import StarRating from '@/components/common/products/rating/StarRating.vue';
 import ProductSummary from '@/components/common/products/product-summary/Index.vue';
-import { wishlistItems, useWishlist } from '@/store/wishlist';
+import { useWishlist } from '@/store/wishlist';
 
 const { toggleWishlist, getWishlistIcon } = useWishlist();
 
@@ -36,7 +36,6 @@ onUnmounted(() => {
 <template>
     <div class="relative border border-grayLight rounded group transition duration-300">
         <div class="product-card-img">
-            {{ wishlistItems }} - {{ wishlistItems.length }}
             <router-link v-if="product?.id" :to="{ name: 'singleProduct', params: { id: product?.id } }">
                 <!-- <img src="@/assets/images/home/top-sales/demo-product-img.png" alt=""> -->
                 <img :src="product?.thumbnail" alt="">

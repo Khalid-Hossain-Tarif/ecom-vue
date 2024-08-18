@@ -9,8 +9,8 @@ import { useWishlist } from '@/store/wishlist';
 const { todayDealProducts } = manageProducts();
 const { fetchWishList } = useWishlist();
 
-onMounted(() => {
-  fetchWishList()
+onMounted(async () => {
+  await fetchWishList()
 })
 </script>
 

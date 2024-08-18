@@ -1,10 +1,37 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import { wishlistItems, useWishlist } from '@/store/wishlist';
+import { manageProducts } from "@/composables/getAllProducts";
+import { cart } from "@/store/cart/index"
+
+const { fetchWishList, toggleWishlist } = useWishlist();
+const { allProducts } = manageProducts();
+const { addItem } = cart()
+
+const wishlistProductWithDetails = ref([]);
+
+onMounted(async () => {
+    await fetchWishList();
+    fetchWishlistProductWithDetails();
+});
+
+function fetchWishlistProductWithDetails() {
+    wishlistProductWithDetails.value = allProducts.value.filter(product =>
+        wishlistItems.value.includes(product.id)
+    );
+}
+
+function handleToggleWishlist (product) {
+    toggleWishlist(product)
+    fetchWishlistProductWithDetails()
+}
 </script>
 
 <template>
     <div>
-        <h1 class="primary-heading mb-7">My wishlist products</h1>
-        <div>
+        <h1 class="primary-heading mb-7">My Wishlist Products</h1>
+
+        <div v-if="wishlistProductWithDetails.length">
             <table>
                 <thead class="bg-grayLight rounded hidden sm:table-header-group">
                     <tr>
@@ -17,34 +44,34 @@
                 </thead>
 
                 <tbody>
-                    <tr v-for="n in 3" :key="index" class="relative">
+                    <tr v-for="product in wishlistProductWithDetails" :key="product.id" class="relative">
                         <td data-title="Product" class="flex gap-3 items-center">
-                            <router-link to="/single-product">
-                                <img class="w-16 h-14" src="@/assets/images/home/top-sales/demo-product-img.png"
-                                    alt="Digital Product">
+                            <router-link :to="{ name: 'singleProduct', params: { id: product?.id } }">
+                                <img class="w-16 h-14" :src="product.thumbnail" :alt="product.name">
                             </router-link>
                             <h4>
-                                <router-link to="/single-product" class="font-semibold">
-                                    Wireless PS Handler
+                                <router-link :to="{ name: 'singleProduct', params: { id: product?.id } }" class="font-semibold">
+                                    {{ product.name }}
                                 </router-link>
                             </h4>
                         </td>
 
                         <td data-title="Price" class="res-heading text-center font-semibold text-textGray">
-                            $124.00
+                            {{ product.selling_price }}
                         </td>
 
                         <td data-title="Qty" class="res-heading text-center font-semibold text-textGray capitalize">
-                            In Stock
+                            {{ product.stock_quantity > 1 ? 'In Stock' : 'Out of Stock' }}
                         </td>
 
                         <td>
-                            <router-link to="/cart" class="btn btn-secondary m-auto">Add to cart</router-link>
+                            <button @click="addItem(product)" class="btn btn-secondary md:m-auto">Add to cart</button>
                         </td>
 
                         <td class="res-btn">
                             <button
-                                class="border border-borderLight hover:border-primary w-9 h-9 rounded-full text-[11px] text-primary">
+                                class="border border-borderLight hover:border-primary w-9 h-9 rounded-full text-[11px] text-primary"
+                                @click="handleToggleWishlist(product)">
                                 <font-awesome-icon :icon="['fas', 'x']" />
                             </button>
                         </td>
@@ -52,8 +79,13 @@
                 </tbody>
             </table>
         </div>
+
+        <div v-else>
+            <p>Your wishlist is empty. To add please explore <router-link to="/" class="underline text-primary">products.</router-link></p>
+        </div>
     </div>
 </template>
+
 
 <style scoped>
 table {
@@ -94,6 +126,7 @@ th, td {
     }
 
     .res-btn {
-        @apply absolute top-3 right-0
+        @apply absolute top-auto bottom-1 right-0
     }
-}</style>
+}
+</style>
