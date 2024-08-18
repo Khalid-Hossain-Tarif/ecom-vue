@@ -1,12 +1,10 @@
-import { reactive, ref, computed, inject, watch } from "vue";
+import { reactive, computed, inject } from "vue";
 import toast from "../../../utils/Toaster.js";
 
 const { successToast } = toast();
-const itemTotal = ref(0)
 
 const cart = () => {
   const loading = inject("loading");
-
 
   const cartItems = reactive({
     items: {},
@@ -14,22 +12,15 @@ const cart = () => {
     totalPrice: 0,
     isCartUpdated: false,
     itemCount: 1,
-    totalItem: 0,
   });
 
   const totalCartItems = computed(() => {
-    let total = itemTotal.value;
+    let total = 0;
     for (let id in cartItems.items) {
-      const itemsTotal = cartItems.items[id].quantity;
-      console.log(itemsTotal)
-      total += itemsTotal
+      total += cartItems.items[id].quantity;
     }
     return total;
   });
-  
-  watch(totalCartItems, (newValue, oldValue) => {
-    // console.log(`Count changed from ${oldValue} to ${newValue}`);
-  }, { immediate: true, deep: true })
 
   function productCount(actionType, product) {
     if (actionType === "increment") {
@@ -78,17 +69,15 @@ const cart = () => {
     cartItems.isCartUpdated = false;
     setTimeout(() => {
       loading(false);
-      cartItems.itemCount = 1;
+      cartItems.itemCount = 1
     }, 500);
   }
 
   function productAddToCartHandler(actionType) {
     if (actionType === "increment") {
-      cartItems.itemCount = cartItems.itemCount + 1;
+      cartItems.itemCount = cartItems.itemCount + 1
     } else {
-      cartItems.itemCount > 1
-        ? (cartItems.itemCount = cartItems.itemCount - 1)
-        : (cartItems.itemCount = 1);
+      cartItems.itemCount > 1 ? cartItems.itemCount = cartItems.itemCount - 1 : cartItems.itemCount = 1
     }
   }
 
@@ -96,15 +85,13 @@ const cart = () => {
     if (!cartItems.items[product.id]) {
       cartItems.items[product.id] = {
         product,
-        quantity: cartItems.itemCount,
+        quantity: cartItems.itemCount
       };
       successToast("This product added to the cart.");
     } else {
       // errorToast("This product is already added in the cart!");
       cartItems.items[product.id].quantity += cartItems.itemCount;
-      successToast(
-        `${cartItems.items[product.id].quantity} product added to the cart.`
-      );
+      successToast(`${cartItems.items[product.id].quantity} product added to the cart.`);
     }
     cartItems.isCartUpdated = true;
     updatePrices();
@@ -138,7 +125,7 @@ const cart = () => {
     updatePrices,
     addItem,
     deleteItem,
-    productAddToCartHandler,
+    productAddToCartHandler
   };
 };
 
