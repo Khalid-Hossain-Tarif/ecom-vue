@@ -2,15 +2,15 @@
 import { onMounted } from 'vue';
 import ProductCard from '@/components/common/products/product-card/Index.vue';
 import DataNotFound from "@/components/common/not-found/dataNotFound.vue";
-import { authStore } from "@/store/auth/index";
 import { manageProducts } from "@/composables/getAllProducts";
 import { useWishlist } from '@/store/wishlist';
 
-const { todayDealProducts } = manageProducts();
+const { loadProducts, todayDealProducts } = manageProducts();
 const { fetchWishList } = useWishlist();
 
 onMounted(async () => {
   await fetchWishList()
+  loadProducts()
 })
 </script>
 
@@ -18,7 +18,7 @@ onMounted(async () => {
   <section>
     <div class="custom-container">
       <div class="section-margin custom-swiper-navs">
-        <h3 class="primary-heading" v-if="authStore.isAuthenticated">
+        <h3 class="primary-heading">
           <span class="mr-1">🔥</span> Flash Sale Today!
         </h3>
 

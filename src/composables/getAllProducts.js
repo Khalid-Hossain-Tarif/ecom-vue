@@ -7,6 +7,7 @@ export function manageProducts() {
   const allProducts = ref([]);
   const productCardProducts = ref([]);
   const todayDealProducts = ref([]);
+  const electronicsProducts = ref([]);
 
   const getAllProducts = async () => {
     loading(true);
@@ -38,6 +39,19 @@ export function manageProducts() {
             discount_price: product?.discount_price,
             trendy: product?.trendy,
           }));
+
+          electronicsProducts.value = allProducts.value
+          .filter((product) => product?.category_id === 5)
+          .map((product) => ({
+            id: product?.id,
+            slug: product?.slug,
+            thumbnail: product?.thumbnail,
+            trendy: product?.trendy,
+            name: product?.name,
+            selling_price: product?.selling_price,
+            discount_price: product?.discount_price,
+            trendy: product?.trendy,
+          }));
       })
       .catch((err) => {
         console.log(err);
@@ -50,12 +64,12 @@ export function manageProducts() {
   const loadProducts = () => {
     Promise.all([getAllProducts()]);
   };
-  loadProducts();
 
   return {
     allProducts,
     productCardProducts,
     todayDealProducts,
-    getAllProducts,
+    electronicsProducts,
+    loadProducts
   };
 }

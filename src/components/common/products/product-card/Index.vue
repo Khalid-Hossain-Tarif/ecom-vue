@@ -36,9 +36,9 @@ onUnmounted(() => {
 <template>
     <div class="relative border border-grayLight rounded group transition duration-300">
         <div class="product-card-img">
-            <router-link v-if="product?.id" :to="{ name: 'singleProduct', params: { id: product?.id } }">
+            <router-link v-if="product?.id" :to="{ name: 'singleProduct', params: { id: product?.id } }" class="h-full">
                 <!-- <img src="@/assets/images/home/top-sales/demo-product-img.png" alt=""> -->
-                <img :src="product?.thumbnail" alt="">
+                <img :src="product?.thumbnail" alt="" class="h-full">
             </router-link>
 
             <div class="action-buttons">
@@ -80,10 +80,10 @@ onUnmounted(() => {
 
 <style scoped>
 .product-card-img {
-    @apply h-[200px] sm:h-[250px] relative bg-grayLight border-b border-grayLight group-hover:bg-textGray p-4 flex items-center overflow-hidden transition duration-300
+    @apply h-[200px] sm:h-[240px] relative border-b border-grayLight rounded-t overflow-hidden group-hover:brightness-95 transition duration-300
 }
 
 .action-buttons {
-    @apply absolute -bottom-36 group-hover:bottom-0 left-0 sm:left-5 md:left-0 right-0 opacity-100 group-hover:opacity-100 transition-all duration-300
+    @apply absolute -bottom-36 group-hover:bottom-0 left-0 sm:left-5 md:left-0 right-0 opacity-0 group-hover:opacity-100 transition-all duration-300
 }
 </style>

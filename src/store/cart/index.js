@@ -21,7 +21,7 @@ const cart = () => {
     let total = itemTotal.value;
     for (let id in cartItems.items) {
       const itemsTotal = cartItems.items[id].quantity;
-      console.log(itemsTotal)
+      // console.log(itemsTotal)
       total += itemsTotal
     }
     return total;
