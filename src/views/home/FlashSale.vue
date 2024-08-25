@@ -8,8 +8,8 @@ import { useWishlist } from '@/store/wishlist';
 const { getAllProducts, todayDealProducts } = manageProducts();
 const { fetchWishList } = useWishlist();
 
-onMounted(async () => {
-  await fetchWishList()
+onMounted(() => {
+  fetchWishList()
   getAllProducts()
 })
 </script>
