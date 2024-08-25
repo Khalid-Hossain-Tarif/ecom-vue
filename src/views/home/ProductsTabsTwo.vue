@@ -1,18 +1,26 @@
 <script setup>
+import { onMounted } from "vue";
 import Tabs from '@/components/ui/tabs/Index.vue';
 import ProductCard from '@/components/common/products/product-card/Index.vue';
+import { useCategoryProducts } from "@/composables/getCategoryWiseProducts";
+
+const { categoryProducts, getProductsByCategory } = useCategoryProducts();
 
 const myTabs = [
     { id: 'tab1', label: 'New products' },
     { id: 'tab2', label: 'Best seller' },
     { id: 'tab3', label: 'Top rated' }
 ];
+
+onMounted(() => {
+    getProductsByCategory(7)
+})
 </script>
 
 <template>
     <section class="section-padding">
         <div class="custom-container">
-            <h4 class="primary-heading mb-6"><span class="mr-1">🖥️</span> Computer & Laptop</h4>
+            <h4 class="primary-heading mb-6"><span class="mr-1">🖥️</span> Vehicle</h4>
 
             <Tabs :tabs="myTabs" defaultTab="tab1" headerPosition="md:justify-end md:-mt-[60px]">
                 <template #tab1>
@@ -29,8 +37,8 @@ const myTabs = [
                                     slidesPerView: 5,
                                 },
                             }">
-                            <swiper-slide v-for="n in 18">
-                                <ProductCard />
+                            <swiper-slide v-for="product in categoryProducts" :key="product.id">
+                                <ProductCard :product="product" />
                             </swiper-slide>
                         </swiper-container>
                     </div>
