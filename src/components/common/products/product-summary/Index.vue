@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import CartInputButton from '@/components/common/products/CartInputButton.vue';
 import ProductGallery from '@/components/common/products/product-gallery/Index.vue';
 import ProductPrice from '@/components/common/products/ProductPrice.vue';
@@ -9,7 +9,11 @@ import { cart } from "@/store/cart/index"
 
 const { cartItems, productCount, emptyCart, updatePrices, addItem, deleteItem, productAddToCartHandler } = cart()
 
-const { filteredCategories } = manageCategories();
+const { filteredCategories, getAllCategories } = manageCategories();
+
+onMounted(() => {
+    getAllCategories()
+})
 
 const props = defineProps({
     product: {

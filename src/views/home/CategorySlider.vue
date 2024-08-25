@@ -1,6 +1,11 @@
 <script setup>
+import { onMounted } from "vue";
 import { manageCategories } from "@/composables/getAllCategories"
-const { allCategories } = manageCategories();
+const { allCategories, getAllCategories } = manageCategories();
+
+onMounted(() => {
+    getAllCategories()
+})
 </script>
 
 <template>

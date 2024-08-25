@@ -9,33 +9,25 @@ export function manageCategories() {
 
   const getAllCategories = async () => {
     loading(true);
-    await axios
-      .get(apiBaseUrl + "/category")
-      .then((res) => {
-        allCategories.value = res?.data?.data;
+    try {
+      const res = await axios.get(apiBaseUrl + "/category");
+      allCategories.value = res?.data?.data || [];
 
-        filteredCategories.value = allCategories.value.map((category) => ({
-            id: category?.id,
-            icon: category?.icon,
-            category_name: category?.category_name,
-        }));
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        loading(false);
-      });
+      filteredCategories.value = allCategories.value.map((category) => ({
+        id: category?.id,
+        icon: category?.icon,
+        category_name: category?.category_name,
+      }));
+    } catch (err) {
+      console.error("Error fetching category products:", err);
+    } finally {
+      loading(false);
+    }
   };
-
-  const loadCategories = () => {
-    Promise.all([getAllCategories()]);
-  };
-  loadCategories();
 
   return {
     allCategories,
     filteredCategories,
-    getAllCategories
+    getAllCategories,
   };
 }
