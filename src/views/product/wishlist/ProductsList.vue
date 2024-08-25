@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeMount } from 'vue';
 import { wishlistItems, useWishlist } from '@/store/wishlist';
 import { manageProducts } from "@/composables/getAllProducts";
 import { cart } from "@/store/cart/index"
@@ -10,9 +10,12 @@ const { addItem } = cart()
 
 const wishlistProductWithDetails = ref([]);
 
+onBeforeMount(() => {
+    getAllProducts()
+})
+
 onMounted(async () => {
     await fetchWishList();
-    getAllProducts()
     fetchWishlistProductWithDetails();
 });
 
