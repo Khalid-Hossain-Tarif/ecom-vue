@@ -5,13 +5,14 @@ import { manageProducts } from "@/composables/getAllProducts";
 import { cart } from "@/store/cart/index"
 
 const { fetchWishList, toggleWishlist } = useWishlist();
-const { allProducts } = manageProducts();
+const { allProducts, getAllProducts } = manageProducts();
 const { addItem } = cart()
 
 const wishlistProductWithDetails = ref([]);
 
 onMounted(async () => {
     await fetchWishList();
+    getAllProducts()
     fetchWishlistProductWithDetails();
 });
 

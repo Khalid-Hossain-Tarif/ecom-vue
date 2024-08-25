@@ -5,12 +5,12 @@ import DataNotFound from "@/components/common/not-found/dataNotFound.vue";
 import { manageProducts } from "@/composables/getAllProducts";
 import { useWishlist } from '@/store/wishlist';
 
-const { loadProducts, todayDealProducts } = manageProducts();
+const { getAllProducts, todayDealProducts } = manageProducts();
 const { fetchWishList } = useWishlist();
 
 onMounted(async () => {
   await fetchWishList()
-  loadProducts()
+  getAllProducts()
 })
 </script>
 

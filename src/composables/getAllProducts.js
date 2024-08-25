@@ -47,14 +47,10 @@ export function manageProducts() {
       });
   };
 
-  const loadProducts = () => {
-    Promise.all([getAllProducts()]);
-  };
-
   return {
     allProducts,
     productCardProducts,
     todayDealProducts,
-    loadProducts
+    getAllProducts
   };
 }

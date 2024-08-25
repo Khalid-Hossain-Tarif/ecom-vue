@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { manageProducts } from "@/composables/getAllProducts"
 import Checkbox from "@/components/ui/checkbox/Index.vue";
 import Dropdown from "@/components/ui/dropdown/Index.vue";
@@ -17,7 +17,11 @@ const sortProducts = ref([
 ]);
 
 const selectedOption = ref(null);
-const { productCardProducts } = manageProducts();
+const { productCardProducts, getAllProducts } = manageProducts();
+
+onMounted(() => {
+  getAllProducts()
+})
 </script>
 
 <template>
