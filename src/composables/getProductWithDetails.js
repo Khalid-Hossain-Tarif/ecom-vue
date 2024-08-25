@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ref, inject } from "vue";
-import { useRoute } from 'vue-router';
+import { useRoute } from "vue-router";
 import { apiBaseUrl } from "@/composables/baseApiUrl";
 
 export function manageProductWithDetails() {
@@ -8,23 +8,18 @@ export function manageProductWithDetails() {
   const loading = inject("loading");
   const productWithDetails = ref({});
   const productDescription = ref("");
-  const productId = ref(null);
 
   const getProductWithDetails = async () => {
     loading(true);
-    await axios
-      .get(apiBaseUrl + `/products/${route.params.id}`)
-      .then((res) => {
-        productWithDetails.value = res?.data;
-        productDescription.value = res?.data?.description;
-        productId.value = res?.data?.id;
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        loading(false);
-      });
+    try {
+      const res = await axios.get(apiBaseUrl + `/products/${route.params.id}`);
+      productWithDetails.value = res?.data || [];
+      productDescription.value = res?.data?.description;
+    } catch (err) {
+      console.error("Error fetching products with details:", err);
+    } finally {
+      loading(false);
+    }
   };
 
   const loadProducts = () => {
@@ -35,7 +30,6 @@ export function manageProductWithDetails() {
   return {
     productWithDetails,
     productDescription,
-    productId,
     getProductWithDetails,
   };
 }

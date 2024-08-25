@@ -5,7 +5,7 @@ import ProductSummary from '@/components/common/products/product-summary/Index.v
 import ProductTabs from './ProductTabs.vue';
 import RelatedProducts from '@/components/common/products/related-products/Index.vue';
 
-const { productWithDetails, productDescription, productId  } = manageProductWithDetails();
+const { productWithDetails, productDescription  } = manageProductWithDetails();
 </script>
 
 <template>
@@ -15,7 +15,7 @@ const { productWithDetails, productDescription, productId  } = manageProductWith
         <section class="page-spacing">
             <div class="custom-container">
                 <ProductSummary :product="productWithDetails" />
-                <ProductTabs :description="productDescription" :id="productId" />
+                <ProductTabs :description="productDescription" :id="productWithDetails?.id" />
                 <RelatedProducts />
             </div>
         </section>
