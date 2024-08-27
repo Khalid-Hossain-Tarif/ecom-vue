@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { manageProducts } from "@/composables/getAllProducts"
 import Checkbox from "@/components/ui/checkbox/Index.vue";
 import Dropdown from "@/components/ui/dropdown/Index.vue";
 import ProductCard from "@/components/common/products/product-card/Index.vue";
@@ -17,10 +16,11 @@ const sortProducts = ref([
 ]);
 
 const selectedOption = ref(null);
-const { productCardProducts, getAllProducts } = manageProducts();
 
-onMounted(() => {
-  getAllProducts()
+defineProps({
+  products: {
+    type: Array
+  },
 })
 </script>
 
@@ -36,10 +36,10 @@ onMounted(() => {
   </div>
 
   <div class="pt-5 md:pt-7">
-    <div v-if="productCardProducts">
+    <div v-if="products">
       <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
         <ProductCard 
-          v-for="product in productCardProducts" 
+          v-for="product in products" 
           :key="product?.id" 
           :product="product" 
         />

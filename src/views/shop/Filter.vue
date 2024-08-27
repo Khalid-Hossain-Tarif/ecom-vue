@@ -1,6 +1,12 @@
 <script setup>
 import Checkbox from "@/components/ui/checkbox/Index.vue";
 import StarRating from "@/components/common/products/rating/StarRating.vue";
+
+defineProps({
+  categories: {
+    type: Array
+  },
+})
 </script>
 
 <template>
@@ -8,9 +14,9 @@ import StarRating from "@/components/common/products/rating/StarRating.vue";
     <div>
       <h4 class="sidebar-title !mt-0">shop by categories</h4>
       <div class="max-h-[250px] overflow-y-auto custom-scrollbar">
-        <div v-for="(n, index) in 20" :key="index" class="mb-2.5 last:mb-0">
-          <Checkbox is-label label-txt="accessories" :input-id="index" />
-      </div>
+        <div v-for="category in categories" :key="category?.id" class="mb-2.5 last:mb-0">
+          <Checkbox is-label :label-txt="category?.category_name" :input-id="category?.id" />
+        </div>
       </div>
     </div>
 
@@ -49,18 +55,23 @@ import StarRating from "@/components/common/products/rating/StarRating.vue";
 .slider {
   @apply h-1 relative rounded bg-grayLight
 }
+
 .slider .progress {
   @apply h-full rounded absolute inset-x-[30%] bg-secondary
 }
+
 .range-input {
   @apply relative;
 }
+
 .range-input input {
-  @apply  w-full h-1 absolute -top-1 bg-transparent appearance-none pointer-events-none
+  @apply w-full h-1 absolute -top-1 bg-transparent appearance-none pointer-events-none
 }
+
 input[type="range"]::-webkit-slider-thumb {
   @apply h-[14px] w-[14px] pointer-events-auto shadow-[0_0_6px_rgba(0,0,0,0.05)] rounded-full border-none bg-secondary appearance-none
 }
+
 input[type="range"]::-moz-range-thumb {
   @apply h-[14px] w-[14px] pointer-events-auto shadow-[0_0_6px_rgba(0,0,0,0.05)] rounded-full border-none bg-secondary appearance-none
 }
