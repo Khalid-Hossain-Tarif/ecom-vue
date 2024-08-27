@@ -74,6 +74,7 @@ const selectedOptionHandler = (option) => {
 const clearOptionHandler = () => {
   selectedOption.value = null;
   showClearValue = false;
+  emit('update:modelValue', null);
   filterMessage.value = '';
 }
 

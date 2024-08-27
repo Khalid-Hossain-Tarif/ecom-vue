@@ -23,6 +23,7 @@ export function manageProducts() {
         selling_price: product?.selling_price,
         discount_price: product?.discount_price,
         trendy: product?.trendy,
+        date: product?.date
       }));
 
       todayDealProducts.value = allProducts.value
