@@ -1,9 +1,10 @@
 <script setup>
-defineProps({
+const props = defineProps({
   inputId: [String, Number],
-  name: String,
+  itemValue: Array,
   disabled: Boolean,
   required: Boolean,
+  checked: Boolean,
 
   isLabel: Boolean,
   labelTxt: String,
@@ -11,12 +12,20 @@ defineProps({
   uppercase: Boolean,
   labelBold: Boolean
 })
+
+const emit = defineEmits();
+
+const handleChange = (event) => {
+  const isChecked = event.target.checked;
+  const value = isChecked ? props.itemValue : null;
+  emit('update:modelValue', value);
+}
 </script>
 
 <template>
   <div class="c-checkbox-item">
-    <input type="checkbox" :name="name" class="c-checkbox-item-input" :class="disabled ? '!opacity-30' : ''" :id="inputId"
-      :disabled="disabled" :required="required">
+    <input type="checkbox" :id="inputId" :value="itemValue" :disabled="disabled" :required="required" :checked="checked" @change="handleChange"
+      class="c-checkbox-item-input" :class="disabled ? '!opacity-30' : ''">
     <label :for="inputId" class="c-checkbox-item-input-label"
       :class="[isLabel ? 'block' : 'hidden', uppercase ? 'uppercase' : 'capitalize', labelBold ? 'font-bold' : 'font-medium', labelColor ? '' : 'text-textGray'], disabled ? 'opacity-30' : ''">
       {{ labelTxt }}

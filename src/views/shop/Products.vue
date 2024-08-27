@@ -15,7 +15,11 @@ const sortProducts = ref([
   { name: 'Sort by price: high to low', code: 'highToLow' },
 ]);
 
+
 const selectedOption = ref('Sort by latest');
+const isChecked = ref(false);
+const isOnSaleProduct = ref();
+const onSaleProduct = ref('Show only products on sale');
 
 const props = defineProps({
   products: {
@@ -51,8 +55,17 @@ const sortedProducts = computed(() => {
 
 <template>
   <div class="flex flex-col md:flex-row md:justify-between gap-4 md:gap-2">
-    <Checkbox is-label label-txt="Show only products on sale" input-id="onsale" uppercase label-bold
-      label-color="text-secondary" />
+    {{ onSaleProduct }}
+    <Checkbox 
+      v-model="isOnSaleProduct"
+      :itemValue="onSaleProduct"
+      :label-txt="onSaleProduct" 
+      input-id="onsale" 
+      label-color="text-secondary" 
+      is-label 
+      uppercase label-bold 
+      :checked="isChecked" 
+    />
     <div class="flex justify-between items-center gap-3">
       <PopupSidebar />
       <Dropdown v-model="selectedOption" showClear filter :options="sortProducts" optionLabel="name" optionValue="code"

@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from "vue";
 import Checkbox from "@/components/ui/checkbox/Index.vue";
 import StarRating from "@/components/common/products/rating/StarRating.vue";
 
@@ -7,6 +8,8 @@ defineProps({
     type: Array
   },
 })
+
+const selectedCategories = ref([])
 </script>
 
 <template>
@@ -14,8 +17,9 @@ defineProps({
     <div>
       <h4 class="sidebar-title !mt-0">shop by categories</h4>
       <div class="max-h-[250px] overflow-y-auto custom-scrollbar">
+        {{ selectedCategories }}
         <div v-for="category in categories" :key="category?.id" class="mb-2.5 last:mb-0">
-          <Checkbox is-label :label-txt="category?.category_name" :input-id="category?.id" />
+          <Checkbox v-model="selectedCategories" is-label :label-txt="category?.category_name" :input-id="category?.id" :itemValue="category?.category_name" />
         </div>
       </div>
     </div>
