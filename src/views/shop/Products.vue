@@ -7,6 +7,12 @@ import Pagination from "@/components/ui/pagination/Index.vue";
 import DataNotFound from "@/components/common/not-found/dataNotFound.vue";
 import PopupSidebar from "@/views/shop/PopupSidebar.vue";
 
+defineProps({
+  products: {
+    type: Array
+  },
+})
+
 const sortProducts = ref([
   { name: 'Sort by popularity', code: 'popularity' },
   { name: 'Sort by rating', code: 'rating' },
@@ -16,12 +22,6 @@ const sortProducts = ref([
 ]);
 
 const selectedOption = ref(null);
-
-defineProps({
-  products: {
-    type: Array
-  },
-})
 </script>
 
 <template>

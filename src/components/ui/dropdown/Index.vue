@@ -67,7 +67,7 @@ const dropdownToggler = () => {
 const selectedOptionHandler = (option) => {
   selectedOption.value = option;
   isDropdownOpen.value = false;
-  emit('update:selectedOption', option);
+  emit('update:modelValue', option);
   showClearValue = true;
 }
 
