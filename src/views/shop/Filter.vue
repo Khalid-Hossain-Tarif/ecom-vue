@@ -9,7 +9,7 @@ defineProps({
   },
 })
 
-const selectedCategories = ref()
+const selectedCategories = ref(null)
 </script>
 
 <template>

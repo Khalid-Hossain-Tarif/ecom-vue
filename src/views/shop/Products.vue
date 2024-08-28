@@ -7,6 +7,15 @@ import Pagination from "@/components/ui/pagination/Index.vue";
 import DataNotFound from "@/components/common/not-found/dataNotFound.vue";
 import PopupSidebar from "@/views/shop/PopupSidebar.vue";
 
+const props = defineProps({
+  products: {
+    type: Array
+  },
+});
+
+const selectedOption = ref('Sort by latest');
+// const isChecked = ref(false);
+const selectedOnsaleProduct = ref(null);
 const sortProducts = ref([
   { name: 'Sort by popularity', code: 'popularity' },
   { name: 'Sort by rating', code: 'rating' },
@@ -15,56 +24,50 @@ const sortProducts = ref([
   { name: 'Sort by price: high to low', code: 'highToLow' },
 ]);
 
-
-const selectedOption = ref('Sort by latest');
-const isChecked = ref(false);
-const isOnSaleProduct = ref();
-const onSaleProduct = ref('Show only products on sale');
-
-const props = defineProps({
-  products: {
-    type: Array
-  },
-});
-
 // Function to sort products based on the selected option
-const sortProductsFunction = (products, sortBy) => {
-  if (!sortBy) return products;
+const sortProductsFunction = (products, sortBy, onSaleOnly) => {
+  let sorted = [...products];
 
-  const sorted = [...products];
+  if(onSaleOnly) {
+    sorted = sorted.filter(product => product?.discount_price !== null)
+  }
 
   if (sortBy === 'Sort by popularity') {
     sorted.sort((a, b) => b.trendy - a.trendy); 
   } else if (sortBy === 'Sort by rating') {
     sorted.sort((a, b) => b.product_views - a.product_views); 
   } else if (sortBy === 'Sort by latest') {
-    sorted.sort((a, b) => new Date(b.date) - new Date(a.date)); 
+    sorted.sort((a, b) => {
+      console.log(b.date)
+      new Date(b.date) - new Date(a.date)
+      console.log(new Date(b.date))
+    }); 
   } else if (sortBy === 'Sort by price: low to high') {
     sorted.sort((a, b) => a.selling_price - b.selling_price); 
   } else if (sortBy === 'Sort by price: high to low') {
     sorted.sort((a, b) => b.selling_price - a.selling_price);
-  }
+  } 
 
   return sorted;
 };
 
 const sortedProducts = computed(() => {
-  return sortProductsFunction(props.products, selectedOption.value);
+  return sortProductsFunction(props.products, selectedOption.value, selectedOnsaleProduct.value);
 });
 </script>
 
 <template>
   <div class="flex flex-col md:flex-row md:justify-between gap-4 md:gap-2">
-    {{ onSaleProduct }}
     <Checkbox 
-      v-model="isOnSaleProduct"
-      :itemValue="onSaleProduct"
-      :label-txt="onSaleProduct" 
-      input-id="onsale" 
-      label-color="text-secondary" 
-      is-label 
-      uppercase label-bold 
-      :checked="isChecked" 
+      v-model="selectedOnsaleProduct" 
+      itemValue="Show only products on sale"
+      itemName="onsale" 
+      inputId="onsale"
+      isLabel  
+      labelTxt="Show only products on sale" 
+      labelColor="text-secondary" 
+      uppercase
+      labelBold 
     />
     <div class="flex justify-between items-center gap-3">
       <PopupSidebar />
