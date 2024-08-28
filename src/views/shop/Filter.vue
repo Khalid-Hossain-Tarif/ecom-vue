@@ -9,7 +9,7 @@ defineProps({
   },
 })
 
-const selectedCategories = ref([])
+const selectedCategories = ref()
 </script>
 
 <template>
@@ -19,7 +19,14 @@ const selectedCategories = ref([])
       <div class="max-h-[250px] overflow-y-auto custom-scrollbar">
         {{ selectedCategories }}
         <div v-for="category in categories" :key="category?.id" class="mb-2.5 last:mb-0">
-          <Checkbox v-model="selectedCategories" is-label :label-txt="category?.category_name" :input-id="category?.id" :itemValue="category?.category_name" />
+          <Checkbox 
+            v-model="selectedCategories" 
+            isLabel 
+            :labelTxt="category?.category_name" 
+            :inputId="category?.id" 
+            itemName="category"
+            :itemValue="category?.category_name" 
+          />
         </div>
       </div>
     </div>
