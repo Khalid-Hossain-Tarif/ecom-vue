@@ -6,6 +6,7 @@ import ProductCard from "@/components/common/products/product-card/Index.vue";
 import Pagination from "@/components/ui/pagination/Index.vue";
 import DataNotFound from "@/components/common/not-found/dataNotFound.vue";
 import PopupSidebar from "@/views/shop/PopupSidebar.vue";
+import { formatDate } from "/utils/Helpers.js";
 
 const props = defineProps({
   products: {
@@ -38,10 +39,8 @@ const sortProductsFunction = (products, sortBy, onSaleOnly) => {
     sorted.sort((a, b) => b.product_views - a.product_views); 
   } else if (sortBy === 'Sort by latest') {
     sorted.sort((a, b) => {
-      console.log(b.date)
-      new Date(b.date) - new Date(a.date)
-      console.log(new Date(b.date))
-    }); 
+      return formatDate(b.date) - formatDate(a.date);
+    })
   } else if (sortBy === 'Sort by price: low to high') {
     sorted.sort((a, b) => a.selling_price - b.selling_price); 
   } else if (sortBy === 'Sort by price: high to low') {
