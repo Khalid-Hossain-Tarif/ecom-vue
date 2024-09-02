@@ -15,8 +15,8 @@ onMounted(() => {
   getAllCategories()
 })
 
-const selectedOption = ref('Sort by latest');
-const selectedOnsaleProduct = ref(false);
+const selectedOptionValue = ref('Sort by latest');
+const selectedOnsaleProductValue = ref(false);
 const sortDropdownOptions = ref([
   { name: 'Sort by popularity', code: 'popularity' },
   { name: 'Sort by rating', code: 'rating' },
@@ -51,7 +51,7 @@ const sortProductsFunction = (products, sortBy, onSaleOnly) => {
 };
 
 const sortedProducts = computed(() => {
-  return sortProductsFunction(productCardProducts.value, selectedOption.value, selectedOnsaleProduct.value);
+  return sortProductsFunction(productCardProducts.value, selectedOptionValue.value, selectedOnsaleProductValue.value);
 });
 </script>
 
@@ -68,10 +68,8 @@ const sortedProducts = computed(() => {
             <Products 
               :products="sortedProducts" 
               :sortDropdownOptions="sortDropdownOptions" 
-              :selectedOption="selectedOption"
-              :selectedOnsaleProduct="selectedOnsaleProduct"
-              @update:selectedOption="(value) => selectedOption = value"
-              @update:selectedOnsaleProduct="(value) => selectedOnsaleProduct = value"
+              v-model:selectedOnsaleProduct="selectedOnsaleProductValue"
+              v-model:selectedOption="selectedOptionValue"
             />
           </div>
         </div>

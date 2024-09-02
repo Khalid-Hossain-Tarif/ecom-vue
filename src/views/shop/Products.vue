@@ -14,22 +14,16 @@ const props = defineProps({
   sortDropdownOptions: {
     type: Array
   },
-  selectedOption: {
-    type: String
-  },
-  selectedOnsaleProduct: {
-    type: Boolean
-  }
 });
 
-const emit = defineEmits(['update:selectedOption', 'update:selectedOnsaleProduct']);
+const selectedOnsaleProduct = defineModel('selectedOnsaleProduct')
+const selectedOption = defineModel('selectedOption')
 </script>
 
 <template>
   <div class="flex flex-col md:flex-row md:justify-between gap-4 md:gap-2">
     <Checkbox 
-      v-model="props.selectedOnsaleProduct" 
-      @update:modelValue="emit('update:selectedOnsaleProduct', $event)"
+      v-model="selectedOnsaleProduct" 
       itemValue="Show only products on sale"
       itemName="onsale" 
       inputId="onsale"
@@ -41,7 +35,7 @@ const emit = defineEmits(['update:selectedOption', 'update:selectedOnsaleProduct
     />
     <div class="flex justify-between items-center gap-3">
       <PopupSidebar />
-      <Dropdown v-model="props.selectedOption" @update:modelValue="emit('update:selectedOption', $event)" showClear filter :options="sortDropdownOptions" optionLabel="name" optionValue="code"
+      <Dropdown v-model="selectedOption" showClear filter :options="sortDropdownOptions" optionLabel="name" optionValue="code"
         placeholder="Sort by latest" dropdownClass="w-[250px]" />
     </div>
   </div>
