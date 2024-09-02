@@ -6,59 +6,30 @@ import ProductCard from "@/components/common/products/product-card/Index.vue";
 import Pagination from "@/components/ui/pagination/Index.vue";
 import DataNotFound from "@/components/common/not-found/dataNotFound.vue";
 import PopupSidebar from "@/views/shop/PopupSidebar.vue";
-import { formatDate } from "/utils/Helpers.js";
 
 const props = defineProps({
   products: {
     type: Array
   },
-});
-
-const selectedOption = ref('Sort by latest');
-// const isChecked = ref(false);
-const selectedOnsaleProduct = ref(null);
-const sortProducts = ref([
-  { name: 'Sort by popularity', code: 'popularity' },
-  { name: 'Sort by rating', code: 'rating' },
-  { name: 'Sort by latest', code: 'latest' },
-  { name: 'Sort by price: low to high', code: 'lowToHigh' },
-  { name: 'Sort by price: high to low', code: 'highToLow' },
-]);
-
-// Function to sort products based on the selected option
-const sortProductsFunction = (products, sortBy, onSaleOnly) => {
-  let sorted = [...products];
-
-  if(onSaleOnly) {
-    sorted = sorted.filter(product => product?.discount_price !== null)
+  sortDropdownOptions: {
+    type: Array
+  },
+  selectedOption: {
+    type: String
+  },
+  selectedOnsaleProduct: {
+    type: Boolean
   }
-
-  if (sortBy === 'Sort by popularity') {
-    sorted.sort((a, b) => b.trendy - a.trendy); 
-  } else if (sortBy === 'Sort by rating') {
-    sorted.sort((a, b) => b.product_views - a.product_views); 
-  } else if (sortBy === 'Sort by latest') {
-    sorted.sort((a, b) => {
-      return formatDate(b.date) - formatDate(a.date);
-    })
-  } else if (sortBy === 'Sort by price: low to high') {
-    sorted.sort((a, b) => a.selling_price - b.selling_price); 
-  } else if (sortBy === 'Sort by price: high to low') {
-    sorted.sort((a, b) => b.selling_price - a.selling_price);
-  } 
-
-  return sorted;
-};
-
-const sortedProducts = computed(() => {
-  return sortProductsFunction(props.products, selectedOption.value, selectedOnsaleProduct.value);
 });
+
+const emit = defineEmits(['update:selectedOption', 'update:selectedOnsaleProduct']);
 </script>
 
 <template>
   <div class="flex flex-col md:flex-row md:justify-between gap-4 md:gap-2">
     <Checkbox 
-      v-model="selectedOnsaleProduct" 
+      v-model="props.selectedOnsaleProduct" 
+      @update:modelValue="emit('update:selectedOnsaleProduct', $event)"
       itemValue="Show only products on sale"
       itemName="onsale" 
       inputId="onsale"
@@ -70,16 +41,16 @@ const sortedProducts = computed(() => {
     />
     <div class="flex justify-between items-center gap-3">
       <PopupSidebar />
-      <Dropdown v-model="selectedOption" showClear filter :options="sortProducts" optionLabel="name" optionValue="code"
+      <Dropdown v-model="props.selectedOption" @update:modelValue="emit('update:selectedOption', $event)" showClear filter :options="sortDropdownOptions" optionLabel="name" optionValue="code"
         placeholder="Sort by latest" dropdownClass="w-[250px]" />
     </div>
   </div>
 
   <div class="pt-5 md:pt-7">
-    <div v-if="sortedProducts.length">
+    <div v-if="products.length">
       <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
         <ProductCard 
-          v-for="product in sortedProducts" 
+          v-for="product in products" 
           :key="product.id" 
           :product="product" 
         />
