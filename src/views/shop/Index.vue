@@ -15,6 +15,7 @@ onMounted(() => {
   getAllCategories()
 })
 
+const selectedCategoriesValue = ref(null);
 const selectedOptionValue = ref('Sort by latest');
 const selectedOnsaleProductValue = ref(false);
 const sortDropdownOptions = ref([
@@ -26,12 +27,8 @@ const sortDropdownOptions = ref([
 ]);
 
 // Function to sort products based on the selected option
-const sortProductsFunction = (products, sortBy, onSaleOnly) => {
+const sortProductsFunction = (products, sortBy, onSaleOnly, sortByCategories) => {
   let sorted = [...products];
-
-  if(onSaleOnly) {
-    sorted = sorted.filter(product => product?.discount_price !== null)
-  }
 
   if (sortBy === 'Sort by popularity') {
     sorted.sort((a, b) => b.trendy - a.trendy); 
@@ -47,11 +44,21 @@ const sortProductsFunction = (products, sortBy, onSaleOnly) => {
     sorted.sort((a, b) => b.selling_price - a.selling_price);
   } 
 
+  // onSaleOnly
+  if(onSaleOnly) {
+    sorted = sorted.filter(product => product?.discount_price !== null)
+  }
+  
+  // sortByCategories
+  if(sortByCategories) {
+    sorted = sorted.filter(product => product?.category_id === sortByCategories)
+  }
+
   return sorted;
 };
 
 const sortedProducts = computed(() => {
-  return sortProductsFunction(productCardProducts.value, selectedOptionValue.value, selectedOnsaleProductValue.value);
+  return sortProductsFunction(productCardProducts.value, selectedOptionValue.value, selectedOnsaleProductValue.value, selectedCategoriesValue.value);
 });
 </script>
 
@@ -62,7 +69,10 @@ const sortedProducts = computed(() => {
       <div class="custom-container">
         <div class="flex flex-col md:flex-row items-start md:gap-5 xl:gap-10">
           <aside class="w-[220px] shrink-0 hidden md:block">
-            <Filter :categories="filteredCategories" />
+            <Filter 
+              :categories="filteredCategories"
+              v-model:selectedCategories="selectedCategoriesValue"
+            />
           </aside>
           <div class="w-full">
             <Products 

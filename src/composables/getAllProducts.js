@@ -16,6 +16,7 @@ export function manageProducts() {
 
       productCardProducts.value = allProducts.value.map((product) => ({
         id: product?.id,
+        category_id: product?.category_id,
         slug: product?.slug,
         thumbnail: product?.thumbnail,
         trendy: product?.trendy,
