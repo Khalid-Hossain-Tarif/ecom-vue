@@ -15,9 +15,9 @@ onMounted(() => {
   getAllCategories()
 })
 
-const selectedCategoriesValue = ref(null);
+const selectedCategoriesValue = ref([]);
 const selectedOptionValue = ref('Sort by latest');
-const selectedOnsaleProductValue = ref(false);
+const selectedOnsaleProductValue = ref([]);
 const sortDropdownOptions = ref([
   { name: 'Sort by popularity', code: 'popularity' },
   { name: 'Sort by rating', code: 'rating' },
@@ -45,13 +45,13 @@ const sortProductsFunction = (products, sortBy, onSaleOnly, sortByCategories) =>
   } 
 
   // onSaleOnly
-  if(onSaleOnly) {
+  if(onSaleOnly && onSaleOnly.length > 0) {
     sorted = sorted.filter(product => product?.discount_price !== null)
   }
-  
-  // sortByCategories
-  if(sortByCategories) {
-    sorted = sorted.filter(product => product?.category_id === sortByCategories)
+
+  //sortByCategories
+  if (sortByCategories && sortByCategories.length > 0) {
+    sorted = sorted.filter(product => sortByCategories.includes(product?.category_id));
   }
 
   return sorted;

@@ -1,4 +1,5 @@
 <script setup>
+import {computed} from "vue"
 const props = defineProps({
   inputId: [String, Number],
   disabled: Boolean,
@@ -6,20 +7,33 @@ const props = defineProps({
   checked: Boolean,
   isLabel: Boolean,
 
-  itemValue: String,
+  itemValue: [String, Number],
   itemName: String,
   labelTxt: String,
   labelColor: String,
   uppercase: Boolean,
-  labelBold: Boolean
+  labelBold: Boolean,
+  modelValue: {
+    type: Array,
+    default: () => []
+  }
 })
 
 const emit = defineEmits();
 
+// const isChecked = computed(() => {
+//   return props.modelValue.includes(props.itemValue); // Determine if the checkbox should be checked
+// });
+
 const handleChange = (event) => {
   const isChecked = event.target.checked;
-  const value = isChecked ? props.itemValue : null;
-  emit('update:modelValue', value);
+  const value = props.itemValue;
+
+  if (isChecked) {
+    emit('update:modelValue', [...props.modelValue, value]);
+  } else {
+    emit('update:modelValue', props.modelValue.filter(item => item !== value));
+  }
 }
 </script>
 

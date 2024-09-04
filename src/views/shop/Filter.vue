@@ -24,6 +24,7 @@ const selectedCategories = defineModel('selectedCategories')
             :inputId="category?.id" 
             itemName="category"
             :itemValue="category?.id" 
+            :modelValue="categories"
           />
         </div>
       </div>
