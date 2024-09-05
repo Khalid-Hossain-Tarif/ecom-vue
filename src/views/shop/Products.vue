@@ -16,8 +16,21 @@ const props = defineProps({
   },
 });
 
-const selectedOnsaleProduct = defineModel('selectedOnsaleProduct')
-const selectedOption = defineModel('selectedOption')
+const selectedOnsaleProduct = defineModel('selectedOnsaleProduct');
+const selectedOption = defineModel('selectedOption');
+
+const paginationInfo = computed(() => {
+  return {
+    limit: 10,
+    currentPage: 1,
+    totalData: props.products.length,
+    totalPages: props.products.length / 10
+  }
+});
+
+const changePage = (page) => {
+  paginationInfo.currentPage = page;
+}
 </script>
 
 <template>
@@ -49,7 +62,7 @@ const selectedOption = defineModel('selectedOption')
           :product="product" 
         />
       </div>
-      <Pagination />
+      <Pagination :paginationInfo="paginationInfo" @changePage="changePage" />
     </div>
     <DataNotFound v-else />
   </div>

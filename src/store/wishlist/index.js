@@ -1,7 +1,7 @@
 import { ref, inject } from "vue";
 import { authStore } from "@/store/auth/index.js";
 import { apiBaseUrl } from "@/composables/baseApiUrl.js";
-import toast from "/utils/Toaster.js";
+import toast from "@/utils/Toaster.js";
 
 const { successToast, warningToast, errorToast } = toast();
 

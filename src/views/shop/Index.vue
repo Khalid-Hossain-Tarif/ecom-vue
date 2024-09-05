@@ -5,7 +5,7 @@ import Products from "@/views/shop/Products.vue";
 import Filter from "@/views/shop/Filter.vue";
 import { manageProducts } from "@/composables/getAllProducts";
 import { manageCategories } from "@/composables/getAllCategories";
-import { formatDate } from "/utils/Helpers.js";
+import { formatDate } from "@/utils/Helpers.js";
 
 const { productCardProducts, getAllProducts } = manageProducts();
 const { filteredCategories, getAllCategories } = manageCategories();

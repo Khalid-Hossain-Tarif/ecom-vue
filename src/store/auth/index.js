@@ -2,7 +2,7 @@ import { reactive } from "vue";
 import axios from "axios";
 import { apiBaseUrl } from "@/composables/baseApiUrl.js";
 import router from "../../router/index.js";
-import toast from "../../../utils/Toaster.js";
+import toast from "@/utils/Toaster.js";
 import { cart } from "@/store/cart/index";
 import { emptyWishlist } from '@/store/wishlist';
 
