@@ -2,48 +2,47 @@
 import { computed } from "vue";
 
 const props = defineProps({
-  // totalPages: {
-  //   type: Number,
-  // },
-  // totalData: {
-  //   type: Number,
-  // },
-  // currentPage: {
-  //   type: Number,
-  // },
-  // limit: {
-  //   type: Number,
-  // }
   paginationInfo: {
     type: Object
   }
-})
+});
 
 const emit = defineEmits(["changePage"]);
-const showStatingDataPosition = computed(() => props.paginationInfo.currentPage * props.paginationInfo.limit - props.paginationInfo.limit + 1);
-const showEndingDataPosition = computed(() => props.paginationInfo.currentPage * props.paginationInfo.limit);
+
+const showStartingDataPosition = computed(() => {
+  return (props.paginationInfo.currentPage - 1) * props.paginationInfo.limit + 1;
+});
+
+const showEndingDataPosition = computed(() => {
+  return Math.min(props.paginationInfo.currentPage * props.paginationInfo.limit, props.paginationInfo.totalData);
+});
+
 const changePaginatePage = (page) => {
-  if (page === "next") {
+  if (page === "next" && props.paginationInfo.currentPage < props.paginationInfo.totalPages) {
     emit("changePage", props.paginationInfo.currentPage + 1);
-  } else if (page === "prev") {
+  } else if (page === "prev" && props.paginationInfo.currentPage > 1) {
     emit("changePage", props.paginationInfo.currentPage - 1);
-  } else {
+  } else if (typeof page === "number") {
     emit("changePage", page);
   }
 };
 </script>
 
-
 <template>
   <div class="mt-6 md:mt-8 relative flex flex-col lg:flex-row justify-center lg:justify-between items-center gap-4">
     <p class="text-corporateSecondaryBlack text-xs md:text-sm text-center">
-      Showing results {{ showStatingDataPosition }} to
-      {{ paginationInfo.totalPages === paginationInfo.currentPage ? paginationInfo.totalData : showEndingDataPosition }} of 
-      {{ paginationInfo.totalData }} ({{ paginationInfo.totalPages }} Pages)
+      Showing results {{ showStartingDataPosition }} to
+      {{ showEndingDataPosition }} of {{ paginationInfo.totalData }} ({{ paginationInfo.totalPages }} Pages)
     </p>
 
     <div class="flex items-center justify-center xl:justify-end">
-      <button @click="changePaginatePage('prev')" type="button" class="pagination-btn pagination-prev-next-btn mr-2">
+      <button 
+        type="button" 
+        @click="changePaginatePage('prev')" 
+        :disabled="paginationInfo.currentPage === 1"
+        :class="paginationInfo.currentPage === 1 ? 'opacity-30' : ''"
+        class="pagination-btn pagination-prev-next-btn mr-2" 
+      >
         <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M2.828 7.00072L7.778 11.9507L6.364 13.3647L0 7.00072L6.364 0.636719L7.778 2.05072L2.828 7.00072Z"
             fill="#fff" />
@@ -51,30 +50,16 @@ const changePaginatePage = (page) => {
         <span class="hidden md:block">Prev</span>
       </button>
 
-      <!-- <div>
-        <button class="pagination-btn">1</button>
-        <button class="pagination-btn">2</button>
-        <button class="pagination-btn pagination-active-btn">3</button>
-        <button class="pagination-btn">4</button>
-        <button class="pagination-btn">5</button>
-      </div> -->
-
-      <div v-for="(pageNumber, index) in paginationInfo.totalPages" :key="index">
+      <div v-for="pageNumber in paginationInfo.totalPages" :key="pageNumber">
         <button
           v-if="
             Math.abs(pageNumber - paginationInfo.currentPage) < 3 ||
             pageNumber === paginationInfo.totalPages ||
-            pageNumber == 1
+            pageNumber === 1
           "
+          class="pagination-btn"
           :class="{
-            'pagination-active-btn': pageNumber === paginationInfo.currentPage,
-            'pagination-btn': pageNumber != paginationInfo.currentPage,
-            first:
-              pageNumber == 1 &&
-              Math.abs(pageNumber - paginationInfo.currentPage) > 3,
-            last:
-              pageNumber == paginationInfo.totalPages &&
-              Math.abs(pageNumber - paginationInfo.currentPage) > 3,
+            'pagination-active-btn': pageNumber === paginationInfo.currentPage
           }"
           @click="changePaginatePage(pageNumber)" 
           type="button"
@@ -83,7 +68,13 @@ const changePaginatePage = (page) => {
         </button>
       </div>
 
-      <button @click="changePaginatePage('next')" type="button" class="pagination-btn pagination-prev-next-btn ml-2">
+      <button 
+        type="button" 
+        @click="changePaginatePage('next')" 
+        :disabled="paginationInfo.currentPage === paginationInfo.totalPages"
+        :class="paginationInfo.currentPage === paginationInfo.totalPages ? 'opacity-30' : ''"
+        class="pagination-btn pagination-prev-next-btn ml-2" 
+      >
         <span class="hidden md:block">Next</span>
         <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -94,6 +85,7 @@ const changePaginatePage = (page) => {
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .pagination-btn {

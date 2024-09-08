@@ -18,19 +18,26 @@ const props = defineProps({
 
 const selectedOnsaleProduct = defineModel('selectedOnsaleProduct');
 const selectedOption = defineModel('selectedOption');
+const currentPage = ref(1);
 
 const paginationInfo = computed(() => {
   return {
-    limit: 10,
-    currentPage: 1,
+    limit: 8,
+    currentPage: currentPage.value,
     totalData: props.products.length,
-    totalPages: props.products.length / 10
+    totalPages: Math.ceil(props.products.length / 8)
   }
 });
 
 const changePage = (page) => {
-  paginationInfo.currentPage = page;
+  currentPage.value = page;
 }
+
+const paginatedProducts = computed(() => {
+  const start = (currentPage.value - 1) * paginationInfo.value.limit;
+  const end = start + paginationInfo.value.limit;
+  return props.products.slice(start, end);
+});
 </script>
 
 <template>
@@ -54,10 +61,10 @@ const changePage = (page) => {
   </div>
 
   <div class="pt-5 md:pt-7">
-    <div v-if="products.length">
+    <div v-if="paginatedProducts.length">
       <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
         <ProductCard 
-          v-for="product in products" 
+          v-for="product in paginatedProducts" 
           :key="product.id" 
           :product="product" 
         />
