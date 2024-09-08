@@ -1,5 +1,5 @@
 import { reactive, computed, inject } from "vue";
-import toast from "../../../utils/Toaster.js";
+import toast from "@/utils/Toaster.js";
 
 const { successToast } = toast();
 

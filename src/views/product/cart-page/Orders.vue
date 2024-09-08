@@ -1,7 +1,7 @@
 <script setup>
 import CartInputButton from '@/components/common/products/CartInputButton.vue';
 import { cart } from "@/store/cart/index";
-import { printPrice } from "/utils/Helpers.js";
+import { printPrice } from "@/utils/Helpers.js";
 
 const { cartItems, productCount, emptyCart, updatePrices, deleteItem } = cart();
 </script>

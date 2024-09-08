@@ -1,5 +1,5 @@
 import { reactive, ref, computed, inject, watch } from "vue";
-import toast from "../../../utils/Toaster.js";
+import toast from "@/utils/Toaster.js";
 
 const { successToast } = toast();
 const itemTotal = ref(0)
