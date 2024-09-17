@@ -29,7 +29,7 @@ const changePaginatePage = (page) => {
 </script>
 
 <template>
-  <div class="mt-6 md:mt-8 relative flex flex-col lg:flex-row justify-center lg:justify-between items-center gap-4">
+  <div v-if="paginationInfo?.totalPages > 1" class="mt-6 md:mt-8 relative flex flex-col lg:flex-row justify-center lg:justify-between items-center gap-4">
     <p class="text-corporateSecondaryBlack text-xs md:text-sm text-center">
       Showing results {{ showStartingDataPosition }} to
       {{ showEndingDataPosition }} of {{ paginationInfo.totalData }} ({{ paginationInfo.totalPages }} Pages)
