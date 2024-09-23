@@ -6,38 +6,22 @@ import ProductCard from "@/components/common/products/product-card/Index.vue";
 import Pagination from "@/components/ui/pagination/Index.vue";
 import DataNotFound from "@/components/common/not-found/dataNotFound.vue";
 import PopupSidebar from "@/views/shop/PopupSidebar.vue";
+import { usePagination } from '@/composables/usePagination.js';
 
 const props = defineProps({
   products: {
-    type: Array
+    type: Array,
+    default: () => []
   },
   sortDropdownOptions: {
-    type: Array
+    type: Array,
+    default: () => []
   },
 });
 
 const selectedOnsaleProduct = defineModel('selectedOnsaleProduct');
 const selectedOption = defineModel('selectedOption');
-const currentPage = ref(1);
-
-const paginationInfo = computed(() => {
-  return {
-    limit: 8,
-    currentPage: currentPage.value,
-    totalData: props.products.length,
-    totalPages: Math.ceil(props.products.length / 8)
-  }
-});
-
-const changePage = (page) => {
-  currentPage.value = page;
-}
-
-const paginatedProducts = computed(() => {
-  const start = (currentPage.value - 1) * paginationInfo.value.limit;
-  const end = start + paginationInfo.value.limit;
-  return props.products.slice(start, end);
-});
+const { paginationInfo, paginatedItems, changePage } = usePagination(props.products);
 </script>
 
 <template>
@@ -59,12 +43,12 @@ const paginatedProducts = computed(() => {
         placeholder="Sort by latest" dropdownClass="w-[250px]" />
     </div>
   </div>
-
+{{ paginatedItems }}
   <div class="pt-5 md:pt-7">
-    <div v-if="paginatedProducts.length">
+    <div v-if="paginatedItems.length">
       <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
         <ProductCard 
-          v-for="product in paginatedProducts" 
+          v-for="product in paginatedItems" 
           :key="product.id" 
           :product="product" 
         />
