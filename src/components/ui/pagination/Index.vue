@@ -93,7 +93,7 @@ const changePaginatePage = (page) => {
 }
 
 .pagination-active-btn {
-  @apply bg-white border-borderLight font-bold
+  @apply bg-white border-borderLight font-extrabold
 }
 
 .pagination-prev-next-btn {

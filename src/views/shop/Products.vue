@@ -64,7 +64,6 @@ const paginatedProducts = computed(() => {
         placeholder="Sort by latest" dropdownClass="w-[250px]" />
     </div>
   </div>
-{{ paginatedProducts }}
   <div class="pt-5 md:pt-7">
     <div v-if="paginatedProducts.length > 0">
       <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
