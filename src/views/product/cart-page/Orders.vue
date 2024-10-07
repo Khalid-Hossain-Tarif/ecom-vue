@@ -108,17 +108,17 @@ const { cartItems, productCount, emptyCart, updatePrices, deleteItem } = cart();
                             <td class="min-w-[100px] xl:min-w-[120px]">Shipping</td>
                             <td>
                                 <div class="input-group flex items-center gap-2">
-                                    <input type="radio" id="shipping" name="shipping" checked>
-                                    <label for="shipping" class="">Free Shippping</label>
+                                    <input v-model="cartItems.shippingMethods.selectedMethods" type="radio" id="free-shipping" value="free-shipping">
+                                    <label for="free-shipping" class="">Free Shippping</label>
                                 </div>
                                 <div class="input-group flex items-center gap-2 my-2">
-                                    <input type="radio" id="local-pickup" name="pickup">
-                                    <label for="local-pickup" class="">Local Pickup: $10.00</label>
+                                    <input v-model="cartItems.shippingMethods.selectedMethods" type="radio" id="local-pickup" value="local-pickup">
+                                    <label for="local-pickup" class="">Local Pickup: {{ printPrice(cartItems.shippingMethods.localPickup) }}</label>
                                 </div>
-                                <div class="input-group flex items-center gap-2">
+                                <!-- <div class="input-group flex items-center gap-2">
                                     <input type="radio" id="flat-rate" name="flat rate">
                                     <label for="flat-rate" class="">Flat rate: $12.00</label>
-                                </div>
+                                </div> -->
                             </td>
                         </tr>
                         <tr>

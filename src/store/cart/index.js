@@ -11,6 +11,12 @@ const cart = () => {
   const cartItems = reactive({
     items: {},
     subtotalPrice: 0,
+    shippingMethods: {
+      selectedMethods: ('free-shipping'),
+      freeShipping: 0,
+      localPickup: 30,
+      // flatRate: 10,
+    },
     totalPrice: 0,
     isCartUpdated: false,
     itemCount: 1,
@@ -74,7 +80,7 @@ const cart = () => {
         cartItems.items[id].quantity;
     }
     cartItems.subtotalPrice = parseFloat(subtotal.toFixed(2));
-    cartItems.totalPrice = parseFloat(subtotal.toFixed(2));
+    cartItems.totalPrice = cartItems.shippingMethods.selectedMethods === 'free-shipping' ? parseFloat(subtotal.toFixed(2)) : parseFloat(subtotal + cartItems.shippingMethods.localPickup).toFixed(2);
     cartItems.isCartUpdated = false;
     setTimeout(() => {
       loading(false);
