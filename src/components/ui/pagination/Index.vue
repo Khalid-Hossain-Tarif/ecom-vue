@@ -40,7 +40,7 @@ const changePaginatePage = (page) => {
         type="button" 
         @click="changePaginatePage('prev')" 
         :disabled="paginationInfo.currentPage === 1"
-        :class="paginationInfo.currentPage === 1 ? 'opacity-30' : ''"
+        :class="paginationInfo.currentPage === 1 ? 'opacity-30 cursor-not-allowed' : ''"
         class="pagination-btn pagination-prev-next-btn mr-2" 
       >
         <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,7 +72,7 @@ const changePaginatePage = (page) => {
         type="button" 
         @click="changePaginatePage('next')" 
         :disabled="paginationInfo.currentPage === paginationInfo.totalPages"
-        :class="paginationInfo.currentPage === paginationInfo.totalPages ? 'opacity-30' : ''"
+        :class="paginationInfo.currentPage === paginationInfo.totalPages ? 'opacity-30 cursor-not-allowed' : ''"
         class="pagination-btn pagination-prev-next-btn ml-2" 
       >
         <span class="hidden md:block">Next</span>

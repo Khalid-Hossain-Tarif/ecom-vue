@@ -6,7 +6,7 @@ import ProductCard from "@/components/common/products/product-card/Index.vue";
 import Pagination from "@/components/ui/pagination/Index.vue";
 import DataNotFound from "@/components/common/not-found/dataNotFound.vue";
 import PopupSidebar from "@/views/shop/PopupSidebar.vue";
-import { usePagination } from '@/composables/usePagination.js';
+// import { usePagination } from '@/composables/usePagination.js';
 
 const props = defineProps({
   products: {
@@ -21,7 +21,28 @@ const props = defineProps({
 
 const selectedOnsaleProduct = defineModel('selectedOnsaleProduct');
 const selectedOption = defineModel('selectedOption');
-const { paginationInfo, paginatedItems, changePage } = usePagination(props.products);
+// const { paginationInfo, paginatedItems, changePage } = usePagination(props.products);
+
+const currentPage = ref(1);
+const itemsPerPage = ref(8);
+const paginationInfo = computed(() => {
+  return {
+    limit: itemsPerPage.value,
+    currentPage: currentPage.value,
+    totalData: props.products.length,
+    totalPages: Math.ceil(props.products.length / itemsPerPage.value)
+  }
+})
+
+const changePage = (page) => {
+  currentPage.value = page;
+}
+
+const paginatedProducts = computed(() => {
+  const start = (currentPage.value - 1) * paginationInfo.value.limit;
+  const end = start + paginationInfo.value.limit;
+  return props.products.slice(start, end);
+});
 </script>
 
 <template>
@@ -43,12 +64,12 @@ const { paginationInfo, paginatedItems, changePage } = usePagination(props.produ
         placeholder="Sort by latest" dropdownClass="w-[250px]" />
     </div>
   </div>
-{{ paginatedItems }}
+{{ paginatedProducts }}
   <div class="pt-5 md:pt-7">
-    <div v-if="paginatedItems.length">
+    <div v-if="paginatedProducts.length > 0">
       <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
         <ProductCard 
-          v-for="product in paginatedItems" 
+          v-for="product in paginatedProducts" 
           :key="product.id" 
           :product="product" 
         />
