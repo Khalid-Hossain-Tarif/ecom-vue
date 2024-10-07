@@ -24,14 +24,16 @@ const isValidJSON = str => {
         <swiper-container style="--swiper-navigation-size: 30px;" class="mySwiper" thumbs-swiper=".mySwiper2"
             loop="true" space-between="10" navigation="true">
             <swiper-slide v-for="(image, index) in JSON.parse(props?.productImages)" :key="index">
-                <img :src="`/files/product/${image}`" alt="Product Image" />
+                <img v-if="image" :src="`/files/product/${image}`" alt="Product Image" />
+                <img v-else src="@/assets/images/icons/no-image.png" alt="No image" class="m-auto" />
             </swiper-slide>
         </swiper-container>
 
         <swiper-container class="mySwiper2" loop="true" space-between="10" slides-per-view="4" free-mode="true"
             watch-slides-progress="true">
             <swiper-slide v-for="(image, index) in JSON.parse(props?.productImages)" :key="index">
-                <img :src="`/files/product/${image}`" alt="Product Image" />
+                <img v-if="image" :src="`/files/product/${image}`" alt="Product image" />
+                <img v-else src="@/assets/images/icons/no-image.png" alt="No image" class="w-10 sm:w-16 m-auto" />
             </swiper-slide>
         </swiper-container>
         <ProductLabel position="left-0 right-auto" />
