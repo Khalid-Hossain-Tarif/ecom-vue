@@ -1,7 +1,7 @@
 <script setup>
 defineProps({
     position: String,
-    label: String
+    label: [String, Number]
 });
 </script>
 

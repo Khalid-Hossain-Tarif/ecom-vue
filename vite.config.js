@@ -12,6 +12,10 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  define: {
+    // Enable or disable feature flags here
+    '__VUE_PROD_HYDRATION_MISMATCH_DETAILS__': false,
+  },
   build: {
     chunkSizeWarningLimit: 1600,
     rollupOptions: {
