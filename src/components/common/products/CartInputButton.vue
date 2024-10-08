@@ -9,9 +9,6 @@ const props = defineProps({
         type: Function,
         required: true
     },
-    class: {
-        type: String
-    },
     fieldPadding: {
         type: String,
         default: 'py-2.5'
@@ -32,18 +29,18 @@ const handleIncrement = () => {
 </script>
 
 <template>
-    <div :class="class">
+    <div class="flex justify-center">
         <button 
             @click="handleDecrement"
-            class="border border-grayLight rounded-l bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
+            class="border border-grayLight rounded-l bg-grayLight h-11 px-4 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
             :class="fieldPadding"
         >
             -
         </button>
-        {{ item.quantity }}
+        <p class="px-3.5 self-center font-semibold">{{ item.quantity }}</p>
         <button 
             @click="handleIncrement"
-            class="border border-grayLight rounded-r bg-grayLight px-3 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
+            class="border border-grayLight rounded-r bg-grayLight h-11 px-4 text-base font-semibold transition duration-300 cursor-pointer hover:text-success"
             :class="fieldPadding"
         >
             +

@@ -25,7 +25,7 @@ function fetchWishlistProductWithDetails() {
     );
 }
 
-function handleToggleWishlist (product) {
+function handleToggleWishlist(product) {
     toggleWishlist(product)
     fetchWishlistProductWithDetails()
 }
@@ -49,15 +49,18 @@ function handleToggleWishlist (product) {
 
                 <tbody>
                     <tr v-for="product in wishlistProductWithDetails" :key="product.id" class="relative">
-                        <td data-title="Product" class="flex gap-3 items-center">
-                            <router-link :to="{ name: 'singleProduct', params: { id: product?.id } }">
-                                <img class="w-16 h-14" :src="product.thumbnail" :alt="product.name">
-                            </router-link>
-                            <h4>
-                                <router-link :to="{ name: 'singleProduct', params: { id: product?.id } }" class="font-semibold">
-                                    {{ product.name }}
+                        <td data-title="Product">
+                            <div class="flex gap-3 items-center w-[85%]">
+                                <router-link :to="{ name: 'singleProduct', params: { id: product?.id } }">
+                                    <img class="w-16 h-14" :src="product.thumbnail" :alt="product.name">
                                 </router-link>
-                            </h4>
+                                <h4>
+                                    <router-link :to="{ name: 'singleProduct', params: { id: product?.id } }"
+                                        class="font-semibold">
+                                        {{ product.name }}
+                                    </router-link>
+                                </h4>
+                            </div>
                         </td>
 
                         <td data-title="Price" class="res-heading text-center font-semibold text-textGray">
@@ -85,7 +88,8 @@ function handleToggleWishlist (product) {
         </div>
 
         <div v-else>
-            <p>Your wishlist is empty. To add please explore <router-link to="/" class="underline text-primary">products.</router-link></p>
+            <p>Your wishlist is empty. To add please explore <router-link to="/"
+                    class="underline text-primary">products.</router-link></p>
         </div>
     </div>
 </template>

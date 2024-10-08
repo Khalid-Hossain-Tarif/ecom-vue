@@ -24,22 +24,21 @@ const { cartItems, productCount, emptyCart, updatePrices, deleteItem } = cart();
 
                     <tbody>
                         <tr v-for="item in cartItems.items" :key="item.product.id" class="relative">
-                            <td data-title="Product" class="flex gap-3 items-center">
-                                <router-link 
-                                    v-if="item.product.id"
-                                    :to="{ name: 'singleProduct', params: { id: item.product.id } }"
-                                    class="shrink-0"
-                                >
-                                    <img class="w-16 h-14" :src="item.product.thumbnail" alt="Digital Product">
-                                </router-link>
-                                <h4>
-                                    <router-link 
-                                        v-if="item.product.id" 
+                            <td data-title="Product">
+                                <div class="flex gap-3 items-center w-[85%]">
+                                    <router-link v-if="item.product.id"
                                         :to="{ name: 'singleProduct', params: { id: item.product.id } }"
-                                        class="font-semibold">
-                                        {{ item.product.name }}
+                                        class="shrink-0">
+                                        <img class="w-16 h-14" :src="item.product.thumbnail" alt="Digital Product">
                                     </router-link>
-                                </h4>
+                                    <h4>
+                                        <router-link v-if="item.product.id"
+                                            :to="{ name: 'singleProduct', params: { id: item.product.id } }"
+                                            class="font-semibold">
+                                            {{ item.product.name }}
+                                        </router-link>
+                                    </h4>
+                                </div>
                             </td>
 
                             <td data-title="Price" class="res-heading text-center font-semibold text-textGray">
@@ -47,18 +46,14 @@ const { cartItems, productCount, emptyCart, updatePrices, deleteItem } = cart();
                             </td>
 
                             <td data-title="Qty" class="res-heading text-center">
-                                <CartInputButton 
-                                    :item="item" 
-                                    :productCount="productCount"
-                                />
+                                <CartInputButton :item="item" :productCount="productCount" />
                             </td>
                             <td data-title="Subtotal" class="res-heading text-center font-semibold text-textGray">
                                 {{ printPrice(item.product.selling_price * item.quantity) }}
                             </td>
 
                             <td class="res-btn">
-                                <button
-                                    @click="deleteItem(item.product)"
+                                <button @click="deleteItem(item.product)"
                                     class="border border-borderLight hover:border-primary w-9 h-9 rounded-full text-[11px] text-primary">
                                     <font-awesome-icon :icon="['fas', 'x']" />
                                 </button>
@@ -76,20 +71,13 @@ const { cartItems, productCount, emptyCart, updatePrices, deleteItem } = cart();
                     </div>
 
                     <div class="flex items-center gap-2 xl:gap-4">
-                        <button
-                            :disabled="cartItems.totalCartItems === 0" 
-                            @click="emptyCart" 
-                            class="btn btn-bordered grow"
-                            :class="cartItems.totalCartItems === 0 ? 'opacity-30' : ''"
-                        >
+                        <button :disabled="cartItems.totalCartItems === 0" @click="emptyCart"
+                            class="btn btn-bordered grow" :class="cartItems.totalCartItems === 0 ? 'opacity-30' : ''">
                             Empty cart
                         </button>
-                        <button 
-                            @click="updatePrices" 
-                            :disabled="!cartItems.isCartUpdated" 
+                        <button @click="updatePrices" :disabled="!cartItems.isCartUpdated"
                             :class="!cartItems.isCartUpdated ? 'opacity-30 cursor-not-allowed' : ''"
-                            class="btn btn-bordered grow"
-                        >
+                            class="btn btn-bordered grow">
                             Update cart
                         </button>
                     </div>
@@ -108,22 +96,15 @@ const { cartItems, productCount, emptyCart, updatePrices, deleteItem } = cart();
                             <td class="min-w-[100px] xl:min-w-[120px]">Shipping</td>
                             <td>
                                 <div class="input-group flex items-center">
-                                    <input 
-                                        v-model="cartItems.shippingMethods.selectedMethods" 
-                                        type="radio" 
-                                        id="free-shipping" 
-                                        value="free-shipping"
-                                    >
+                                    <input v-model="cartItems.shippingMethods.selectedMethods" type="radio"
+                                        id="free-shipping" value="free-shipping">
                                     <label for="free-shipping" class="pl-2">Free Shippping</label>
                                 </div>
                                 <div class="input-group flex items-center my-2">
-                                    <input 
-                                        v-model="cartItems.shippingMethods.selectedMethods" 
-                                        type="radio" 
-                                        id="local-pickup" 
-                                        value="local-pickup"
-                                    >
-                                    <label for="local-pickup" class="pl-2">Local Pickup: {{ printPrice(cartItems.shippingMethods.localPickup) }}</label>
+                                    <input v-model="cartItems.shippingMethods.selectedMethods" type="radio"
+                                        id="local-pickup" value="local-pickup">
+                                    <label for="local-pickup" class="pl-2">Local Pickup: {{
+                                        printPrice(cartItems.shippingMethods.localPickup) }}</label>
                                 </div>
                                 <!-- <div class="input-group flex items-center gap-2">
                                     <input type="radio" id="flat-rate" name="flat rate">

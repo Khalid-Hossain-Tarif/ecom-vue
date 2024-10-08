@@ -52,7 +52,7 @@ watch(() => filteredCategories.value, (newVal) => {
             <ProductPrice smallFontSize="!text-base" largeFontSize="!text-2xl" />
 
             <div class="flex gap-2 lg:gap-4 items-center flex-wrap">
-                <div class="flex gap-x-3.5 items-center">
+                <div class="flex">
                     <button 
                         @click="productAddToCartHandler('decrement')"
                         id="item-increment"
@@ -60,11 +60,11 @@ watch(() => filteredCategories.value, (newVal) => {
                     >
                         -
                     </button>
-                        <span class="font-bold">{{ cartItems.itemCount }}</span>
+                    <p class="px-3.5 self-center font-semibold">{{ cartItems.itemCount }}</p>
                     <button 
                         @click="productAddToCartHandler('increment')"
                         id="item-decrement"
-                        class="border border-grayLight rounded-r bg-grayLight h-11 px-4 text-base font-semibold transition duration-300 cursor-pointer hover:text-primary"
+                        class="border border-grayLight rounded-r bg-grayLight h-11 px-4 text-base font-semibold transition duration-300 cursor-pointer hover:text-success"
                     >
                         +
                     </button>
