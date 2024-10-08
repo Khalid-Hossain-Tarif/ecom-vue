@@ -2,21 +2,21 @@ import { reactive, ref, computed, inject, watch } from "vue";
 import toast from "@/utils/Toaster.js";
 
 const { successToast } = toast();
-const itemTotal = ref(0)
+const itemTotal = ref(0);
 
 const cart = () => {
   const loading = inject("loading");
-
 
   const cartItems = reactive({
     items: {},
     subtotalPrice: 0,
     shippingMethods: {
-      selectedMethods: ('free-shipping'),
+      selectedMethods: "free-shipping",
       freeShipping: 0,
       localPickup: 30,
       // flatRate: 10,
     },
+    stateTax: 10,
     totalPrice: 0,
     isCartUpdated: false,
     itemCount: 1,
@@ -28,14 +28,18 @@ const cart = () => {
     for (let id in cartItems.items) {
       const itemsTotal = cartItems.items[id].quantity;
       // console.log(itemsTotal)
-      total += itemsTotal
+      total += itemsTotal;
     }
     return total;
   });
-  
-  watch(totalCartItems, (newValue, oldValue) => {
-    // console.log(`Count changed from ${oldValue} to ${newValue}`);
-  }, { immediate: true, deep: true })
+
+  watch(
+    totalCartItems,
+    (newValue, oldValue) => {
+      // console.log(`Count changed from ${oldValue} to ${newValue}`);
+    },
+    { immediate: true, deep: true }
+  );
 
   function productCount(actionType, product) {
     if (actionType === "increment") {
@@ -80,13 +84,25 @@ const cart = () => {
         cartItems.items[id].quantity;
     }
     cartItems.subtotalPrice = parseFloat(subtotal.toFixed(2));
-    cartItems.totalPrice = cartItems.shippingMethods.selectedMethods === 'free-shipping' ? parseFloat(subtotal.toFixed(2)) : parseFloat(subtotal + cartItems.shippingMethods.localPickup).toFixed(2);
+
+    // Adjust totalPrice based on selected shipping method
+    if (cartItems.shippingMethods.selectedMethods === "free-shipping") {
+      cartItems.totalPrice = cartItems.subtotalPrice;
+    } else if (cartItems.shippingMethods.selectedMethods === "local-pickup") {
+      cartItems.totalPrice = cartItems.subtotalPrice + cartItems.shippingMethods.localPickup;
+    }
+    const subtotalWithTax = cartItems.subtotalPrice * cartItems.stateTax / 100;
+    cartItems.totalPrice = parseFloat(cartItems.totalPrice + subtotalWithTax).toFixed(2);
+
     cartItems.isCartUpdated = false;
+
     setTimeout(() => {
       loading(false);
       cartItems.itemCount = 1;
-    }, 500);
+    }, 200);
   }
+
+  watch(() => cartItems.shippingMethods.selectedMethods, updatePrices);
 
   function productAddToCartHandler(actionType) {
     if (actionType === "increment") {

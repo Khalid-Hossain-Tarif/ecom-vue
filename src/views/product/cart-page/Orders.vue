@@ -87,7 +87,7 @@ const { cartItems, productCount, emptyCart, updatePrices, deleteItem } = cart();
                         <button 
                             @click="updatePrices" 
                             :disabled="!cartItems.isCartUpdated" 
-                            :class="!cartItems.isCartUpdated ? 'opacity-30' : ''"
+                            :class="!cartItems.isCartUpdated ? 'opacity-30 cursor-not-allowed' : ''"
                             class="btn btn-bordered grow"
                         >
                             Update cart
@@ -107,13 +107,23 @@ const { cartItems, productCount, emptyCart, updatePrices, deleteItem } = cart();
                         <tr>
                             <td class="min-w-[100px] xl:min-w-[120px]">Shipping</td>
                             <td>
-                                <div class="input-group flex items-center gap-2">
-                                    <input v-model="cartItems.shippingMethods.selectedMethods" type="radio" id="free-shipping" value="free-shipping">
-                                    <label for="free-shipping" class="">Free Shippping</label>
+                                <div class="input-group flex items-center">
+                                    <input 
+                                        v-model="cartItems.shippingMethods.selectedMethods" 
+                                        type="radio" 
+                                        id="free-shipping" 
+                                        value="free-shipping"
+                                    >
+                                    <label for="free-shipping" class="pl-2">Free Shippping</label>
                                 </div>
-                                <div class="input-group flex items-center gap-2 my-2">
-                                    <input v-model="cartItems.shippingMethods.selectedMethods" type="radio" id="local-pickup" value="local-pickup">
-                                    <label for="local-pickup" class="">Local Pickup: {{ printPrice(cartItems.shippingMethods.localPickup) }}</label>
+                                <div class="input-group flex items-center my-2">
+                                    <input 
+                                        v-model="cartItems.shippingMethods.selectedMethods" 
+                                        type="radio" 
+                                        id="local-pickup" 
+                                        value="local-pickup"
+                                    >
+                                    <label for="local-pickup" class="pl-2">Local Pickup: {{ printPrice(cartItems.shippingMethods.localPickup) }}</label>
                                 </div>
                                 <!-- <div class="input-group flex items-center gap-2">
                                     <input type="radio" id="flat-rate" name="flat rate">
@@ -123,11 +133,13 @@ const { cartItems, productCount, emptyCart, updatePrices, deleteItem } = cart();
                         </tr>
                         <tr>
                             <td class="min-w-[100px] xl:min-w-[120px]">State Tax</td>
-                            <td>$8.00</td>
+                            <td>{{ cartItems.stateTax }}%</td>
                         </tr>
                         <tr>
                             <td class="min-w-[100px] xl:min-w-[120px]">Total</td>
-                            <td class="!font-bold text-primary text-lg">{{ printPrice(cartItems.totalPrice) }}</td>
+                            <td class="!font-bold text-primary text-lg">
+                                {{ printPrice(cartItems.totalPrice) }}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
