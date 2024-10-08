@@ -29,7 +29,7 @@ const { cartItems, productCount, emptyCart, updatePrices, deleteItem } = cart();
                                     <router-link v-if="item.product.id"
                                         :to="{ name: 'singleProduct', params: { id: item.product.id } }"
                                         class="shrink-0">
-                                        <img class="w-16 h-14" :src="item.product.thumbnail" alt="Digital Product">
+                                        <img class="w-16 h-14" :src="item.product.thumbnail" alt="Product img">
                                     </router-link>
                                     <h4>
                                         <router-link v-if="item.product.id"
