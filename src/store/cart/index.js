@@ -1,7 +1,9 @@
 import { reactive, ref, computed, inject, watch } from "vue";
 import toast from "@/utils/Toaster.js";
+import { manageCoupon } from "./getCouponCode";
 
-const { successToast } = toast();
+const { successToast, errorToast } = toast();
+const { couponValue, getCoupon } = manageCoupon();
 const itemTotal = ref(0);
 
 const cart = () => {
@@ -17,6 +19,10 @@ const cart = () => {
       // flatRate: 10,
     },
     stateTax: 10,
+    couponData: {
+      couponCode: '',
+      couponAmount: couponValue
+    },
     totalPrice: 0,
     isCartUpdated: false,
     itemCount: 1,
@@ -75,6 +81,36 @@ const cart = () => {
     saveCartInLocalStorage();
   }
 
+  function getCouponHandler() {
+    getCoupon(cartItems.couponData.couponCode)
+  }
+
+  function getCouponHandler() {
+    const usedCoupons = JSON.parse(localStorage.getItem("usedCoupons")) || [];
+  
+    if (usedCoupons.includes(cartItems.couponData.couponCode)) {
+      errorToast(`'${cartItems.couponData.couponCode}' has already been used!`);
+      return;
+    } else {
+      getCoupon(cartItems.couponData.couponCode)
+      usedCoupons.push(cartItems.couponData.couponCode);
+      localStorage.setItem("usedCoupons", JSON.stringify(usedCoupons));
+    }
+  
+    // Apply the coupon if not used
+    // getCoupon(cartItems.couponData.couponCode).then(() => {
+    //   if (cartItems.couponData.couponAmount) {
+    //     // Add the coupon to the used coupons list
+    //     usedCoupons.push(cartItems.couponData.couponCode);
+    //     localStorage.setItem("usedCoupons", JSON.stringify(usedCoupons));
+    //     successToast("Coupon applied successfully!");
+    //   } else {
+    //     successToast("Invalid or expired coupon.");
+    //   }
+    // });
+  }
+  
+
   function updatePrices() {
     loading(true);
     let subtotal = 0;
@@ -85,14 +121,20 @@ const cart = () => {
     }
     cartItems.subtotalPrice = parseFloat(subtotal.toFixed(2));
 
-    // Adjust totalPrice based on selected shipping method
+    // Calculate shipping cost
     if (cartItems.shippingMethods.selectedMethods === "free-shipping") {
       cartItems.totalPrice = cartItems.subtotalPrice;
     } else if (cartItems.shippingMethods.selectedMethods === "local-pickup") {
       cartItems.totalPrice = cartItems.subtotalPrice + cartItems.shippingMethods.localPickup;
     }
-    const subtotalWithTax = cartItems.subtotalPrice * cartItems.stateTax / 100;
-    cartItems.totalPrice = parseFloat(cartItems.totalPrice + subtotalWithTax).toFixed(2);
+
+    // Calculate tax
+    const subtotalWithTax = cartItems.subtotalPrice * (cartItems.stateTax / 100);
+
+    // Calculate coupon discount
+    const discount = cartItems.couponData.couponAmount ? cartItems.subtotalPrice * (cartItems.couponData.couponAmount / 100) : 0;
+
+    cartItems.totalPrice = parseFloat((cartItems.totalPrice + subtotalWithTax) - discount).toFixed(2);
 
     cartItems.isCartUpdated = false;
 
@@ -102,7 +144,7 @@ const cart = () => {
     }, 200);
   }
 
-  watch(() => cartItems.shippingMethods.selectedMethods, updatePrices);
+  watch([() => cartItems.shippingMethods.selectedMethods, () => cartItems.couponData.couponAmount], updatePrices);
 
   function productAddToCartHandler(actionType) {
     if (actionType === "increment") {
@@ -161,6 +203,7 @@ const cart = () => {
     addItem,
     deleteItem,
     productAddToCartHandler,
+    getCouponHandler
   };
 };
 

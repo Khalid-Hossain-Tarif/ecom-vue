@@ -1,9 +1,11 @@
 <script setup>
 import CartInputButton from '@/components/common/products/CartInputButton.vue';
 import { cart } from "@/store/cart/index";
+import { manageCoupon } from "@/store/cart/getCouponCode.js";
 import { printPrice } from "@/utils/Helpers.js";
 
-const { cartItems, productCount, emptyCart, updatePrices, deleteItem } = cart();
+const { cartItems, productCount, emptyCart, updatePrices, deleteItem, getCouponHandler } = cart();
+const { coupon, couponValue, getCoupon } = manageCoupon();
 </script>
 
 <template>
@@ -64,10 +66,21 @@ const { cartItems, productCount, emptyCart, updatePrices, deleteItem } = cart();
 
                 <div class="mt-5 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                     <div class="flex items-center">
-                        <input autocomplete="off" type="text" id="coupon" placeholder="Enter coupon code"
-                            class="!rounded-r-none">
-                        <button class="btn btn-secondary font-bold uppercase rounded-l-none shrink-0">Apply
-                            coupon</button>
+                        <input 
+                            v-model="cartItems.couponData.couponCode" 
+                            autocomplete="off" 
+                            type="text" 
+                            id="coupon" 
+                            placeholder="Enter coupon code"
+                            class="!rounded-r-none"
+                        >
+                        <button
+                            @click="getCouponHandler" 
+                            :class="cartItems.couponData.couponCode ? '' : 'opacity-30 pointer-events-none'"
+                            class="btn btn-secondary font-bold uppercase rounded-l-none shrink-0"
+                        >
+                            Apply coupon
+                        </button>
                     </div>
 
                     <div class="flex items-center gap-2 xl:gap-4">
